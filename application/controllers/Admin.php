@@ -24,10 +24,9 @@ class Admin extends CI_Controller
         $data['buku'] = $this->Buku_model->getAllBuku();
         $this->load->view('admin/data_buku', $data);
     }
-
     public function tambah_buku()
     {
-        $config['upload_path'] = './uploads/'; // direktori untuk menyimpan gambar
+        $config['upload_path'] = './uploads/';
         $config['allowed_types'] = 'gif|jpg|jpeg|png';
         $config['max_size'] = 2048; // 2MB
 
@@ -53,6 +52,61 @@ class Admin extends CI_Controller
             echo json_encode(array("status" => TRUE));
         }
     }
+    public function get_buku_by_id($id)
+    {
+        $this->load->model('Buku_model');
+        $data = $this->Buku_model->getBukuById($id);
+        echo json_encode($data);
+    }
+    public function update_buku()
+    {
+        $id = $this->input->post('id_buku'); // Ambil ID buku dari form
+
+        $config['upload_path'] = './uploads/';
+        $config['allowed_types'] = 'gif|jpg|jpeg|png';
+        $config['max_size'] = 2048; // 2MB
+
+        $this->load->library('upload', $config);
+
+        // Cek apakah ada file yang di-upload
+        if (!empty($_FILES['sampul_edit']['name'])) {
+            if (!$this->upload->do_upload('sampul_edit')) {
+                echo json_encode(array("status" => FALSE, "message" => $this->upload->display_errors()));
+                return;
+            } else {
+                $upload_data = $this->upload->data();
+                $data['sampul'] = $upload_data['file_name'];
+            }
+        }
+
+        $data['judul'] = $this->input->post('judul_edit');
+        $data['tahun_buku'] = $this->input->post('tahun_buku_edit');
+        $data['nomor_isbn'] = $this->input->post('nomor_isbn_edit');
+        $data['pengarang'] = $this->input->post('pengarang_edit');
+        $data['penerbit'] = $this->input->post('penerbit_edit');
+        $data['rak_id'] = $this->input->post('rak_edit');
+        $data['kategori_id'] = $this->input->post('kategori_edit');
+        $data['stok_buku'] = $this->input->post('stok_buku_edit');
+
+        $this->db->where('id', $id);
+        $this->db->update('buku', $data);
+
+        if ($this->db->affected_rows() > 0) {
+            echo json_encode(array("status" => TRUE));
+        } else {
+            echo json_encode(array("status" => FALSE, "message" => "Gagal mengupdate buku"));
+        }
+    }
+    public function delete_buku($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('buku');
+        if ($this->db->affected_rows() > 0) {
+            echo json_encode(array("status" => TRUE));
+        } else {
+            echo json_encode(array("status" => FALSE, "message" => "Gagal menghapus buku"));
+        }
+    }
 
     public function tambah_rak()
     {
@@ -68,6 +122,16 @@ class Admin extends CI_Controller
     {
         $data = $this->db->get('rak')->result();
         echo json_encode($data);
+    }
+    public function delete_rak($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('rak');
+        if ($this->db->affected_rows() > 0) {
+            echo json_encode(array("status" => TRUE));
+        } else {
+            echo json_encode(array("status" => FALSE, "message" => "Gagal menghapus rak"));
+        }
     }
 
     public function tambah_kategori()
@@ -85,16 +149,6 @@ class Admin extends CI_Controller
         $data = $this->db->get('kategori')->result();
         echo json_encode($data);
     }
-    public function delete_rak($id)
-    {
-        $this->db->where('id', $id);
-        $this->db->delete('rak');
-        if ($this->db->affected_rows() > 0) {
-            echo json_encode(array("status" => TRUE));
-        } else {
-            echo json_encode(array("status" => FALSE, "message" => "Gagal menghapus rak"));
-        }
-    }
     public function delete_kategori($id)
     {
         $this->db->where('id', $id);
@@ -105,14 +159,4 @@ class Admin extends CI_Controller
             echo json_encode(array("status" => FALSE, "message" => "Gagal menghapus kategori"));
         }
     }
-    // public function delete_rak($id)
-    // {
-    //     $this->db->where('id', $id);
-    //     $this->db->delete('buku');
-    //     if ($this->db->affected_rows() > 0) {
-    //         echo json_encode(array("status" => TRUE));
-    //     } else {
-    //         echo json_encode(array("status" => FALSE, "message" => "Gagal menghapus rak"));
-    //     }
-    // }
 }

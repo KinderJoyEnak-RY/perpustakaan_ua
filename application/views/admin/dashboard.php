@@ -3,14 +3,19 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="Admin Dashboard Perpustakaan">
+    <meta name="author" content="PerpusUA">
     <title>Admin Dashboard</title>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <!-- AdminLTE CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <!-- AdminLTE CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css">
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -29,7 +34,7 @@
                 <!-- User Dropdown Menu -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="far fa-user"></i> <?php echo $this->session->userdata('full_name'); ?>
+                        <?php echo $this->session->userdata('full_name'); ?> <i class="far fa-user"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <a href="#" class="dropdown-item">
@@ -177,7 +182,7 @@
                     <!-- Cards -->
                     <div class="row">
                         <!-- Data Buku Card -->
-                        <div class="col-lg-4 col-6">
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                             <div class="small-box bg-info">
                                 <div class="inner">
                                     <h3>Data Buku</h3> <!-- Contoh jumlah. Anda bisa mengganti dengan data dari database -->
@@ -186,11 +191,11 @@
                                 <div class="icon">
                                     <i class="fas fa-book"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="<?php echo base_url('admin/data_buku'); ?>" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- Peminjaman Card -->
-                        <div class="col-lg-4 col-6">
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                             <div class="small-box bg-danger">
                                 <div class="inner">
                                     <h3>Peminjaman</h3> <!-- Contoh jumlah -->
@@ -202,7 +207,7 @@
                                 <a href="#" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-6">
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                             <div class="small-box bg-success">
                                 <div class="inner">
                                     <h3>Pengembalian</h3> <!-- Contoh jumlah -->
@@ -215,7 +220,7 @@
                             </div>
                         </div>
                         <!-- Data User Card -->
-                        <div class="col-lg-4 col-6">
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                             <div class="small-box bg-warning">
                                 <div class="inner">
                                     <h3>Data Anggota</h3> <!-- Contoh jumlah -->

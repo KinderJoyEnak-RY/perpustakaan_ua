@@ -3,37 +3,52 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Buku</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="Admin Dashboard Perpustakaan">
+    <meta name="author" content="PerpusUA">
+    <title>Admin Dashboard</title>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <!-- AdminLTE CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <style>
-        .small-table {
-            width: 100%;
-            margin: 0 auto;
-        }
+    <!-- AdminLTE CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+</head>
+<style>
+    .small-table {
+        width: 100%;
+        margin: 0 auto;
+    }
 
-        .small-table th,
-        .small-table td {
-            font-size: 0.8rem;
-        }
+    .small-table th,
+    .small-table td {
+        font-size: 0.8rem;
+    }
 
-        .small-modal h5 {
-            font-size: 1rem;
-        }
+    .small-modal h5 {
+        font-size: 1rem;
+    }
 
-        .small-modal label {
-            font-size: 0.8rem;
-        }
+    .small-modal label {
+        font-size: 0.8rem;
+    }
 
-        .small-modal .form-control {
-            font-size: 0.8rem;
-        }
-    </style>
+    .small-modal .form-control {
+        font-size: 0.8rem;
+    }
+
+    #modalImage {
+        max-width: 100%;
+        height: auto;
+        margin: 0 auto;
+        display: block;
+    }
+</style>
 
 </head>
 
@@ -181,12 +196,17 @@
                             <h1 class="m-0">Data Buku</h1>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <button class="btn btn-warning" data-toggle="modal" data-target="#modalTambahRak">Rak</button>
-                        <button class="btn btn-success" data-toggle="modal" data-target="#modalTambahKategori">Kategori</button>
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#modalTambahBuku">Tambah Buku</button>
+                    <div class="btn-group mb-3" role="group" aria-label="Button group">
+                        <button class="btn btn-warning mr-2" data-toggle="modal" data-target="#modalTambahRak">
+                            <i class="fas fa-archive"></i> Rak
+                        </button>
+                        <button class="btn btn-success mr-2" data-toggle="modal" data-target="#modalTambahKategori">
+                            <i class="fas fa-tags"></i> Kategori
+                        </button>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#modalTambahBuku">
+                            <i class="fas fa-plus"></i> Tambah Buku
+                        </button>
                     </div>
-
                 </div>
             </div>
             <!-- /.content-header -->
@@ -195,8 +215,8 @@
             <div class="content">
                 <div class="container-fluid">
                     <!-- Cards -->
-                    <div class="row">
-                        <table class="table table-bordered">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>
@@ -225,9 +245,18 @@
                                         <td><?php echo $bk['nomor_isbn']; ?></td>
                                         <td><?php echo $bk['pengarang']; ?></td>
                                         <td><?php echo $bk['penerbit']; ?></td>
-                                        <td><?php echo $bk['rak_id']; ?></td>
-                                        <td><?php echo $bk['kategori_id']; ?></td>
+                                        <td><?php echo $bk['nama_rak']; ?></td>
+                                        <td><?php echo $bk['nama_kategori']; ?></td>
                                         <td><?php echo $bk['stok_buku']; ?></td>
+                                        <td class="text-center">
+                                            <a href="javascript:void(0)" onclick="editBuku(<?php echo $bk['id']; ?>)" title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            &nbsp;&nbsp;
+                                            <a href="javascript:void(0)" onclick="deleteBuku(<?php echo $bk['id']; ?>)" title="Delete">
+                                                <i class="fas fa-trash-alt text-danger"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -360,6 +389,76 @@
                         </div>
                     </div>
 
+                    <!-- Modal Edit Buku -->
+                    <div class="modal fade" id="modalEditBuku" tabindex="-1" role="dialog" aria-labelledby="modalLabelEditBuku" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <h5 class="mb-3">Edit Buku</h5>
+                                    <form id="formEditBuku" action="javascript:void(0)" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" name="id_buku" id="id_buku">
+
+                                        <div class="form-group">
+                                            <label>Sampul</label>
+                                            <input type="file" class="form-control" name="sampul_edit" id="sampul_edit">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Judul</label>
+                                            <input type="text" class="form-control" name="judul_edit" id="judul_edit" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Tahun</label>
+                                            <input type="text" class="form-control" name="tahun_buku_edit" id="tahun_buku_edit" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>ISBN</label>
+                                            <input type="text" class="form-control" name="nomor_isbn_edit" id="nomor_isbn_edit" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Pengarang</label>
+                                            <input type="text" class="form-control" name="pengarang_edit" id="pengarang_edit" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Penerbit</label>
+                                            <input type="text" class="form-control" name="penerbit_edit" id="penerbit_edit" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Rak</label>
+                                            <select class="form-control" name="rak_edit" id="rak_edit" required>
+                                                <!-- Data rak akan diisi di sini melalui JavaScript -->
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Kategori</label>
+                                            <select class="form-control" name="kategori_edit" id="kategori_edit" required>
+                                                <!-- Data kategori akan diisi di sini melalui JavaScript -->
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Stok Buku</label>
+                                            <input type="number" class="form-control" name="stok_buku_edit" id="stok_buku_edit" required>
+                                        </div>
+                                        <button type="button" onclick="updateBuku()" class="btn btn-primary">Update</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Image Viewer -->
+                    <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <img id="modalImage" src="" alt="Sampul Buku" class="img-fluid">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
 
                 </div>
             </div>
@@ -385,7 +484,23 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.table').DataTable({
+                "pageLength": 10
+            });
+        });
 
+        $('#imageModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var imageUrl = button.data('image');
+            var modal = $(this);
+            modal.find('#modalImage').attr('src', imageUrl);
+        });
+    </script>
     <script>
         function tambahRak() {
             $.ajax({
@@ -395,7 +510,6 @@
                 success: function(data) {
                     alert('Rak berhasil ditambahkan');
                     $('#modalTambahRak').modal('hide');
-                    // Anda bisa menambahkan kode untuk refresh halaman atau update tabel
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     alert('Gagal menambahkan rak');
@@ -411,7 +525,6 @@
                 success: function(data) {
                     alert('Kategori berhasil ditambahkan');
                     $('#modalTambahKategori').modal('hide');
-                    // Anda bisa menambahkan kode untuk refresh halaman atau update tabel
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     alert('Gagal menambahkan kategori');
@@ -430,7 +543,6 @@
                 success: function(data) {
                     alert('Buku berhasil ditambahkan');
                     $('#modalTambahBuku').modal('hide');
-                    // Anda bisa menambahkan kode untuk refresh halaman atau update tabel
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     alert('Gagal menambahkan buku');
@@ -524,6 +636,88 @@
                     }
                 });
             }
+        }
+
+        function deleteBuku(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus buku ini?')) {
+                $.ajax({
+                    url: "<?php echo site_url('admin/delete_buku/'); ?>" + id,
+                    type: "POST",
+                    success: function(data) {
+                        alert('Buku berhasil dihapus');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert('Gagal menghapus buku');
+                    }
+                });
+            }
+        }
+
+        function editBuku(id) {
+            $.ajax({
+                url: "<?php echo site_url('admin/get_buku_by_id/'); ?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data) {
+                    $('#id_buku').val(data.id);
+                    $('#judul_edit').val(data.judul);
+                    $('#tahun_buku_edit').val(data.tahun_buku);
+                    $('#nomor_isbn_edit').val(data.nomor_isbn);
+                    $('#pengarang_edit').val(data.pengarang);
+                    $('#penerbit_edit').val(data.penerbit);
+                    $('#stok_buku_edit').val(data.stok_buku);
+
+                    // Load Rak data
+                    $.ajax({
+                        url: "<?php echo site_url('admin/get_all_rak'); ?>",
+                        type: "GET",
+                        dataType: "JSON",
+                        success: function(rakData) {
+                            var rakHtml = '';
+                            for (var i = 0; i < rakData.length; i++) {
+                                rakHtml += '<option value="' + rakData[i].id + '">' + rakData[i].nama_rak + ' - ' + rakData[i].deskripsi + '</option>';
+                            }
+                            $('#rak_edit').html(rakHtml);
+                            $('#rak_edit').val(data.rak_id); // Set selected value
+                        }
+                    });
+
+                    // Load Kategori data
+                    $.ajax({
+                        url: "<?php echo site_url('admin/get_all_kategori'); ?>",
+                        type: "GET",
+                        dataType: "JSON",
+                        success: function(kategoriData) {
+                            var kategoriHtml = '';
+                            for (var i = 0; i < kategoriData.length; i++) {
+                                kategoriHtml += '<option value="' + kategoriData[i].id + '">' + kategoriData[i].nama_kategori + '</option>';
+                            }
+                            $('#kategori_edit').html(kategoriHtml);
+                            $('#kategori_edit').val(data.kategori_id); // Set selected value
+                        }
+                    });
+
+                    $('#modalEditBuku').modal('show');
+                }
+            });
+        }
+
+        function updateBuku() {
+            var formData = new FormData($('#formEditBuku')[0]);
+            $.ajax({
+                url: "<?php echo site_url('admin/update_buku'); ?>",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    alert('Buku berhasil diperbarui');
+                    $('#modalEditBuku').modal('hide');
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert('Gagal memperbarui buku');
+                }
+            });
         }
     </script>
 
