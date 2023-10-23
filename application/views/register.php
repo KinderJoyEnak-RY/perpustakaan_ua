@@ -76,7 +76,7 @@
                     </div>
                     <div class="input-group mb-3">
                         <select class="form-control" name="role">
-                            <option value="staff">Staff</option>
+                            <!-- <option value="staff">Staff</option> -->
                             <option value="anggota">Anggota</option>
                         </select>
                         <div class="input-group-append">

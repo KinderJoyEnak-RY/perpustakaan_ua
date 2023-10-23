@@ -510,6 +510,7 @@
                 success: function(data) {
                     alert('Rak berhasil ditambahkan');
                     $('#modalTambahRak').modal('hide');
+                    location.reload();
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     alert('Gagal menambahkan rak');
@@ -525,6 +526,7 @@
                 success: function(data) {
                     alert('Kategori berhasil ditambahkan');
                     $('#modalTambahKategori').modal('hide');
+                    location.reload();
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     alert('Gagal menambahkan kategori');
@@ -543,6 +545,7 @@
                 success: function(data) {
                     alert('Buku berhasil ditambahkan');
                     $('#modalTambahBuku').modal('hide');
+                    location.reload();
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     alert('Gagal menambahkan buku');
@@ -614,6 +617,7 @@
                     success: function(data) {
                         alert('Rak berhasil dihapus');
                         $('#modalTambahRak').modal('hide');
+                        location.reload();
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         alert('Gagal menghapus rak');
@@ -630,6 +634,7 @@
                     success: function(data) {
                         alert('Kategori berhasil dihapus');
                         $('#modalTambahKategori').modal('hide');
+                        location.reload();
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         alert('Gagal menghapus kategori');
@@ -713,6 +718,7 @@
                 success: function(data) {
                     alert('Buku berhasil diperbarui');
                     $('#modalEditBuku').modal('hide');
+                    location.reload();
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     alert('Gagal memperbarui buku');
