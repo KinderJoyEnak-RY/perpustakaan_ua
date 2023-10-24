@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta name="description" content="Admin Dashboard Perpustakaan">
     <meta name="author" content="PerpusUA">
-    <title>Admin Dashboard</title>
+    <title>SIMPUS UA : Dashboard</title>
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <!-- Font Awesome -->
@@ -34,7 +34,7 @@
                 <!-- User Dropdown Menu -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
-                        <?php echo $this->session->userdata('full_name'); ?> <i class="far fa-user"></i>
+                        <?php echo $this->session->userdata('nama'); ?> <i class="far fa-user"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <a href="#" class="dropdown-item">
@@ -43,7 +43,7 @@
                                 <img src="https://adminlte.io/themes/v3/dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">
-                                        <?php echo $this->session->userdata('full_name'); ?>
+                                        <?php echo $this->session->userdata('nama'); ?>
                                     </h3>
                                     <p class="text-sm"><?php echo $this->session->userdata('role'); ?></p>
                                 </div>
@@ -92,7 +92,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="<?php echo base_url('admin/data_anggota'); ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Data Anggota</p>
                                     </a>
@@ -168,7 +168,7 @@
                             <div class="alert alert-warning alert-dismissible">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                                 <h5><i class="icon fas fa-exclamation-triangle"></i> Welcome!</h5>
-                                Hallo <?php echo $this->session->userdata('full_name'); ?>, Anda dapat mengelola data Perpustakaan Disini. selalu <a href="<?php echo site_url('auth/logout'); ?>" class="alert-link">Logout</a> untuk keamanan data Perpustakaan!
+                                Hallo <?php echo $this->session->userdata('nama'); ?>, Anda dapat mengelola data Perpustakaan Disini. selalu <a href="<?php echo site_url('auth/logout'); ?>" class="alert-link">Logout</a> untuk keamanan data Perpustakaan!
                             </div>
                         </div>
                     </div>
@@ -221,7 +221,7 @@
                         </div>
                         <!-- Data User Card -->
                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                            <div class="small-box bg-warning">
+                            <div class="small-box bg-warning" >
                                 <div class="inner">
                                     <h3>Data Anggota</h3> <!-- Contoh jumlah -->
                                     <p>Total</p>
@@ -229,7 +229,7 @@
                                 <div class="icon">
                                     <i class="fas fa-users"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="<?php echo base_url('admin/data_anggota'); ?>" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>

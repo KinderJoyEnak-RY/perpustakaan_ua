@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta name="description" content="Admin Dashboard Perpustakaan">
     <meta name="author" content="PerpusUA">
-    <title>Admin Dashboard</title>
+    <title>SIMPUS UA : Dashboard</title>
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <!-- Font Awesome -->
@@ -68,7 +68,7 @@
                 <!-- User Dropdown Menu -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="far fa-user"></i> <?php echo $this->session->userdata('full_name'); ?>
+                        <i class="far fa-user"></i> <?php echo $this->session->userdata('nama'); ?>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <a href="#" class="dropdown-item">
@@ -77,7 +77,7 @@
                                 <img src="https://adminlte.io/themes/v3/dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">
-                                        <?php echo $this->session->userdata('full_name'); ?>
+                                        <?php echo $this->session->userdata('nama'); ?>
                                     </h3>
                                     <p class="text-sm"><?php echo $this->session->userdata('role'); ?></p>
                                 </div>
@@ -126,7 +126,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="<?php echo base_url('admin/data_anggota'); ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Data Anggota</p>
                                     </a>
@@ -340,47 +340,47 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    <h5 class="mb-3">Tambah Buku Baru</h5>
+                                    <h5 class="mb-3" style="text-align: center;">Tambah Buku Baru</h5>
                                     <form id="formTambahBuku" action="javascript:void(0)" method="post" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label>Sampul</label>
-                                            <input type="file" class="form-control" name="sampul" required>
+                                            <input type="file" class="form-control" name="sampul" id="sampul">
                                         </div>
                                         <div class="form-group">
                                             <label>Judul</label>
-                                            <input type="text" class="form-control" name="judul" required>
+                                            <input type="text" class="form-control" name="judul" id="judul">
                                         </div>
                                         <div class="form-group">
                                             <label>Tahun</label>
-                                            <input type="text" class="form-control" name="tahun_buku" required>
+                                            <input type="text" class="form-control" name="tahun_buku" id="tahun_buku">
                                         </div>
                                         <div class="form-group">
                                             <label>ISBN</label>
-                                            <input type="text" class="form-control" name="nomor_isbn" required>
+                                            <input type="text" class="form-control" name="nomor_isbn" id="nomor_isbn">
                                         </div>
                                         <div class="form-group">
                                             <label>Pengarang</label>
-                                            <input type="text" class="form-control" name="pengarang" required>
+                                            <input type="text" class="form-control" name="pengarang" id="pengarang">
                                         </div>
                                         <div class="form-group">
                                             <label>Penerbit</label>
-                                            <input type="text" class="form-control" name="penerbit" required>
+                                            <input type="text" class="form-control" name="penerbit" id="penerbit">
                                         </div>
                                         <div class="form-group">
                                             <label>Rak</label>
-                                            <select class="form-control" name="rak" required>
+                                            <select class="form-control" name="rak" id="rak">
                                                 <!-- Data rak akan diisi di sini melalui JavaScript -->
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label>Kategori</label>
-                                            <select class="form-control" name="kategori" required>
+                                            <select class="form-control" name="kategori" id="kategori">
                                                 <!-- Data kategori akan diisi di sini melalui JavaScript -->
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label>Stok Buku</label>
-                                            <input type="number" class="form-control" name="stok_buku" required>
+                                            <input type="number" class="form-control" name="stok_buku" id="stok_buku">
                                         </div>
                                         <button type="button" onclick="tambahBuku()" class="btn btn-primary">Simpan</button>
                                     </form>
@@ -535,6 +535,45 @@
         }
 
         function tambahBuku() {
+
+			var judul = document.getElementById("judul").value;
+			var tahunBuku = document.getElementById("tahun_buku").value;
+			var nomorIsbn = document.getElementById("nomor_isbn").value;
+			var pengarang = document.getElementById("pengarang").value;
+			var penerbit = document.getElementById("penerbit").value;
+			var stokBuku = document.getElementById("stok_buku").value;
+			var rak = document.getElementById("rak").value;
+			var kategori = document.getElementById("kategori").value;
+
+
+    		if (judul === "") {
+        		alert("tesss!");
+       		 	return;
+    		}
+			if (tahunBuku === "") {
+        		alert("Nis harus diisi!");
+       		 	return;
+    		}
+			if (nomorIsbn === "") {
+        		alert("Kelas harus diisi!");
+       		 	return;
+    		}if (pengarang === "") {
+        		alert("Uername harus diisi!");
+       		 	return;
+    		}if (penerbit === "") {
+        		alert("Password harus diisi!");
+       		 	return;
+    		}if (stokBuku === "") {
+        		alert("Enail harus diisi!");
+       		 	return;
+    		}if (rak === "") {
+        		alert("Nomor Telefon harus diisi!");
+       		 	return;
+    		}if (kategori === "") {
+        		alert("Role harus dipilih!");
+       		 	return;
+    		}
+
             var formData = new FormData($('#formTambahBuku')[0]);
             $.ajax({
                 url: "<?php echo site_url('admin/tambah_buku'); ?>",

@@ -41,7 +41,7 @@ class Auth extends CI_Controller
 			$session_data = array(
 				'user_id' => $user->id,
 				'username' => $user->username,
-				'full_name' => $user->full_name,
+				'nama' => $user->nama,
 				'role' => $user->role,
 				'logged_in' => TRUE
 			);
@@ -61,21 +61,27 @@ class Auth extends CI_Controller
 		$this->load->library('form_validation');
 
 		// Set rules validasi form
+		$this->form_validation->set_rules('nama', 'Nama', 'required|is_unique[users.nama]');
+		$this->form_validation->set_rules('nis', 'Nis', 'required|is_unique[users.nis]');
+		$this->form_validation->set_rules('kelas', 'Kelas', 'required|is_unique[users.kelas]');
+		$this->form_validation->set_rules('telefon', 'Telefon', 'required|is_unique[users.telefon]');
 		$this->form_validation->set_rules('username', 'Username', 'required|is_unique[users.username]');
 		$this->form_validation->set_rules('password', 'Password', 'required');
 		$this->form_validation->set_rules('password_repeat', 'Repeat Password', 'required|matches[password]');
 		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
-		$this->form_validation->set_rules('full_name', 'Full Name', 'required');
 		$this->form_validation->set_rules('role', 'Role', 'required|in_list[staff,anggota]');
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->load->view('register');
 		} else {
 			$data = array(
+				'nama' => $this->input->post('nama'),
+				'nis' => $this->input->post('nis'),
+				'kelas' => $this->input->post('kelas'),
 				'username' => $this->input->post('username'),
 				'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+				'telefon' => $this->input->post('telefon'),
 				'email' => $this->input->post('email'),
-				'full_name' => $this->input->post('full_name'),
 				'role' => $this->input->post('role'),
 				'created_at' => date('Y-m-d H:i:s'),
 				'updated_at' => date('Y-m-d H:i:s')

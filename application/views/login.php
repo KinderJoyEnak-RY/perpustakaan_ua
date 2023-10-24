@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Login</title>
+	<title>SIMPUS UA : Login</title>
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 	<!-- AdminLTE CSS -->
@@ -21,7 +21,7 @@
 		<!-- /.login-logo -->
 		<div class="card">
 			<div class="card-body login-card-body">
-				<p class="login-box-msg">Sign in to start your session</p>
+				<p class="login-box-msg">Silakan login menggunakan akun yang sudah terdaftar</p>
 				<?php if ($this->session->flashdata('error')) : ?>
 					<div class="alert alert-danger">
 						<?= $this->session->flashdata('error'); ?>
@@ -35,7 +35,7 @@
 				<?php endif; ?>
 				<form action="<?php echo base_url('auth/do_login'); ?>" method="post">
 					<div class="input-group mb-3">
-						<input type="text" class="form-control" name="username" placeholder="Username">
+						<input type="text" class="form-control" name="username" placeholder="Masukkan Username">
 						<div class="input-group-append">
 							<div class="input-group-text">
 								<span class="fas fa-user"></span>
@@ -43,7 +43,7 @@
 						</div>
 					</div>
 					<div class="input-group mb-3">
-						<input type="password" class="form-control" name="password" placeholder="Password">
+						<input type="password" class="form-control" name="password" placeholder="Masukkan Password">
 						<div class="input-group-append">
 							<div class="input-group-text">
 								<span class="fas fa-lock"></span>
@@ -55,7 +55,7 @@
 							<div class="icheck-primary">
 								<input type="checkbox" id="remember">
 								<label for="remember">
-									Remember Me
+									Ingat saya
 								</label>
 							</div>
 						</div>
@@ -67,7 +67,7 @@
 					</div>
 				</form>
 				<p class="mb-1">
-					<a href="<?php echo base_url('auth/register'); ?>" class="text-center">Register a new membership</a>
+					Belum punya akun ? <a href="<?php echo base_url('auth/register'); ?>" class="text-center" Belum punya akun ?>Register</a>
 				</p>
 			</div>
 			<!-- /.login-card-body -->

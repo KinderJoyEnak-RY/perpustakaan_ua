@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>SIMPUS UA : Register</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <!-- AdminLTE CSS -->
@@ -21,7 +21,7 @@
 
         <div class="card">
             <div class="card-body register-card-body">
-                <p class="login-box-msg">Register a new membership</p>
+                <h5 class="login-box-msg">Pendaftaran Akun</h5>
                 <?php if ($this->session->flashdata('error')) : ?>
                     <div class="alert alert-danger">
                         <?= $this->session->flashdata('error'); ?>
@@ -35,10 +35,40 @@
                 <?php endif; ?>
                 <form action="<?php echo base_url('auth/register'); ?>" method="post">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="full_name" placeholder="Full name">
+                        <input type="text" class="form-control" name="nama" placeholder="Nama Lengkap">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                    </div>
+					<div class="input-group mb-3">
+                        <input type="number" class="form-control" name="nis" placeholder="NIS">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                    </div> <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="kelas" placeholder="Kelas">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                    </div> <div class="input-group mb-3">
+                        <input type="number" class="form-control" name="telefon" placeholder="Telefon">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-phone"></span>
+                            </div>
+                        </div>
+					</div>
+					<div class="input-group mb-3">
+                        <input type="email" class="form-control" name="email" placeholder="Email">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
                             </div>
                         </div>
                     </div>
@@ -47,14 +77,6 @@
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="input-group mb-3">
-                        <input type="email" class="form-control" name="email" placeholder="Email">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
                             </div>
                         </div>
                     </div>
@@ -88,12 +110,12 @@
                     <div class="row">
                         <!-- /.col -->
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                            <button type="submit" class="btn btn-primary btn-block">Daftar Akun</button>
                         </div>
                         <!-- /.col -->
                     </div>
                 </form>
-                <a href="<?php echo base_url('auth/login'); ?>" class="text-center">I already have a membership</a>
+                Sudah punya akun ? <a href="<?php echo base_url('auth/login'); ?>" class="text-center">Login</a>
             </div>
             <!-- /.form-box -->
         </div><!-- /.card -->

@@ -159,4 +159,75 @@ class Admin extends CI_Controller
             echo json_encode(array("status" => FALSE, "message" => "Gagal menghapus kategori"));
         }
     }
+
+	public function data_anggota()
+    {
+        $this->load->model('Anggota_model');
+        // $this->load->model('Buku_model');
+        $data['users'] = $this->Anggota_model->getAllAnggota();
+        $this->load->view('admin/data_anggota', $data);
+    }
+
+	public function get_anggota_by_id($id)
+    {
+        $this->load->model('Anggota_model');
+        $data = $this->Anggota_model->getAnggotaById($id);
+        echo json_encode($data);
+    }
+
+	public function tambah_anggota()
+    {
+            $data = array(
+                // '' => $upload_data['file_name'],
+                'nama' => $this->input->post('nama'),
+                'nis' => $this->input->post('nis'),
+                'kelas' => $this->input->post('kelas'),
+                'username' => $this->input->post('username'),
+                // 'password' => $this->input->post('password'),
+				'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+                'email' => $this->input->post('email'),
+                'telefon' => $this->input->post('telefon'),
+                'role' => $this->input->post('role')
+            );
+
+            $this->db->insert('users', $data);
+            echo json_encode(array("status" => TRUE));
+    }
+
+	public function update_anggota()
+    {
+        $id = $this->input->post('id');
+
+
+        $data['nis'] = $this->input->post('nis_edit');
+        $data['nama'] = $this->input->post('nama_edit');
+        $data['kelas'] = $this->input->post('kelas_edit');
+        $data['telefon'] = $this->input->post('telefon_edit');
+        $data['email'] = $this->input->post('email_edit');	
+        $data['username'] = $this->input->post('username_edit');
+        $data['password'] = $this->input->post('password_edit');	
+        // $data['role'] = $this->input->post('role_edit');	
+
+        $this->db->where('id', $id);
+        $this->db->update('users', $data);
+
+        if ($this->db->affected_rows() > 0) {
+            echo json_encode(array("status" => TRUE));
+        } else {
+            echo json_encode(array("status" => FALSE, "message" => "Gagal Update Anggota"));
+        }
+    }
+
+	public function delete_anggota($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('users');
+        if ($this->db->affected_rows() > 0) {
+            echo json_encode(array("status" => TRUE));
+        } else {
+            echo json_encode(array("status" => FALSE, "message" => "Gagal Hapus Anggota"));
+        }
+    }
+
+	
 }
