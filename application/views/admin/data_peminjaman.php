@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta name="description" content="Admin Dashboard Perpustakaan">
     <meta name="author" content="PerpusUA">
-    <title>SIMPUS UA : Dashboard</title>
+    <title>SIMPUS UA : Peminjaman</title>
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <!-- Font Awesome -->
@@ -126,7 +126,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="<?php echo base_url('admin/data_anggota'); ?>" class="nav-link active">
+                                    <a href="<?php echo base_url('admin/data_anggota'); ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Data Anggota</p>
                                     </a>
@@ -143,7 +143,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="<?php echo base_url('admin/data_peminjaman'); ?>" class="nav-link">
+                                    <a href="<?php echo base_url('admin/data_peminjaman'); ?>" class="nav-link active">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Peminjaman</p>
                                     </a>
@@ -193,7 +193,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Data Anggota</h1>
+                            <h1 class="m-0">Data Peminjaman</h1>
                         </div>
                     </div>
                     <div class="btn-group mb-3" role="group" aria-label="Button group">
@@ -204,7 +204,7 @@
                             <i class="fas fa-tags"></i> Kategori
                         </button> -->
                         <button class="btn btn-primary" data-toggle="modal" data-target="#modalTambahAnggota">
-                            <i class="fas fa-plus"></i> Tambah Anggota
+                            <i class="fas fa-plus"></i> Tambah Peminjaman
                         </button>
                     </div>
                 </div>
@@ -220,36 +220,40 @@
                             <thead>
                                 <tr>
                                     <th width="2%" class="text-center">No</th>
-                                    <th width="10%" class="text-center">Nama</th>
-                                    <th width="10%" class="text-center">Kelas</th>
-                                    <th width="10%" class="text-center">NIS</th>
-                                    <th width="10%" class="text-center">Telefon</th>
-                                    <th width="10%" class="text-center">Email</th>
-                                    <th width="10%" class="text-center">Role</th>
+                                    <th width="10%" class="text-center">Id Peminjaman</th>
+                                    <th width="10%" class="text-center">ID User</th>
+                                    <th width="10%" class="text-center">ID Buku</th>
+                                    <th width="10%" class="text-center">Status Peminjaman</th>
+                                    <th width="10%" class="text-center">Tanggal Peminjaman</th>
+                                    <th width="10%" class="text-center">Lama Peminjaman</th>
+                                    <th width="10%" class="text-center">Tanggal Kembali</th>
+                                    <th width="10%" class="text-center">Tanggal Pengembalian</th>
                                     <th width="10%"class="text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $no = 1;
-                                foreach ($users as $user) : ?>
+                                foreach ($peminjaman as $pinjam) : ?>
 								<!-- <pre> <?php print_r($user); ?> </pre> -->
 								
                                     <tr>
                                         <td width="2%" class="text-center"><?php echo $no++; ?></td>
-                                        <td width="10%"><?php echo $user['nama']; ?></td>
-                                        <td width="10%"><?php echo $user['kelas']; ?></td>
-                                        <td width="10%"><?php echo $user['nis']; ?></td>
-                                        <td width="10%" ><?php echo $user['telefon']; ?></td>
-                                        <td width="10%" ><?php echo $user['email']; ?></td>
-                                        <td width="10%"><?php echo $user['role']; ?></td>
+                                        <td width="10%"><?php echo $pinjam['id_pinjam']; ?></td>
+                                        <td width="10%"><?php echo $pinjam['id_user']; ?></td>
+                                        <td width="10%"><?php echo $pinjam['id_buku']; ?></td>
+                                        <td width="10%" ><?php echo $pinjam['status']; ?></td>
+                                        <td width="10%" ><?php echo $pinjam['tgl_pinjam']; ?></td>
+                                        <td width="10%"><?php echo $pinjam['lama_pinjam']; ?></td>
+                                        <td width="10%"><?php echo $pinjam['tgl_kembali']; ?></td>
+                                        <td width="10%"><?php echo $pinjam['tgl_pengembalian']; ?></td>
                                         <td width="10%" class="text-center">
-                                            <a href="javascript:void(0)" onclick="editAnggota(<?php echo $user['id']; ?>)" title="Edit">
+                                            <!-- <a href="javascript:void(0)" onclick="editAnggota(<?php echo $user['id']; ?>)" title="Edit">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                             &nbsp;&nbsp;
                                             <a href="javascript:void(0)" onclick="deleteAnggota(<?php echo $user['id']; ?>)" title="Delete">
                                                 <i class="fas fa-trash-alt text-danger"></i>
-                                            </a>
+                                            </a> -->
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

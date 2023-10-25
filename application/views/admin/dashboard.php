@@ -109,13 +109,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="<?php echo base_url('admin/data_peminjaman'); ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Peminjaman</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="<?php echo base_url('admin/data_denda'); ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Denda</p>
                                     </a>
@@ -204,7 +204,7 @@
                                 <div class="icon">
                                     <i class="fas fa-hand-holding"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="<?php echo base_url('admin/data_peminjaman'); ?>" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">

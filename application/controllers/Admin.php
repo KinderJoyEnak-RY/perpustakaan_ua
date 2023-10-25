@@ -163,7 +163,6 @@ class Admin extends CI_Controller
 	public function data_anggota()
     {
         $this->load->model('Anggota_model');
-        // $this->load->model('Buku_model');
         $data['users'] = $this->Anggota_model->getAllAnggota();
         $this->load->view('admin/data_anggota', $data);
     }
@@ -229,5 +228,42 @@ class Admin extends CI_Controller
         }
     }
 
-	
+	public function data_peminjaman()
+    {
+        $this->load->model('Peminjaman_model');
+        $data['peminjaman'] = $this->Peminjaman_model->getAllPeminjaman();
+        $this->load->view('admin/data_peminjaman', $data);
+    }
+
+	public function tambah_denda()
+    {
+        $data = array(
+            'harga_denda' => $this->input->post('harga_denda'),
+            'status' => $this->input->post('status')
+        );
+
+        $this->db->insert('denda', $data);
+        echo json_encode(array("status" => TRUE));
+    }
+	public function get_all_denda()
+    {
+        $data = $this->db->get('denda')->result();
+        echo json_encode($data);
+    }
+	public function delete_denda($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('denda');
+        if ($this->db->affected_rows() > 0) {
+            echo json_encode(array("status" => TRUE));
+        } else {
+            echo json_encode(array("status" => FALSE, "message" => "Gagal menghapus Denda"));
+        }
+    }
+
+	public function get_all_buku()
+    {
+        $data = $this->db->get('buku')->result();
+        echo json_encode($data);
+    }
 }
