@@ -23,7 +23,7 @@
         }
 
         nav {
-            border-bottom: 2px solid #ccc;
+            border-bottom: 1px solid #ccc;
         }
 
         .btn-login {
@@ -50,7 +50,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <a class="navbar-brand" href="#">
-            <img src="<?php echo base_url('uploads/img/logo.png'); ?>" alt="Logo Perpustakaan SMP" height="50">
+            <img src="<?php echo base_url('uploads/img/logo.png'); ?>" alt="Logo Perpustakaan SMP" height="40">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -83,19 +83,27 @@
         </header>
 
         <!-- Tentang Kami Section -->
-        <section class="container my-5 py-5" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
-            <h3 class="text-center mb-5" data-aos="fade-right">Tentang Kami</h3>
-            <div class="row justify-content-between">
-                <div class="col-md-6 mb-4" data-aos="fade-right">
-                    <img src="<?php echo base_url('uploads/img/library_interior.jpg'); ?>" alt="Interior Perpustakaan" class="img-fluid rounded shadow-lg" style="width: 80%;">
+        <section style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+            <div class="container py-5">
+                <h3 class="text-center mb-4" data-aos="fade-down">Tentang Kami</h3>
+
+                <div class="row justify-content-center mb-5" data-aos="fade-up" data-aos-delay="200">
+                    <div class="col-md-8 text-center">
+                        <img src="<?php echo base_url('uploads/img/logo.png'); ?>" alt="Logo Perpustakaan" class="img-fluid rounded shadow-lg mb-4" style="width: 40%;">
+                    </div>
                 </div>
-                <div class="col-md-5" data-aos="fade-left">
-                    <h4>Visi</h4>
-                    <p class="text-justify">Menciptakan generasi muda yang cerdas, kritis, dan berakhlak mulia.</p>
-                    <h4>Misi</h4>
-                    <p class="text-justify">Menyediakan koleksi buku, jurnal, dan sumber belajar lainnya yang komprehensif dan terkini.</p>
-                    <h4>Komitmen Kami</h4>
-                    <p class="text-justify">Kami berkomitmen mendukung literasi dan kecintaan membaca dengan berbagai kegiatan seperti lomba baca buku, diskusi buku, dan workshop literasi.</p>
+
+                <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="400">
+                    <div class="col-md-8 text-center">
+                        <h4 class="mb-3">Visi</h4>
+                        <p class="mb-4">Menciptakan generasi muda yang cerdas, kritis, dan berakhlak mulia.</p>
+
+                        <h4 class="mb-3">Misi</h4>
+                        <p class="mb-4">Menyediakan koleksi buku, jurnal, dan sumber belajar lainnya yang komprehensif dan terkini.</p>
+
+                        <h4 class="mb-3">Komitmen Kami</h4>
+                        <p>Kami berkomitmen mendukung literasi dan kecintaan membaca dengan berbagai kegiatan seperti lomba baca buku, diskusi buku, dan workshop literasi.</p>
+                    </div>
                 </div>
             </div>
         </section>
