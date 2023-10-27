@@ -96,13 +96,24 @@
                 <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="400">
                     <div class="col-md-8 text-center">
                         <h4 class="mb-3">Visi</h4>
-                        <p class="mb-4">Menciptakan generasi muda yang cerdas, kritis, dan berakhlak mulia.</p>
+                        <p class="mb-4">Terwujudnya Insan Islami yang Kaffah, Unggul dalam Kecerdasan dan Peduli Lingkungan serta Berwawasan Global.</p>
 
                         <h4 class="mb-3">Misi</h4>
-                        <p class="mb-4">Menyediakan koleksi buku, jurnal, dan sumber belajar lainnya yang komprehensif dan terkini.</p>
+                        <p class="mb-4">Melaksanakan berbagai kegiatan keagamaan dan budaya islami sehingga menjadi sumber kearifan dalam bertindak di kehidupan sehari-hari secara kaffah, menuju tujuan Muhammadiyah yang berkemajuan
+                            Menciptakan budaya tertib ibadah untuk mendapat berkah dan hasil yang maksimal
+                            Melaksanakan kegiatan menuju sekolah Muhammadiyah/Aisyiyah sebagai lembaga kaderisasi
+                            Melaksanakan pelayanan pembelajaran dan bimbingan secara PAIKEM dengan mengintegrasikan PPK, literasi, ketrampilan 4C (Creative, Critical thinking, Communicative, Collaborative) dan HOTS (High Order Thinking Skill), penguatan enam profil pelajar pancasila,sehingga peserta didik dapat berkembang secara optimal, sesuai dengan potensi yang dimiliki
+                            Menumbuhkan semangat berprestasi kepada semua warga sekolah melalui pengembangan diri sesuai dengan bakat dan minat
+                            Menciptakan lingkungan sekolah yang sehat, bersih, rindang, aman dan nyaman serta bebas narkoba dan tanggap bencana
+                            Melaksanakan pembelajaran dengan memanfaatkan teknologi dan informasi
+                            Mengembangkan kemampuan bahasa daerah, bahasa Indonesia, dan bahasa asing.</p>
 
-                        <h4 class="mb-3">Komitmen Kami</h4>
-                        <p>Kami berkomitmen mendukung literasi dan kecintaan membaca dengan berbagai kegiatan seperti lomba baca buku, diskusi buku, dan workshop literasi.</p>
+                        <h4 class="mb-3">Indikator Visi</h4>
+                        <p>1. Terwujudnya kegiatan berbasis keislaman yang berkualitas/militan <br>
+                            2. Terwujudnya kader Muhammadiyah/Aisyiyah, umat dan bangsa <br>
+                            3. Terwujudnya prestasi akademik dan non akademik yang bermutu tinggi <br>
+                            4. Terwujudnya kepedulian lingkungan yang sehat, bersih, rindang, aman, dan nyaman <br>
+                            5. Terwujudnya kompetensi dalam bidang teknologi informasi dan bahasa yang handal</p>
                     </div>
                 </div>
             </div>
