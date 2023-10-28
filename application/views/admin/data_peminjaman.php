@@ -8,6 +8,7 @@
     <meta name="description" content="Admin Dashboard Perpustakaan">
     <meta name="author" content="PerpusUA">
     <title>SIMPUS UA : Peminjaman</title>
+	<link rel="icon" type="image/png" href="<?php echo base_url('uploads/img/logo.png'); ?>" />
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <!-- Font Awesome -->
@@ -221,7 +222,7 @@
                                 <tr>
                                     <th width="2%" class="text-center">No</th>
                                     <th width="10%" class="text-center">Id Peminjaman</th>
-                                    <th width="10%" class="text-center">ID User</th>
+                                    <th width="10%" class="text-center">NIS Peminjam</th>
                                     <th width="10%" class="text-center">ID Buku</th>
                                     <th width="10%" class="text-center">Status Peminjaman</th>
                                     <th width="10%" class="text-center">Tanggal Peminjaman</th>
@@ -235,13 +236,20 @@
                                 <?php $no = 1;
                                 foreach ($peminjaman as $pinjam) : ?>
 								<!-- <pre> <?php print_r($user); ?> </pre> -->
-								
+									<?php 
+									$status = '';
+									if ($pinjam['status'] == 1){
+										$status = 'Dipinjam';
+									}else {
+										$status = "Dikembalikan";
+									}
+									?>
                                     <tr>
                                         <td width="2%" class="text-center"><?php echo $no++; ?></td>
                                         <td width="10%"><?php echo $pinjam['id_pinjam']; ?></td>
-                                        <td width="10%"><?php echo $pinjam['id_user']; ?></td>
+                                        <td width="10%"><?php echo $pinjam['nis']; ?></td>
                                         <td width="10%"><?php echo $pinjam['id_buku']; ?></td>
-                                        <td width="10%" ><?php echo $pinjam['status']; ?></td>
+                                        <td width="10%"><?php echo $status; ?></td>
                                         <td width="10%" ><?php echo $pinjam['tgl_pinjam']; ?></td>
                                         <td width="10%"><?php echo $pinjam['lama_pinjam']; ?></td>
                                         <td width="10%"><?php echo $pinjam['tgl_kembali']; ?></td>

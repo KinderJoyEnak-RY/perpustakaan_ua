@@ -644,26 +644,26 @@
        		 	return;
     		}
 			if (tahunBuku === "") {
-        		alert("Nis harus diisi!");
+        		alert("Tahun Buku harus diisi!");
        		 	return;
     		}
 			if (nomorIsbn === "") {
-        		alert("Kelas harus diisi!");
+        		alert("ISBN harus diisi!");
        		 	return;
     		}if (pengarang === "") {
-        		alert("Uername harus diisi!");
+        		alert("Pengarang harus diisi!");
        		 	return;
     		}if (penerbit === "") {
-        		alert("Password harus diisi!");
+        		alert("Penerbit harus diisi!");
        		 	return;
     		}if (stokBuku === "") {
-        		alert("Enail harus diisi!");
+        		alert("Stok harus diisi!");
        		 	return;
     		}if (rak === "") {
-        		alert("Nomor Telefon harus diisi!");
+        		alert("Rak Telefon harus dipilih!");
        		 	return;
     		}if (kategori === "") {
-        		alert("Role harus dipilih!");
+        		alert("Kategori harus dipilih!");
        		 	return;
     		}
 
@@ -676,6 +676,7 @@
                 processData: false,
                 success: function(data) {
                     alert('Buku berhasil ditambahkan');
+					console.log(data);
                     $('#modalTambahBuku').modal('hide');
                     location.reload();
                 },
@@ -885,9 +886,6 @@
             });
         });
 		}
-
-
-		
 
 		// $.ajax({
         //         url: "<?php echo site_url('admin/get_all_buku'); ?>",

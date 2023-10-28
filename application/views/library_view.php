@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perpustakaan SMP Unggulan Aisyiyah Bantul</title>
+	<link rel="icon" type="image/png" href="<?php echo base_url('uploads/img/logo.png'); ?>" />
+	<img src="<?php echo base_url('uploads/img/logo.png'); ?>" alt="Logo Perpustakaan SMP" height="40">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css">
