@@ -12,6 +12,81 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css">
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<style>
+		/* Menambahkan Background */
+		body {
+			background: url('<?php echo base_url("uploads/img/library_background.jpg"); ?>') no-repeat center center fixed;
+			background-size: cover;
+			font-family: 'Arial', sans-serif;
+		}
+
+		/* Mengatur transparansi pada card utama */
+		.card {
+			background-color: rgba(255, 255, 255, 0.8) !important;
+			border-radius: 15px;
+		}
+
+		/* Mengatur warna latar belakang dari elemen-elemen di dalam card */
+		.card-body,
+		.login-card-body,
+		.card-header,
+		.card-footer {
+			background-color: transparent !important;
+		}
+
+		/* Mengatur transparansi pada input fields */
+		.form-control {
+			background-color: rgba(255, 255, 255, 0.5) !important;
+			/* Semi-transparan */
+			border: 1px solid rgba(0, 0, 0, 0.2);
+			/* Border tipis dengan sedikit opacity */
+		}
+
+		/* Mengatur transparansi pada input group append (ikon di samping input) */
+		.input-group-text {
+			background-color: rgba(255, 255, 255, 0.5) !important;
+			/* Semi-transparan */
+			border-left: 0;
+			/* Menghapus border kiri untuk menghindari double border */
+		}
+
+		/* Mengatur hover effect pada input fields */
+		.form-control:hover,
+		.form-control:focus {
+			background-color: rgba(255, 255, 255, 0.7) !important;
+			/* Sedikit lebih gelap saat di-hover atau di-focus */
+		}
+
+		/* Efek hover pada tombol */
+		.btn-primary:hover {
+			background-color: #0056b3;
+		}
+
+		.register-text {
+			display: block;
+			text-align: center;
+			margin-top: 20px;
+			/* Menambahkan jarak di atas teks */
+			font-size: 0.9rem;
+			/* Mengatur ukuran font */
+		}
+
+		.register-link {
+			font-weight: 600;
+			/* Membuat teks sedikit lebih tebal */
+			color: #0056b3;
+			/* Mengatur warna teks */
+			transition: color 0.3s;
+			/* Efek transisi saat di-hover */
+		}
+
+		.register-link:hover {
+			color: #003a75;
+			/* Mengubah warna saat di-hover */
+			text-decoration: underline;
+			/* Menambahkan garis bawah saat di-hover */
+		}
+	</style>
 </head>
 
 <body class="hold-transition login-page">
@@ -39,7 +114,7 @@
 						<input type="text" class="form-control" name="username" placeholder="Masukkan Username">
 						<div class="input-group-append">
 							<div class="input-group-text">
-								<span class="fas fa-user"></span>
+								<span class="fas fa-user-circle"></span>
 							</div>
 						</div>
 					</div>
@@ -67,8 +142,8 @@
 						<!-- /.col -->
 					</div>
 				</form>
-				<p class="mb-1">
-					Belum punya akun ? <a href="<?php echo base_url('auth/register'); ?>" class="text-center" Belum punya akun ?>Register</a>
+				<p class="register-text">
+					Belum punya akun? <a href="<?php echo base_url('auth/register'); ?>" class="register-link">Register</a>
 				</p>
 			</div>
 			<!-- /.login-card-body -->

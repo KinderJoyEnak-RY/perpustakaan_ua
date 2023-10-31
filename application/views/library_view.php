@@ -226,7 +226,7 @@
         </section>
 
         <!-- Divider Line -->
-        <hr style="margin: 0; border-color: #ccc;">
+        <hr style="margin: 20; border-color: #ccc;">
         <!-- Kontak Section -->
         <section id="kontak">
             <div class="container py-5">
