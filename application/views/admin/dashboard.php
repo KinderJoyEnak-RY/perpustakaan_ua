@@ -8,7 +8,7 @@
     <meta name="description" content="Admin Dashboard Perpustakaan">
     <meta name="author" content="PerpusUA">
     <title>SIMPUS UA : Dashboard</title>
-	<link rel="icon" type="image/png" href="<?php echo base_url('uploads/img/logo.png'); ?>" />
+    <link rel="icon" type="image/png" href="<?php echo base_url('uploads/img/logo.png'); ?>" />
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <!-- Font Awesome -->
@@ -222,7 +222,7 @@
                         </div>
                         <!-- Data User Card -->
                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                            <div class="small-box bg-warning" >
+                            <div class="small-box bg-primary">
                                 <div class="inner">
                                     <h3>Data Anggota</h3> <!-- Contoh jumlah -->
                                     <p>Total</p>
