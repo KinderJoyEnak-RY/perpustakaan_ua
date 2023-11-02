@@ -227,6 +227,7 @@
                                     <th width="10%" class="text-center">Telefon</th>
                                     <th width="10%" class="text-center">Email</th>
                                     <th width="10%" class="text-center">Role</th>
+                                    <th width="10%" class="text-center">Barcode</th>
                                     <th width="10%"class="text-center">Aksi</th>
                                 </tr>
                             </thead>
@@ -243,6 +244,11 @@
                                         <td width="10%" ><?php echo $user['telefon']; ?></td>
                                         <td width="10%" ><?php echo $user['email']; ?></td>
                                         <td width="10%"><?php echo $user['role']; ?></td>
+                                        <td width="10%" >
+									<center><img style="width:100px;" src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl= Data Anggota Perpus <?= 'Nama : ' . $user['nama'] . ' NIS : ' . $user['nis'] . ' Kelas : ' .$user['kelas']; ?> &choe=UTF-8" title="QR" /></center>
+
+
+										</td>
                                         <td width="10%" class="text-center">
                                             <a href="javascript:void(0)" onclick="editAnggota(<?php echo $user['id']; ?>)" title="Edit">
                                                 <i class="fas fa-edit"></i>
