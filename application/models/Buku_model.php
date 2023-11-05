@@ -17,4 +17,18 @@ class Buku_model extends CI_Model
         $this->db->where('id', $id);
         return $this->db->get('buku')->row_array();
     }
+
+    public function getNamaRak($rak_id)
+    {
+        $this->db->where('id', $rak_id);
+        $rak = $this->db->get('rak')->row();
+        return $rak ? $rak->nama_rak : null; // Pastikan untuk menangani kasus jika rak tidak ditemukan
+    }
+
+    public function getNamaKategori($kategori_id)
+    {
+        $this->db->where('id', $kategori_id);
+        $kategori = $this->db->get('kategori')->row();
+        return $kategori ? $kategori->nama_kategori : null; // Pastikan untuk menangani kasus jika kategori tidak ditemukan
+    }
 }
