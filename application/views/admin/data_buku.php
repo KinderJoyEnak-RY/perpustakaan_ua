@@ -205,7 +205,7 @@
                             <i class="fas fa-tags"></i> Kategori
                         </button>
 						<button class="btn btn-danger mr-2" data-toggle="modal" data-target="#modalTambahDenda">
-                            <i class="fas fa-archive"></i> Denda
+                            <i class="fas fa-archive"></i> Dendaa
                         </button>
                         <button class="btn btn-primary" data-toggle="modal" data-target="#modalTambahBuku">
                             <i class="fas fa-plus"></i> Tambah Buku
