@@ -250,6 +250,13 @@
 
 										</td>
                                         <td width="10%" class="text-center">
+											<!-- <button class="btn btn-primary" onclick="openWindow('<?= base_url('admin/detail_anggota/' . $user['id']); ?>')">
+                                            <i class="fa fa-print"></i> Cetak Kartu
+                                            </button> -->
+											<a href="javascript:void(0)" onclick="lihatAnggota(<?php echo $user['id']; ?>)" title="Detail">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            &nbsp;&nbsp;
                                             <a href="javascript:void(0)" onclick="editAnggota(<?php echo $user['id']; ?>)" title="Edit">
                                                 <i class="fas fa-edit"></i>
                                             </a>
@@ -318,7 +325,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    <h5 class="mb-3">Edit Anggota</h5>
+                                    <h5 class="mb-3" style="text-align: center;">Edit Anggota</h5>
                                     <form id="formEditAnggota" action="javascript:void(0)" method="post" enctype="multipart/form-data">
                                         <input type="hidden" name="id" id="id">
 
@@ -340,7 +347,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Password</label>
-                                            <input type="password" class="form-control" name="password_edit" id="password_edit" required>
+                                            <input type="password" class="form-control" name="password_edit" id="password_edit" placeholder="Isikan password baru jika ingin mengganti password" required>
                                         </div>
 										<div class="form-group">
                                             <label>Email</label>
@@ -360,6 +367,50 @@
                             </div>
                         </div>
                     </div>
+
+					<div class="modal fade" id="modalLihatAnggota" tabindex="-1" role="dialog" aria-labelledby="modalLabelLihatAnggota" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <h5 class="mb-3" style="text-align: center;">Detail Anggota</h5>
+                                    <form id="formEditAnggota" action="javascript:void(0)" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" name="id" id="id">
+
+                                        <div class="form-group">
+                                            <label>Nama</label>
+                                            <input type="text" class="form-control" name="nama_lihat" id="nama_lihat" readonly>
+                                        </div>
+										<div class="form-group">
+                                            <label>NIS</label>
+                                            <input type="text" class="form-control" name="nis_lihat" id="nis_lihat" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Kelas</label>
+                                            <input type="text" class="form-control" name="kelas_lihat" id="kelas_lihat" readonly>
+                                        </div>
+										<div class="form-group">
+                                            <label>Username</label>
+                                            <input type="text" class="form-control" name="username_lihat" id="username_lihat" readonly>
+                                        </div>
+										<div class="form-group">
+                                            <label>Email</label>
+                                            <input type="text" class="form-control" name="email_lihat" id="email_lihat" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Telefon</label>
+                                            <input type="text" class="form-control" name="telefon_lihat" id="telefon_lihat" readonly>
+                                        </div>
+										<div class="form-group">
+                                            <label>Role</label>
+                                            <input type="text" class="form-control" name="role_lihat" id="role_lihat" readonly>
+                                        </div>
+                                        <!-- <button type="button" onclick="updateAnggota()" class="btn btn-primary">Update</button> -->
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
 
                     <!-- Modal Image Viewer -->
                     <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
@@ -419,6 +470,10 @@
     </script>
     <script>
 
+		function openWindow(url) {
+   			 window.open(url, '_blank', 'width=600,height=600');
+		}
+
         function tambahAnggota() {
 
 			var nama = document.getElementById("nama").value;
@@ -432,30 +487,30 @@
 
 
     		if (nama === "") {
-        		popalert("Nama Lengkap harus diisi!");
+        		alert("Nama Lengkap harus diisi!");
        		 	return;
     		}
 			if (nis === "") {
-        		popalert("Nis harus diisi!");
+        		alert("Nis harus diisi!");
        		 	return;
     		}
 			if (kelas === "") {
-        		popalert("Kelas harus diisi!");
+        		alert("Kelas harus diisi!");
        		 	return;
     		}if (username === "") {
-        		popalert("Uername harus diisi!");
+        		alert("Uername harus diisi!");
        		 	return;
     		}if (password === "") {
-        		popalert("Password harus diisi!");
+        		alert("Password harus diisi!");
        		 	return;
     		}if (email === "") {
-        		popalert("Enail harus diisi!");
+        		alert("Enail harus diisi!");
        		 	return;
     		}if (telefon === "") {
-        		popalert("Nomor Telefon harus diisi!");
+        		alert("Nomor Telefon harus diisi!");
        		 	return;
     		}if (role === "") {
-        		popalert("Role harus dipilih!");
+        		alert("Role harus dipilih!");
        		 	return;
     		}
 
@@ -467,12 +522,12 @@
                 contentType: false,
                 processData: false,
                 success: function(data) {
-                    popalert('Anggota berhasil ditambahkan');
+                    alert('Anggota berhasil ditambahkan');
                     $('#modalTambahAnggota').modal('hide');
                     location.reload();
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    popalert('Gagal menambahkan Anggota');
+                    alert('Gagal menambahkan Anggota');
                 }
             });
         }
@@ -484,11 +539,11 @@
                     url: "<?php echo site_url('admin/delete_anggota/'); ?>" + id,
                     type: "POST",
                     success: function(data) {
-                        popalert('Anggota berhasil dihapus');
+                        alert('Anggota berhasil dihapus');
 						location.reload();
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        popalert('Gagal menghapus Anggota');
+                        alert('Gagal menghapus Anggota');
                     }
                 });
             }
@@ -505,12 +560,32 @@
                     $('#nis_edit').val(data.nis);
                     $('#kelas_edit').val(data.kelas);
                     $('#username_edit').val(data.username);
-                    $('#password_edit').val(data.password);
+                    $('#password_edit').val('');
                     $('#email_edit').val(data.email);
                     $('#telefon_edit').val(data.telefon);
                     $('#role_edit').val(data.role);
 
                     $('#modalEditAnggota').modal('show');
+                }
+            });
+        }
+
+		function lihatAnggota(id) {
+            $.ajax({
+                url: "<?php echo site_url('admin/get_anggota_by_id/'); ?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data) {
+                    $('#id').val(data.id);
+                    $('#nama_lihat').val(data.nama);
+                    $('#nis_lihat').val(data.nis);
+                    $('#kelas_lihat').val(data.kelas);
+                    $('#username_lihat').val(data.username);
+                    $('#email_lihat').val(data.email);
+                    $('#telefon_lihat').val(data.telefon);
+                    $('#role_lihat').val(data.role);
+
+                    $('#modalLihatAnggota').modal('show');
                 }
             });
         }
@@ -524,13 +599,13 @@
                 contentType: false,
                 processData: false,
                 success: function(data) {
-                    popalert('Data anggota berhasil diperbarui');
+                    alert('Data anggota berhasil diperbarui');
 					// console.log(data);
                     $('#modalEditAnggota').modal('hide');
                     location.reload();
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    popalert('Gagal memperbarui Anggota');
+                    alert('Gagal memperbarui Anggota');
                 }
             });
         }
