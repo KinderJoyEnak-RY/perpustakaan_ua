@@ -203,9 +203,6 @@
                         <button class="btn btn-success mr-2" data-toggle="modal" data-target="#modalTambahKategori">
                             <i class="fas fa-tags"></i> Kategori
                         </button>
-						<button class="btn btn-danger mr-2" data-toggle="modal" data-target="#modalTambahDenda">
-                            <i class="fas fa-archive"></i> Denda
-                        </button>
                         <button class="btn btn-primary" data-toggle="modal" data-target="#modalTambahBuku">
                             <i class="fas fa-plus"></i> Tambah Buku
                         </button>
@@ -217,6 +214,16 @@
             <!-- Main content -->
             <div class="content">
                 <div class="container-fluid">
+                    <?php if ($this->session->flashdata('success')) : ?>
+                        <div class="alert alert-success">
+                            <?php echo $this->session->flashdata('success'); ?>
+                        </div>
+                    <?php endif; ?>
+                    <?php if ($this->session->flashdata('error')) : ?>
+                        <div class="alert alert-danger">
+                            <?php echo $this->session->flashdata('error'); ?>
+                        </div>
+                    <?php endif; ?>
                     <!-- Cards -->
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped">
@@ -232,6 +239,7 @@
                                     <th class="text-center">Rak</th>
                                     <th class="text-center">Kategori</th>
                                     <th class="text-center">Stok Buku</th>
+                                    <th class="text-center">QR Code</th>
                                     <th class="text-center">aksi</th>
                                 </tr>
                             </thead>
@@ -251,17 +259,13 @@
                                         <td><?php echo $bk['nama_rak']; ?></td>
                                         <td><?php echo $bk['nama_kategori']; ?></td>
                                         <td><?php echo $bk['stok_buku']; ?></td>
+                                        <td>
+                                            <img src="<?php echo base_url('uploads/qrcodes/' . $bk['qr_code']); ?>" width="40" alt="QR Code" class="img-thumbnail qr-code-thumbnail" data-toggle="modal" data-target="#imageModal" data-image="<?php echo base_url('uploads/qrcodes/' . $bk['qr_code']); ?>">
+                                        </td>
                                         <td class="text-center">
                                             <a href="javascript:void(0)" onclick="editBuku(<?php echo $bk['id']; ?>)" title="Edit">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-											&nbsp;&nbsp;
-											<a href="javascript:void(0)" onclick="detailBuku(<?php echo $bk['id']; ?>)" title="Detail" data-target="#modalLiatBuku">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-											&nbsp;
-											<!-- <a href="<?= base_url('admin/detail_buku/'.$bk['id']);?>"><i class="fa fa-eye"></i></a> -->
-
                                             &nbsp;&nbsp;
                                             <a href="javascript:void(0)" onclick="deleteBuku(<?php echo $bk['id']; ?>)" title="Delete">
                                                 <i class="fas fa-trash-alt text-danger"></i>
@@ -345,41 +349,6 @@
                         </div>
                     </div>
 
-					<div class="modal fade small-modal" id="modalTambahDenda" tabindex="-1" role="dialog" aria-labelledby="modalLabelTambahDenda" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-body">
-                                    <h5 class="mb-3">Data Denda</h5>
-                                    <table class="table table-hover table-bordered small-table">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center">Denda</th>
-                                                <th class="text-center">Status</th>
-                                                <th class="text-center">Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="listDenda">
-                                            <!-- Data kategori akan diisi di sini melalui JavaScript -->
-                                        </tbody>
-                                    </table>
-                                    <!-- Form Tambah Kategori -->
-                                    <h5 class="mt-4 mb-3">Tambah Denda Baru</h5>
-                                    <form id="formTambahDenda" action="javascript:void(0)" method="post">
-                                        <div class="form-group">
-                                            <label>Denda</label>
-                                            <input type="text" class="form-control" name="harga_denda" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Status</label>
-                                            <textarea class="form-control" name="status"></textarea>
-                                        </div>
-                                        <button type="button" onclick="tambahDenda()" class="btn btn-success">Simpan</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Modal Tambah Buku -->
                     <div class="modal fade" id="modalTambahBuku" tabindex="-1" role="dialog" aria-labelledby="modalLabelTambahBuku" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -429,36 +398,6 @@
                                         </div>
                                         <button type="button" onclick="tambahBuku()" class="btn btn-primary">Simpan</button>
                                     </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-					<div class="modal fade small-modal" id="modalLiatBuku" tabindex="-1" role="dialog" aria-labelledby="modalLabelLiatBuku" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-body">
-                                    <h5 class="mb-3">Data Buku</h5>
-                                    <table class="table table-hover table-bordered small-table">
-                                        <thead>
-                                            <tr>
-												<th class="text-center">No</th>
-                                    			<th class="text-center">sampul</th>
-                                    			<th class="text-center">Judul</th>
-                                    			<th class="text-center">Tahun</th>
-                                    			<th class="text-center">ISBN</th>
-                                    			<th class="text-center">Pengarang</th>
-                                    			<th class="text-center">Penerbit</th>
-                                    			<th class="text-center">Rak</th>
-                                    			<th class="text-center">Kategori</th>
-                                    			<th class="text-center">Stok Buku</th>
-                                    			<th class="text-center">aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="listBuku">
-                                            <!-- Data kategori akan diisi di sini melalui JavaScript -->
-                                        </tbody>
-                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -575,6 +514,11 @@
             var modal = $(this);
             modal.find('#modalImage').attr('src', imageUrl);
         });
+        $('.qr-code-thumbnail').on('click', function() {
+            var imageUrl = $(this).data('image');
+            $('#imageModal').find('#modalImage').attr('src', imageUrl);
+            $('#imageModal').modal('show');
+        });
     </script>
     <script>
         function tambahRak() {
@@ -609,63 +553,49 @@
             });
         }
 
-		function tambahDenda() {
-            $.ajax({
-                url: "<?php echo site_url('admin/tambah_denda'); ?>",
-                type: "POST",
-                data: $('#formTambahDenda').serialize(),
-                success: function(data) {
-                    alert('Denda berhasil ditambahkan');
-                    $('#modalTambahDenda').modal('hide');
-                    location.reload();
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert('Gagal menambahkan Denda');
-                }
-            });
-        }
-
-		
-
         function tambahBuku() {
+            var judul = $("#judul").val();
+            var tahunBuku = $("#tahun_buku").val();
+            var nomorIsbn = $("#nomor_isbn").val();
+            var pengarang = $("#pengarang").val();
+            var penerbit = $("#penerbit").val();
+            var stokBuku = $("#stok_buku").val();
+            var rak = $("#rak").val();
+            var kategori = $("#kategori").val();
 
-			var judul = document.getElementById("judul").value;
-			var tahunBuku = document.getElementById("tahun_buku").value;
-			var nomorIsbn = document.getElementById("nomor_isbn").value;
-			var pengarang = document.getElementById("pengarang").value;
-			var penerbit = document.getElementById("penerbit").value;
-			var stokBuku = document.getElementById("stok_buku").value;
-			var rak = document.getElementById("rak").value;
-			var kategori = document.getElementById("kategori").value;
-
-
-    		if (judul === "") {
-        		alert("tesss!");
-       		 	return;
-    		}
-			if (tahunBuku === "") {
-        		alert("Tahun Buku harus diisi!");
-       		 	return;
-    		}
-			if (nomorIsbn === "") {
-        		alert("ISBN harus diisi!");
-       		 	return;
-    		}if (pengarang === "") {
-        		alert("Pengarang harus diisi!");
-       		 	return;
-    		}if (penerbit === "") {
-        		alert("Penerbit harus diisi!");
-       		 	return;
-    		}if (stokBuku === "") {
-        		alert("Stok harus diisi!");
-       		 	return;
-    		}if (rak === "") {
-        		alert("Rak Telefon harus dipilih!");
-       		 	return;
-    		}if (kategori === "") {
-        		alert("Kategori harus dipilih!");
-       		 	return;
-    		}
+            // Validasi sisi klien
+            if (!judul) {
+                alert("Judul buku harus diisi!");
+                return;
+            }
+            if (tahunBuku === "") {
+                alert("Tahun Buku harus diisi!");
+                return;
+            }
+            if (nomorIsbn === "") {
+                alert("ISBN harus diisi!");
+                return;
+            }
+            if (pengarang === "") {
+                alert("Pengarang harus diisi!");
+                return;
+            }
+            if (penerbit === "") {
+                alert("Penerbit harus diisi!");
+                return;
+            }
+            if (stokBuku === "") {
+                alert("Stok harus diisi!");
+                return;
+            }
+            if (rak === "") {
+                alert("Rak Telefon harus dipilih!");
+                return;
+            }
+            if (kategori === "") {
+                alert("Kategori harus dipilih!");
+                return;
+            }
 
             var formData = new FormData($('#formTambahBuku')[0]);
             $.ajax({
@@ -674,14 +604,18 @@
                 data: formData,
                 contentType: false,
                 processData: false,
-                success: function(data) {
-                    alert('Buku berhasil ditambahkan');
-					console.log(data);
-                    $('#modalTambahBuku').modal('hide');
-                    location.reload();
+                success: function(response) {
+                    response = JSON.parse(response);
+                    if (response.status) {
+                        alert('Buku berhasil ditambahkan');
+                        $('#modalTambahBuku').modal('hide');
+                        location.reload();
+                    } else {
+                        alert(response.message); // Tampilkan pesan error dari server
+                    }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    alert('Gagal menambahkan buku');
+                    alert('Gagal menambahkan buku: ' + textStatus);
                 }
             });
         }
@@ -711,20 +645,6 @@
                         html += '<tr><td>' + data[i].nama_kategori + '</td><td>' + data[i].deskripsi + '</td><td class="text-center"><a href="javascript:void(0)" onclick="deleteKategori(' + data[i].id + ')"><i class="fas fa-trash-alt text-danger"></i></a></td></tr>';
                     }
                     $('#listKategori').html(html);
-                }
-            });
-        });
-		$('#modalTambahDenda').on('show.bs.modal', function(e) {
-            $.ajax({
-                url: "<?php echo site_url('admin/get_all_denda'); ?>",
-                type: "GET",
-                dataType: "JSON",
-                success: function(data) {
-                    var html = '';
-                    for (var i = 0; i < data.length; i++) {
-                        html += '<tr><td>' + data[i].harga_denda + '</td><td>' + data[i].status + '</td><td class="text-center"><a href="javascript:void(0)" onclick="deleteDenda(' + data[i].id + ')"><i class="fas fa-trash-alt text-danger"></i></a></td></tr>';
-                    }
-                    $('#listDenda').html(html);
                 }
             });
         });
@@ -789,22 +709,6 @@
                 });
             }
         }
-		function deleteDenda(id) {
-            if (confirm('Apakah Anda yakin ingin menghapus denda ini?')) {
-                $.ajax({
-                    url: "<?php echo site_url('admin/delete_denda/'); ?>" + id,
-                    type: "POST",
-                    success: function(data) {
-                        alert('Denda berhasil dihapus');
-                        $('#modalTambahDenda').modal('hide');
-                        location.reload();
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        alert('Gagal menghapus Denda');
-                    }
-                });
-            }
-        }
 
         function deleteBuku(id) {
             if (confirm('Apakah Anda yakin ingin menghapus buku ini?')) {
@@ -813,6 +717,7 @@
                     type: "POST",
                     success: function(data) {
                         alert('Buku berhasil dihapus');
+                        location.reload();
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         alert('Gagal menghapus buku');
@@ -870,35 +775,22 @@
             });
         }
 
-		function detailbuku(){
-			$('#modalLiatBuku').on('show.bs.modal', function(e) {
-            $.ajax({
-                url: "<?php echo site_url('admin/get_all_buku'); ?>",
-                type: "GET",
-                dataType: "JSON",
-                success: function(data) {
-                    var html = '';
-                    for (var i = 0; i < data.length; i++) {
-                        html += '<tr><td>' + data[i].judul + '</td><td>' + data[i].tahun_buku + '</td><td>' + data[i].nomor_isbn + '</td><td>' + data[i].pengarang + '</td><td>' + data[i].penerbit + '</td><td>' + data[i].rak_id + '</td><td>' + data[i].kategori_id + '</td><td>' + data[i].stok_buku + '</td><td class="text-center"><a href="javascript:void(0)" onclick="deleteKategori(' + data[i].id + ')"><i class="fas fa-trash-alt text-danger"></i></a></td></tr>';
+        function detailbuku() {
+            $('#modalLiatBuku').on('show.bs.modal', function(e) {
+                $.ajax({
+                    url: "<?php echo site_url('admin/get_all_buku'); ?>",
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function(data) {
+                        var html = '';
+                        for (var i = 0; i < data.length; i++) {
+                            html += '<tr><td>' + data[i].judul + '</td><td>' + data[i].tahun_buku + '</td><td>' + data[i].nomor_isbn + '</td><td>' + data[i].pengarang + '</td><td>' + data[i].penerbit + '</td><td>' + data[i].rak_id + '</td><td>' + data[i].kategori_id + '</td><td>' + data[i].stok_buku + '</td><td class="text-center"><a href="javascript:void(0)" onclick="deleteKategori(' + data[i].id + ')"><i class="fas fa-trash-alt text-danger"></i></a></td></tr>';
+                        }
+                        $('#listBuku').html(html);
                     }
-                    $('#listBuku').html(html);
-                }
+                });
             });
-        });
-		}
-
-		// $.ajax({
-        //         url: "<?php echo site_url('admin/get_all_buku'); ?>",
-        //         type: "GET",
-        //         dataType: "JSON",
-        //         success: function(data) {
-        //             var html = '';
-        //             for (var i = 0; i < data.length; i++) {
-        //                 html += '<tr><td>' + data[i].judul + '</td><td>' + data[i].tahun_buku + '</td><td>' + data[i].nomor_isbn + '</td><td>' + data[i].pengarang + '</td><td>' + data[i].penerbit + '</td><td>' + data[i].rak_id + '</td><td>' + data[i].kategori_id + '</td><td>' + data[i].stok_buku + '</td><td class="text-center"><a href="javascript:void(0)" onclick="deleteKategori(' + data[i].id + ')"><i class="fas fa-trash-alt text-danger"></i></a></td></tr>';
-        //             }
-        //             $('#listBuku').html(html);
-        //         }
-        //     });
+        }
 
         function updateBuku() {
             var formData = new FormData($('#formEditBuku')[0]);
