@@ -204,6 +204,9 @@
                         <button class="btn btn-success mr-2" data-toggle="modal" data-target="#modalTambahKategori">
                             <i class="fas fa-tags"></i> Kategori
                         </button>
+						<button class="btn btn-danger mr-2" data-toggle="modal" data-target="#modalTambahDenda">
+                            <i class="fas fa-archive"></i> Denda
+                        </button>
                         <button class="btn btn-primary" data-toggle="modal" data-target="#modalTambahBuku">
                             <i class="fas fa-plus"></i> Tambah Buku
                         </button>
@@ -308,6 +311,42 @@
                                             <textarea class="form-control" name="deskripsi"></textarea>
                                         </div>
                                         <button type="button" onclick="tambahRak()" class="btn btn-primary">Simpan</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+					<div class="modal fade small-modal" id="modalTambahDenda" tabindex="-1" role="dialog" aria-labelledby="modalLabelTambahDenda" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <h5 class="mb-3">Data Denda</h5>
+                                    <table class="table table-hover table-bordered small-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">Denda</th>
+                                                <th class="text-center">Status</th>
+                                                <th class="text-center">Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="listDenda">
+                                            <!-- Data kategori akan diisi di sini melalui JavaScript -->
+                                        </tbody>
+                                    </table>
+                                    <!-- Form Tambah Kategori -->
+                                    <h5 class="mt-4 mb-3">Tambah Denda Baru</h5>
+                                    <form id="formTambahDenda" action="javascript:void(0)" method="post">
+                                        <div class="form-group">
+                                            <label>Denda</label>
+                                            <input type="text" class="form-control" name="harga_denda" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Status</label>
+                                            <input type="text" class="form-control" name="status " required>
+
+                                        </div>
+                                        <button type="button" onclick="tambahDenda()" class="btn btn-success">Simpan</button>
                                     </form>
                                 </div>
                             </div>
@@ -538,6 +577,22 @@
             });
         }
 
+		function tambahDenda() {
+            $.ajax({
+                url: "<?php echo site_url('admin/tambah_denda'); ?>",
+                type: "POST",
+                data: $('#formTambahDenda').serialize(),
+                success: function(data) {
+                    alert('Denda berhasil ditambahkan');
+                    $('#modalTambahDenda').modal('hide');
+                    location.reload();
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert('Gagal menambahkan Denda');
+                }
+            });
+        }
+
         function tambahKategori() {
             $.ajax({
                 url: "<?php echo site_url('admin/tambah_kategori'); ?>",
@@ -635,6 +690,21 @@
                 }
             });
         });
+		$('#modalTambahDenda').on('show.bs.modal', function(e) {
+            $.ajax({
+                url: "<?php echo site_url('admin/get_all_denda'); ?>",
+                type: "GET",
+                dataType: "JSON",
+                success: function(data) {
+                    var html = '';
+                    for (var i = 0; i < data.length; i++) {
+						var statusDenda = data[i].status == 1 ? "Aktif" : "Tidak Aktif";
+                        html += '<tr><td>' + data[i].harga_denda + '</td><td>' + statusDenda + '</td><td class="text-center"><a href="javascript:void(0)" onclick="deleteDenda(' + data[i].id + ')"><i class="fas fa-trash-alt text-danger"></i></a></td></tr>';
+                    }
+                    $('#listDenda').html(html);
+                }
+            });
+        });
         $('#modalTambahKategori').on('show.bs.modal', function(e) {
             $.ajax({
                 url: "<?php echo site_url('admin/get_all_kategori'); ?>",
@@ -694,6 +764,22 @@
             }
         }
 
+		function deleteDenda(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus denda ini?')) {
+                $.ajax({
+                    url: "<?php echo site_url('admin/delete_denda/'); ?>" + id,
+                    type: "POST",
+                    success: function(data) {
+                        alert('Denda berhasil dihapus');
+                        $('#modalTambahDenda').modal('hide');
+                        location.reload();
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert('Gagal menghapus Denda');
+                    }
+                });
+            }
+        }
         function deleteKategori(id) {
             if (confirm('Apakah Anda yakin ingin menghapus kategori ini?')) {
                 $.ajax({

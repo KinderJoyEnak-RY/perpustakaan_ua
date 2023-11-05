@@ -7,7 +7,7 @@ class Admin extends CI_Controller
     {
         parent::__construct();
 
-        $this->load->library('QrCodeGenerator');
+       	$this->load->library('QrCodeGenerator');
         $this->load->model('Buku_model');
 
         // Cek apakah pengguna sudah login dan memiliki role 'staff'
@@ -317,9 +317,4 @@ class Admin extends CI_Controller
         }
     }
 
-    public function get_all_buku()
-    {
-        $data = $this->db->get('buku')->result();
-        echo json_encode($data);
-    }
 }

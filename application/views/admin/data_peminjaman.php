@@ -255,13 +255,13 @@
                                         <td width="10%"><?php echo $pinjam['tgl_kembali']; ?></td>
                                         <td width="10%"><?php echo $pinjam['tgl_pengembalian']; ?></td>
                                         <td width="10%" class="text-center">
-                                            <!-- <a href="javascript:void(0)" onclick="editAnggota(<?php echo $user['id']; ?>)" title="Edit">
+                                            <a href="javascript:void(0)" onclick="editAnggota(<?php echo $pinjam['id']; ?>)" title="Edit">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                             &nbsp;&nbsp;
-                                            <a href="javascript:void(0)" onclick="deleteAnggota(<?php echo $user['id']; ?>)" title="Delete">
+                                            <a href="javascript:void(0)" onclick="deletePeminjaman(<?php echo $pinjam['id']; ?>)" title="Delete">
                                                 <i class="fas fa-trash-alt text-danger"></i>
-                                            </a> -->
+                                            </a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -483,7 +483,7 @@
         }
 
 
-        function deleteAnggota(id) {
+        function deletePeminjaman(id) {
             if (confirm('Apakah Anda yakin ingin menghapus Anggota ini?')) {
                 $.ajax({
                     url: "<?php echo site_url('admin/delete_anggota/'); ?>" + id,
