@@ -7,7 +7,7 @@ class Admin extends CI_Controller
     {
         parent::__construct();
 
-       	$this->load->library('QrCodeGenerator');
+        $this->load->library('QrCodeGenerator');
         $this->load->model('Buku_model');
 
         // Cek apakah pengguna sudah login dan memiliki role 'staff'
@@ -316,5 +316,4 @@ class Admin extends CI_Controller
             echo json_encode(array("status" => FALSE, "message" => "Gagal menghapus Denda"));
         }
     }
-
 }
