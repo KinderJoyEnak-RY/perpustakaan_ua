@@ -205,7 +205,7 @@
                             <i class="fas fa-tags"></i> Kategori
                         </button>
 						<button class="btn btn-danger mr-2" data-toggle="modal" data-target="#modalTambahDenda">
-                            <i class="fas fa-archive"></i> Dendaa
+                            <i class="fas fa-archive"></i> Denda
                         </button>
                         <button class="btn btn-primary" data-toggle="modal" data-target="#modalTambahBuku">
                             <i class="fas fa-plus"></i> Tambah Buku
@@ -343,7 +343,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Status</label>
-                                            <input type="text" class="form-control" name="status " required>
+                                            <input type="text" class="form-control" name="status" required>
 
                                         </div>
                                         <button type="button" onclick="tambahDenda()" class="btn btn-success">Simpan</button>
@@ -586,6 +586,7 @@
                     alert('Denda berhasil ditambahkan');
                     $('#modalTambahDenda').modal('hide');
                     location.reload();
+					console.log(data);
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     alert('Gagal menambahkan Denda');

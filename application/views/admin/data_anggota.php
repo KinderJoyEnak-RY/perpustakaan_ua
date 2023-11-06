@@ -288,7 +288,12 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Kelas</label>
-                                            <input type="text" class="form-control" name="kelas" id="kelas">
+                                            <select class="form-control" name="kelas" id="kelas">
+												<option>-Pilih Kelas-</option>
+        										<option value="X">X</option>
+        										<option value="XI">XI</option>
+       											<option value="XII">XII</option>
+    										</select>
                                         </div>
                                         <div class="form-group">
                                             <label>Username</label>
@@ -339,7 +344,12 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Kelas</label>
-                                            <input type="text" class="form-control" name="kelas_edit" id="kelas_edit" required>
+                                            <select class="form-control" name="kelas_edit" id="kelas_edit">
+												<option>-Pilih Kelas-</option>
+        										<option value="X">X</option>
+        										<option value="XI">XI</option>
+       											<option value="XII">XII</option>
+    										</select>
                                         </div>
 										<div class="form-group">
                                             <label>Username</label>

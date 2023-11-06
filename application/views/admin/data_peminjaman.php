@@ -204,8 +204,11 @@
                         <button class="btn btn-success mr-2" data-toggle="modal" data-target="#modalTambahKategori">
                             <i class="fas fa-tags"></i> Kategori
                         </button> -->
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#modalTambahAnggota">
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#modalTambahPinjam">
                             <i class="fas fa-plus"></i> Tambah Peminjaman
+                        </button> &nbsp;&nbsp;
+						<button class="btn btn-danger mr-2" data-toggle="modal" data-target="#modalTambahDenda">
+                            <i class="fas fa-archive"></i> Master Denda
                         </button>
                     </div>
                 </div>
@@ -269,54 +272,81 @@
                         </table>
                     </div>
 
-                    <!-- Modal Tambah Anggota -->
-                    <div class="modal fade" id="modalTambahAnggota" tabindex="-1" role="dialog" aria-labelledby="modalLabelTambahAnggota" aria-hidden="true">
+                    <!-- Modal Tambah Peminjaman -->
+                    <div class="modal fade" id="modalTambahPinjam" tabindex="-1" role="dialog" aria-labelledby="modalLabelTambahPinjam" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    <h5 class="mb-3" style="text-align: center;">Tambah Anggota Baru</h5>
-                                    <form id="formTambahAnggota" action="javascript:void(0)" method="post" enctype="multipart/form-data">
+                                    <h5 class="mb-3" style="text-align: center;">Tambah Peminjaman</h5>
+                                    <form id="formTambahPinjam" action="javascript:void(0)" method="post" enctype="multipart/form-data">
                                         <div class="form-group">
-                                            <label>Nama Lengkap</label>
-                                            <input type="text" class="form-control" name="nama" id="nama">
+                                            <label>ID PEMINJAMAN</label>
+                                            <input type="text" class="form-control" name="id_pinjam" id="id_pinjam" required>
                                         </div>
                                         <div class="form-group">
-                                            <label>NIS</label>
-                                            <input type="number" class="form-control" name="nis" id="nis">
+                                            <label>NIS PEMINJAM</label>
+                                            <input type="text" class="form-control" name="nis" id="nis" required>
                                         </div>
                                         <div class="form-group">
-                                            <label>Kelas</label>
-                                            <input type="text" class="form-control" name="kelas" id="kelas">
+                                            <label>BUKU</label>
+											<input type="hidden" class="form-control" name="id_buku" id="id_buku" required>
+                                            <input type="text" class="form-control" name="judul" id="judul" required>
+                                        </div>  
+                                        <div class="form-group">
+                                            <label>TANGGAL PEMINJAMAN</label>
+                                            <input type="date" class="form-control" name="tgl_pinjam" id="tgl_pinjam" required>
                                         </div>
                                         <div class="form-group">
-                                            <label>Username</label>
-                                            <input type="text" class="form-control" name="username" id="username">
+                                            <label>LAMA PEMINJAMAN</label>
+                                            <input type="number" class="form-control" name="lama_pinjam" id="lama_pinjam" value="2" readonly>
                                         </div>
                                         <div class="form-group">
-                                            <label>Password</label>
-                                            <input type="password" class="form-control" name="password" id="password">
+                                            <label>TANGGAL PENGEMBALIAN</label>
+                                            <input type="date" class="form-control" name="tgl_pengembalian" id="tgl_pengembalian">
                                         </div>
-                                        <div class="form-group">
-                                            <label>Email</label>
-                                            <input type="text" class="form-control" name="email" id="email">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Telefon</label>
-                                            <input type="number" class="form-control" name="telefon" id="telefon">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Role</label>
-                                            <select class="form-control" name="role" id="role">
-                                                <option value="staff">Staff</option>
-                                                <option value="anggota">Anggota</option>
-                                            </select>
-                                        </div>
-                                        <button type="button" onclick="tambahAnggota()" class="btn btn-primary">Simpan</button>
+                                        <button type="button" onclick="tambahPeminjaman()" class="btn btn-primary">Simpan</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
+					<!--Denda -->
+					<div class="modal fade small-modal" id="modalTambahDenda" tabindex="-1" role="dialog" aria-labelledby="modalLabelTambahDenda" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <h5 class="mb-3">Data Denda</h5>
+                                    <table class="table table-hover table-bordered small-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">Denda</th>
+                                                <th class="text-center">Status</th>
+                                                <th class="text-center">Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="listDenda">
+                                            <!-- Data Denda akan diisi di sini melalui JavaScript -->
+                                        </tbody>
+                                    </table>
+                                    <!-- Form Tambah Denda -->
+                                    <h5 class="mt-4 mb-3">Tambah Denda Baru</h5>
+                                    <form id="formTambahDenda" action="javascript:void(0)" method="post">
+                                        <div class="form-group">
+                                            <label>Denda</label>
+                                            <input type="text" class="form-control" name="harga_denda" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Status</label>
+                                            <input type="text" class="form-control" name="status" required>
+
+                                        </div>
+                                        <button type="button" onclick="tambahDenda()" class="btn btn-success">Simpan</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
 
                     <!-- Modal Edit Buku -->
                     <div class="modal fade" id="modalEditAnggota" tabindex="-1" role="dialog" aria-labelledby="modalLabelEditAnggota" aria-hidden="true">
@@ -423,8 +453,64 @@
         });
     </script>
     <script>
+		function tambahDenda() {
+            $.ajax({
+                url: "<?php echo site_url('admin/tambah_denda'); ?>",
+                type: "POST",
+                data: $('#formTambahDenda').serialize(),
+                success: function(data) {
+                    alert('Denda berhasil ditambahkan');
+                    $('#modalTambahDenda').modal('hide');
+                    location.reload();
+					console.log(data);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert('Gagal menambahkan Denda');
+                }
+            });
+        }
+		$('#modalTambahDenda').on('show.bs.modal', function(e) {
+            $.ajax({
+                url: "<?php echo site_url('admin/get_all_denda'); ?>",
+                type: "GET",
+                dataType: "JSON",
+                success: function(data) {
+                    var html = '';
+                    for (var i = 0; i < data.length; i++) {
+						var statusDenda = data[i].status == 1 ? "Aktif" : "Tidak Aktif";
+                        html += '<tr><td>' + data[i].harga_denda + '</td><td>' + statusDenda + '</td><td class="text-center"><a href="javascript:void(0)" onclick="deleteDenda(' + data[i].id + ')"><i class="fas fa-trash-alt text-danger"></i></a></td></tr>';
+                    }
+                    $('#listDenda').html(html);
+                }
+            });
+        });
+		function deleteDenda(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus denda ini?')) {
+                $.ajax({
+                    url: "<?php echo site_url('admin/delete_denda/'); ?>" + id,
+                    type: "POST",
+                    success: function(data) {
+                        alert('Denda berhasil dihapus');
+                        $('#modalTambahDenda').modal('hide');
+                        location.reload();
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert('Gagal menghapus Denda');
+                    }
+                });
+            }
+        }
+		// ini buat nyeting tanggalnya yo el tak buat max 2 hari
+    	var tglPinjamInput = document.getElementById("tgl_pinjam");
+    	var tglPengembalianInput = document.getElementById("tgl_pengembalian");
+    	var harinini = new Date();
+    	var formattedDate = harinini.toISOString().slice(0, 10);
+    	tglPinjamInput.value = formattedDate;
+    	harinini.setDate(harinini.getDate() + 2);
+    	formattedDate = harinini.toISOString().slice(0, 10);
+    	tglPengembalianInput.value = formattedDate;
 
-        function tambahAnggota() {
+        function tambahPeminjaman() {
 
 			var nama = document.getElementById("nama").value;
 			var nis = document.getElementById("nis").value;
@@ -464,20 +550,20 @@
        		 	return;
     		}
 
-            var formData = new FormData($('#formTambahAnggota')[0]);
+            var formData = new FormData($('#formTambahPinjam')[0]);
             $.ajax({
-                url: "<?php echo site_url('admin/tambah_anggota'); ?>",
+                url: "<?php echo site_url('admin/tambah_peminjaman'); ?>",
                 type: "POST",
                 data: formData,
                 contentType: false,
                 processData: false,
                 success: function(data) {
-                    popalert('Anggota berhasil ditambahkan');
-                    $('#modalTambahAnggota').modal('hide');
+                    alert('Peminjaman berhasil ditambahkan');
+                    $('#modalTambahPinjam').modal('hide');
                     location.reload();
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    popalert('Gagal menambahkan Anggota');
+                    alert('Gagal menambahkan Peminjaman');
                 }
             });
         }
