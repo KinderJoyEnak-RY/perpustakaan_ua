@@ -8,7 +8,7 @@
     <meta name="description" content="Admin Dashboard Perpustakaan">
     <meta name="author" content="PerpusUA">
     <title>SIMPUS UA : Dashboard</title>
-	<link rel="icon" type="image/png" href="<?php echo base_url('uploads/img/logo.png'); ?>" />
+    <link rel="icon" type="image/png" href="<?php echo base_url('uploads/img/logo.png'); ?>" />
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <!-- Font Awesome -->
@@ -635,6 +635,7 @@
                 }
             });
         });
+
         $('#modalTambahKategori').on('show.bs.modal', function(e) {
             $.ajax({
                 url: "<?php echo site_url('admin/get_all_kategori'); ?>",
@@ -693,6 +694,7 @@
                 });
             }
         }
+
         function deleteKategori(id) {
             if (confirm('Apakah Anda yakin ingin menghapus kategori ini?')) {
                 $.ajax({

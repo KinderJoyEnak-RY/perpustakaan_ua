@@ -84,6 +84,57 @@
         #btnTop:hover {
             background-color: #555;
         }
+
+        /* Pastikan semua card memiliki ukuran yang sama */
+        .card {
+            width: 230px;
+            /* Atur lebar card */
+            height: 540px;
+            /* Atur tinggi card */
+            margin: 0 auto;
+            /* Tambahkan margin auto untuk centering jika diperlukan */
+        }
+
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+            /* Gambar akan menutupi seluruh area yang ditentukan */
+        }
+
+        .card-title {
+            font-size: 0.8em;
+            /* Atur ukuran font judul buku lebih kecil */
+        }
+
+        /* Tambahkan kelas baru untuk mengontrol gambar sampul buku */
+        .card-img-cover {
+            width: 100%;
+            /* Lebar gambar akan mengikuti lebar card */
+            height: 300px;
+            /* Atur tinggi gambar */
+            object-fit: cover;
+            /* Gambar akan dipaksa menutupi area yang ditentukan */
+        }
+
+        /* Tambahkan ini untuk memperbaiki tampilan pada ukuran layar yang lebih kecil */
+        @media (max-width: 768px) {
+            .card {
+                width: 150px;
+                /* Lebar card lebih kecil untuk layar yang lebih kecil */
+                height: 300px;
+                /* Tinggi card lebih kecil untuk layar yang lebih kecil */
+            }
+
+            .card-img-cover {
+                height: 150px;
+                /* Tinggi gambar lebih kecil untuk layar yang lebih kecil */
+            }
+
+            .card-title {
+                font-size: 0.7em;
+                /* Ukuran font judul lebih kecil untuk layar yang lebih kecil */
+            }
+        }
     </style>
 </head>
 
@@ -182,41 +233,15 @@
                 <h3 class="text-center mb-4">Koleksi Buku</h3>
                 <div class="row overflow-auto" style="white-space: nowrap; flex-wrap: nowrap;">
                     <?php foreach ($buku as $bk) : ?>
-                        <div class="col-md-3 mb-4 d-flex align-items-stretch" style="display: inline-block;"> <!-- Added inline-block -->
+                        <div class="col-md-3 mb-4 d-flex align-items-stretch" style="display: inline-block;">
                             <div class="card">
-                                <img src="<?php echo base_url('uploads/' . $bk['sampul']); ?>" alt="Sampul" class="card-img-top">
-                                <div class="card-body d-flex flex-column">
-                                    <h5 class="card-title">
-                                        <?php echo $bk['judul']; ?>
-                                        <span data-toggle="modal" data-target="#detailBuku<?php echo $bk['id']; ?>" class="info-icon">&#9432;</span> <!-- Ikon Info -->
+                                <img src="<?php echo base_url('uploads/' . $bk['sampul']); ?>" alt="Sampul" class="card-img-top card-img-cover">
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <h5 class="card-title text-center">
+                                        <b><?php echo $bk['judul']; ?></b>
                                     </h5>
-                                </div>
-                            </div>
-
-                            <!-- Modal Detail Buku -->
-                            <div class="modal fade" id="detailBuku<?php echo $bk['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="detailBukuLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="detailBukuLabel">Detail Buku</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <strong>Judul:</strong> <?php echo $bk['judul']; ?><br>
-                                            <strong>Tahun:</strong> <?php echo $bk['tahun_buku']; ?><br>
-                                            <strong>ISBN:</strong> <?php echo $bk['nomor_isbn']; ?><br>
-                                            <strong>Pengarang:</strong> <?php echo $bk['pengarang']; ?><br>
-                                            <strong>Penerbit:</strong> <?php echo $bk['penerbit']; ?><br>
-                                            <strong>Rak:</strong> <?php echo $bk['nama_rak']; ?><br>
-                                            <strong>Kategori:</strong> <?php echo $bk['nama_kategori']; ?><br>
-                                            <strong>Stok:</strong> <?php echo $bk['stok_buku']; ?>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                        </div>
-                                    </div>
+                                    <!-- Tempat QR Code -->
+                                    <img src="<?php echo base_url('uploads/qrcodes/' . $bk['qr_code']); ?>" alt="QR Code" class="qr-code-img">
                                 </div>
                             </div>
                         </div>
@@ -343,27 +368,9 @@
 
                 smoothScroll(row, scrollingForward ? 1 : -1, 10); // Jika scrollingForward true, arah 1 (kanan), jika false, arah -1 (kiri)
             }, 100);
-
-            // Menghentikan scroll otomatis saat modal dibuka
-            let modals = document.querySelectorAll('.modal');
-            modals.forEach(function(modal) {
-                modal.addEventListener('shown.bs.modal', function() {
-                    clearInterval(autoScroll);
-                });
-                modal.addEventListener('hidden.bs.modal', function() {
-                    autoScroll = setInterval(function() {
-                        if (scrollingForward && row.scrollLeft >= (row.scrollWidth - row.clientWidth)) {
-                            scrollingForward = false;
-                        } else if (!scrollingForward && row.scrollLeft <= 0) {
-                            scrollingForward = true;
-                        }
-
-                        smoothScroll(row, scrollingForward ? 1 : -1, 10);
-                    }, 100);
-                });
-            });
         });
     </script>
+
 
 </body>
 
