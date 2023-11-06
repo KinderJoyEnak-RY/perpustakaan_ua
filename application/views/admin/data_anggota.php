@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css">
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>  
 </head>
 <style>
     .small-table {
@@ -41,6 +42,10 @@
 
     .small-modal .form-control {
         font-size: 0.8rem;
+    }
+
+	.capitalize-input {
+        text-transform: capitalize;
     }
 
     #modalImage {
@@ -221,6 +226,7 @@
                             <thead>
                                 <tr>
                                     <th width="2%" class="text-center">No</th>
+                                    <th width="2%" class="text-center">Profil</th>
                                     <th width="10%" class="text-center">Nama</th>
                                     <th width="10%" class="text-center">Kelas</th>
                                     <th width="10%" class="text-center">NIS</th>
@@ -238,6 +244,9 @@
 								
                                     <tr>
                                         <td width="2%" class="text-center"><?php echo $no++; ?></td>
+										<td>
+                                            <img src="<?php echo base_url('uploads/profil_anggota/' . $user['profil']); ?>" width="40" alt="Profil" class="img-thumbnail" data-toggle="modal" data-target="#imageModal" data-image="<?php echo base_url('uploads/profil_anggota/' . $user['profil']); ?>">
+                                        </td>
                                         <td width="10%"><?php echo $user['nama']; ?></td>
                                         <td width="10%"><?php echo $user['kelas']; ?></td>
                                         <td width="10%"><?php echo $user['nis']; ?></td>
@@ -245,9 +254,7 @@
                                         <td width="10%" ><?php echo $user['email']; ?></td>
                                         <td width="10%"><?php echo $user['role']; ?></td>
                                         <td width="10%" >
-									<center><img style="width:100px;" src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl= Data Anggota Perpus <?= 'Nama : ' . $user['nama'] . ' NIS : ' . $user['nis'] . ' Kelas : ' .$user['kelas']; ?> &choe=UTF-8" title="QR" /></center>
-
-
+                                            <img src="<?php echo base_url('uploads/qrcodes/qranggota/' . $user['qr_code']); ?>" width="40" alt="QR Code" class="img-thumbnail qr-code-thumbnail" data-toggle="modal" data-target="#imageModal" data-image="<?php echo base_url('uploads/qrcodes/qranggota/' . $user['qr_code']); ?>">
 										</td>
                                         <td width="10%" class="text-center">
 											<!-- <button class="btn btn-primary" onclick="openWindow('<?= base_url('admin/detail_anggota/' . $user['id']); ?>')">
@@ -278,9 +285,13 @@
                                 <div class="modal-body">
                                     <h5 class="mb-3" style="text-align: center;">Tambah Anggota Baru</h5>
                                     <form id="formTambahAnggota" action="javascript:void(0)" method="post" enctype="multipart/form-data">
+										<div class="form-group">
+                                            <label>Foto Profil</label>
+                                            <input type="file" class="form-control" name="profil" id="profil">
+                                        </div>
                                         <div class="form-group">
                                             <label>Nama Lengkap</label>
-                                            <input type="text" class="form-control" name="nama" id="nama">
+                                            <input type="text" class="form-control capitalize-input" name="nama" id="nama">
                                         </div>
                                         <div class="form-group">
                                             <label>NIS</label>
@@ -290,9 +301,9 @@
                                             <label>Kelas</label>
                                             <select class="form-control" name="kelas" id="kelas">
 												<option>-Pilih Kelas-</option>
-        										<option value="X">X</option>
-        										<option value="XI">XI</option>
-       											<option value="XII">XII</option>
+        										<option value="VII">VII</option>
+        										<option value="VIII">VIII</option>
+       											<option value="IX">IX</option>
     										</select>
                                         </div>
                                         <div class="form-group">
@@ -333,10 +344,13 @@
                                     <h5 class="mb-3" style="text-align: center;">Edit Anggota</h5>
                                     <form id="formEditAnggota" action="javascript:void(0)" method="post" enctype="multipart/form-data">
                                         <input type="hidden" name="id" id="id">
-
+										<div class="form-group">
+                                            <label>Foto Profil</label>
+                                            <input type="file" class="form-control" name="profil_edit" id="profil_edit">
+                                        </div>
                                         <div class="form-group">
                                             <label>Nama</label>
-                                            <input type="text" class="form-control" name="nama_edit" id="nama_edit" required>
+                                            <input type="text" class="form-control capitalize-input" name="nama_edit" id="nama_edit" required>
                                         </div>
 										<div class="form-group">
                                             <label>NIS</label>
@@ -345,6 +359,7 @@
                                         <div class="form-group">
                                             <label>Kelas</label>
                                             <select class="form-control" name="kelas_edit" id="kelas_edit">
+												<!-- Kalo kelasnya mau ditambah lewat sini yo el -->
 												<option>-Pilih Kelas-</option>
         										<option value="X">X</option>
         										<option value="XI">XI</option>
@@ -369,7 +384,10 @@
                                         </div>
 										<div class="form-group">
                                             <label>Role</label>
-                                            <input type="text" class="form-control" name="role_edit" id="role_edit" readonly>
+                                            <select class="form-control" name="role_edit" id="role_edit">
+												<option value="Staff">Staff</option>
+												<option value="Anggota">Anggota</option>
+											</select>
                                         </div>
                                         <button type="button" onclick="updateAnggota()" class="btn btn-primary">Update</button>
                                     </form>
@@ -414,6 +432,10 @@
                                             <label>Role</label>
                                             <input type="text" class="form-control" name="role_lihat" id="role_lihat" readonly>
                                         </div>
+										<div class="form-group">
+                                            <label>Barcode Anggota</label>
+									<center><img style="width:200px;" src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl= Data Anggota Perpus <?= 'Nama : ' . $user['nama'] . ' NIS : ' . $user['nis'] . ' Kelas : ' .$user['kelas']; ?> &choe=UTF-8" title="QR" /></center>
+                                        </div>
                                         <!-- <button type="button" onclick="updateAnggota()" class="btn btn-primary">Update</button> -->
                                     </form>
                                 </div>
@@ -427,7 +449,7 @@
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    <img id="modalImage" src="" alt="Sampul Buku" class="img-fluid">
+                                    <img id="modalImage" src="" alt="Foto Profil" class="img-fluid">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
@@ -477,87 +499,85 @@
             var modal = $(this);
             modal.find('#modalImage').attr('src', imageUrl);
         });
+		$('.qr-code-thumbnail').on('click', function() {
+            var imageUrl = $(this).data('image');
+            $('#imageModal').find('#modalImage').attr('src', imageUrl);
+            $('#imageModal').modal('show');
+        });
     </script>
     <script>
 
 		function openWindow(url) {
    			 window.open(url, '_blank', 'width=600,height=600');
 		}
+		
+		function tambahAnggota() {
+			var formData = new FormData($('#formTambahAnggota')[0]);
+			$.ajax({
+				url: "<?php echo site_url('admin/tambah_anggota'); ?>",
+				type: "POST",
+				data: formData,
+				contentType: false,
+				processData: false,
+				success: function(data) {
+					Swal.fire({
+						icon: 'success',
+						title: 'Sukses',
+						text: 'Anggota berhasil ditambahkan!'
+					}).then(function() {
+						$('#modalTambahAnggota').modal('hide');
+						location.reload();
+					});
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					Swal.fire({
+						icon: 'error',
+						title: 'Error',
+						text: 'Gagal menambahkan Anggota'
+					});
+				}
+			});
+		}
 
-        function tambahAnggota() {
-
-			var nama = document.getElementById("nama").value;
-			var nis = document.getElementById("nis").value;
-			var kelas = document.getElementById("kelas").value;
-			var username = document.getElementById("username").value;
-			var password = document.getElementById("password").value;
-			var email = document.getElementById("email").value;
-			var telefon = document.getElementById("telefon").value;
-			var role = document.getElementById("role").value;
-
-
-    		if (nama === "") {
-        		alert("Nama Lengkap harus diisi!");
-       		 	return;
-    		}
-			if (nis === "") {
-        		alert("Nis harus diisi!");
-       		 	return;
-    		}
-			if (kelas === "") {
-        		alert("Kelas harus diisi!");
-       		 	return;
-    		}if (username === "") {
-        		alert("Uername harus diisi!");
-       		 	return;
-    		}if (password === "") {
-        		alert("Password harus diisi!");
-       		 	return;
-    		}if (email === "") {
-        		alert("Enail harus diisi!");
-       		 	return;
-    		}if (telefon === "") {
-        		alert("Nomor Telefon harus diisi!");
-       		 	return;
-    		}if (role === "") {
-        		alert("Role harus dipilih!");
-       		 	return;
-    		}
-
-            var formData = new FormData($('#formTambahAnggota')[0]);
-            $.ajax({
-                url: "<?php echo site_url('admin/tambah_anggota'); ?>",
-                type: "POST",
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(data) {
-                    alert('Anggota berhasil ditambahkan');
-                    $('#modalTambahAnggota').modal('hide');
-                    location.reload();
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert('Gagal menambahkan Anggota');
-                }
-            });
-        }
 
 
         function deleteAnggota(id) {
-            if (confirm('Apakah Anda yakin ingin menghapus Anggota ini?')) {
-                $.ajax({
-                    url: "<?php echo site_url('admin/delete_anggota/'); ?>" + id,
-                    type: "POST",
-                    success: function(data) {
-                        alert('Anggota berhasil dihapus');
-						location.reload();
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        alert('Gagal menghapus Anggota');
-                    }
-                });
-            }
-        }
+			Swal.fire({
+				title: 'Apakah Anda yakin ingin menghapus Anggota ini?',
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Ya, hapus!',
+				cancelButtonText: 'Batal'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					$.ajax({
+						url: "<?php echo site_url('admin/delete_anggota/'); ?>" + id,
+						type: "POST",
+						success: function(data) {
+							Swal.fire({
+								title: 'Sukses',
+								text: 'Anggota berhasil dihapus!',
+								icon: 'success',
+								showConfirmButton: false,
+								timer: 1500
+							}).then(() => {
+								location.reload();
+							});
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+							Swal.fire({
+								title: 'Error',
+								text: 'Gagal menghapus Anggota',
+								icon: 'error'
+							});
+						}
+					});
+				}
+			});
+		}
+
 
         function editAnggota(id) {
             $.ajax({
@@ -601,24 +621,35 @@
         }
 
         function updateAnggota() {
-            var formData = new FormData($('#formEditAnggota')[0]);
-            $.ajax({
-                url: "<?php echo site_url('admin/update_anggota'); ?>",
-                type: "POST",
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(data) {
-                    alert('Data anggota berhasil diperbarui');
-					// console.log(data);
-                    $('#modalEditAnggota').modal('hide');
-                    location.reload();
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert('Gagal memperbarui Anggota');
-                }
-            });
-        }
+			var formData = new FormData($('#formEditAnggota')[0]);
+			$.ajax({
+				url: "<?php echo site_url('admin/update_anggota'); ?>",
+				type: "POST",
+				data: formData,
+				contentType: false,
+				processData: false,
+				success: function(data) {
+					Swal.fire({
+						icon: 'success',
+						title: 'Sukses',
+						text: 'Data anggota berhasil diperbarui!',
+						showConfirmButton: false,
+						timer: 1500,
+					}).then(function () {
+						$('#modalEditAnggota').modal('hide');
+						location.reload();
+					});
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					Swal.fire({
+						icon: 'error',
+						title: 'Warning!',
+						text: 'Gagal memperbarui Anggota',
+					});
+				}
+			});
+		}
+
     </script>
 
 </body>

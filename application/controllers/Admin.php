@@ -27,6 +27,13 @@ class Admin extends CI_Controller
 
     }
 
+	public function getNisList() {
+		$this->load->model('Anggota_model');
+
+        $nis_data = $this->Anggota_model->getNisList();
+        echo json_encode($nis_data);
+    }
+
     public function data_buku()
     {
         $this->load->model('Buku_model');
@@ -55,7 +62,7 @@ class Admin extends CI_Controller
             echo json_encode(array("status" => FALSE, "message" => validation_errors()));
         } else {
             // Jika validasi berhasil, lakukan proses upload dan penyimpanan data
-            $config['upload_path'] = './uploads/';
+            $config['upload_path'] = './uploads/sampul/';
             $config['allowed_types'] = 'gif|jpg|jpeg|png';
             $config['max_size'] = 2048; // 2MB
 
@@ -100,7 +107,7 @@ class Admin extends CI_Controller
 
                 // Setelah data buku berhasil disimpan dan kita mendapatkan id_buku
                 $qrCodeFileName = uniqid() . '.png';
-                $qrFilePath = './uploads/qrcodes/' . $qrCodeFileName;
+                $qrFilePath = './uploads/qrcodes/qrbuku/' . $qrCodeFileName;
 
                 // Gunakan library QrCodeGenerator untuk menggenerate QR Code dengan detail buku
                 $this->qrcodegenerator->generate($detailBuku, $qrFilePath);
@@ -109,7 +116,7 @@ class Admin extends CI_Controller
                 $this->db->where('id', $id_buku);
                 $this->db->update('buku', array('qr_code' => $qrCodeFileName));
 
-                $this->session->set_flashdata('success', 'Buku berhasil ditambahkan');
+                // $this->session->set_flashdata('success', 'Buku berhasil ditambahkan');
                 echo json_encode(array("status" => TRUE));
             }
         }
@@ -125,7 +132,7 @@ class Admin extends CI_Controller
     {
         $id = $this->input->post('id'); // Ambil ID buku dari form
 
-        $config['upload_path'] = './uploads/';
+        $config['upload_path'] = './uploads/sampul/';
         $config['allowed_types'] = 'gif|jpg|jpeg|png';
         $config['max_size'] = 2048; // 2MB
 
@@ -223,6 +230,76 @@ class Admin extends CI_Controller
         }
     }
 
+
+	public function tambah_anggota()
+	{
+		$this->load->library('form_validation');
+
+        // Atur aturan validasi
+        $this->form_validation->set_rules('nama', 'Nama', 'required');
+        $this->form_validation->set_rules('nis', 'Nis', 'required');
+        $this->form_validation->set_rules('kelas', 'Kelas', 'required');
+        $this->form_validation->set_rules('username', 'Username', 'required');
+        $this->form_validation->set_rules('password', 'Paswword', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required');
+        $this->form_validation->set_rules('telefon', 'telefon', 'required');
+
+        // Cek validasi
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('error', validation_errors());
+            echo json_encode(array("status" => FALSE, "message" => validation_errors()));
+        } else {
+            // Jika validasi berhasil, lakukan proses upload dan penyimpanan data
+            $config['upload_path'] = './uploads/profil_anggota/';
+            $config['allowed_types'] = 'gif|jpg|jpeg|png';
+            $config['max_size'] = 2048; // 2MB
+
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('profil')) {
+                $this->session->set_flashdata('error', $this->upload->display_errors());
+                echo json_encode(array("status" => FALSE, "message" => $this->upload->display_errors()));
+            } else {
+                $upload_data = $this->upload->data();
+                $data = array(
+                    'profil' => $upload_data['file_name'],
+                    'nama' => $this->input->post('nama'),
+                    'nis' => $this->input->post('nis'),
+                    'kelas' => $this->input->post('kelas'),
+                    'username' => $this->input->post('username'),
+                    'password' => $this->input->post('password'),
+                    'email' => $this->input->post('email'),
+                    'telefon' => $this->input->post('telefon'),
+                );
+
+                $this->db->insert('users', $data);
+                $id_user = $this->db->insert_id(); // Mendapatkan ID buku yang baru saja disimpan
+
+                // Membuat detail buku dengan nama rak dan nama kategori
+                $detailUser = sprintf(
+                    "Nama : %s\nNis: %s\nKelas:%d",
+                    $this->input->post('nama'),
+                    $this->input->post('nis'),
+                    $this->input->post('kelas')
+				);
+
+                // Setelah data buku berhasil disimpan dan kita mendapatkan id_buku
+                $qrCodeFileName = uniqid() . '.png';
+                $qrFilePath = './uploads/qrcodes/qranggota/' . $qrCodeFileName;
+
+                // Gunakan library QrCodeGenerator untuk menggenerate QR Code dengan detail buku
+                $this->qrcodegenerator->generate($detailUser, $qrFilePath);
+
+                // Simpan hanya nama file QR code ke database (tanpa path)
+                $this->db->where('id', $id_user);
+                $this->db->update('users', array('qr_code' => $qrCodeFileName));
+
+                // $this->session->set_flashdata('success', 'Anggota berhasil ditambahkan');
+                echo json_encode(array("status" => TRUE));
+            }
+        }
+	}
+
     public function data_anggota()
     {
         $this->load->model('Anggota_model');
@@ -237,29 +314,28 @@ class Admin extends CI_Controller
         echo json_encode($data);
     }
 
-    public function tambah_anggota()
-    {
-        $data = array(
-            // '' => $upload_data['file_name'],
-            'nama' => $this->input->post('nama'),
-            'nis' => $this->input->post('nis'),
-            'kelas' => $this->input->post('kelas'),
-            'username' => $this->input->post('username'),
-            // 'password' => $this->input->post('password'),
-            'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
-            'email' => $this->input->post('email'),
-            'telefon' => $this->input->post('telefon'),
-            'role' => $this->input->post('role')
-        );
 
-        $this->db->insert('users', $data);
-        echo json_encode(array("status" => TRUE));
-    }
+	
 
     public function update_anggota()
-    {
-        $id = $this->input->post('id');
+    {	
+		$id = $this->input->post('id');
 
+        $config['upload_path'] = './uploads/profil_anggota/';
+        $config['allowed_types'] = 'gif|jpg|jpeg|png';
+        $config['max_size'] = 2048; // 2MB
+
+        $this->load->library('upload', $config);
+
+        if (!empty($_FILES['profil_edit']['name'])) {
+            if (!$this->upload->do_upload('profil_edit')) {
+                echo json_encode(array("status" => FALSE, "message" => $this->upload->display_errors()));
+                return;
+            } else {
+                $upload_data = $this->upload->data();
+                $data['profil'] = $upload_data['file_name'];
+            }
+        }
 
         $data['nis'] = $this->input->post('nis_edit');
         $data['nama'] = $this->input->post('nama_edit');
@@ -268,7 +344,7 @@ class Admin extends CI_Controller
         $data['email'] = $this->input->post('email_edit');
         $data['username'] = $this->input->post('username_edit');
         $data['password'] = $this->input->post('password_edit');
-        // $data['role'] = $this->input->post('role_edit');	
+        $data['role'] = $this->input->post('role_edit');
 
         $this->db->where('id', $id);
         $this->db->update('users', $data);

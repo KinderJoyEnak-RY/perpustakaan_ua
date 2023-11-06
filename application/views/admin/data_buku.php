@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css">
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <style>
     .small-table {
@@ -43,6 +45,9 @@
         font-size: 0.8rem;
     }
 
+	.capitalize-input {
+        text-transform: capitalize;
+    }
     #modalImage {
         max-width: 100%;
         height: auto;
@@ -240,7 +245,7 @@
                                     <th class="text-center">Rak</th>
                                     <th class="text-center">Kategori</th>
                                     <th class="text-center">Stok Buku</th>
-                                    <th class="text-center">QR Code</th>
+                                    <th class="text-center">Barcode</th>
                                     <th class="text-center">aksi</th>
                                 </tr>
                             </thead>
@@ -250,18 +255,18 @@
                                     <tr>
                                         <td><?php echo $no++; ?></td>
                                         <td>
-                                            <img src="<?php echo base_url('uploads/' . $bk['sampul']); ?>" width="40" alt="Sampul" class="img-thumbnail" data-toggle="modal" data-target="#imageModal" data-image="<?php echo base_url('uploads/' . $bk['sampul']); ?>">
+                                            <img src="<?php echo base_url('uploads/sampul/' . $bk['sampul']); ?>" width="40" alt="Sampul" class="img-thumbnail" data-toggle="modal" data-target="#imageModal" data-image="<?php echo base_url('uploads/sampul/' . $bk['sampul']); ?>">
                                         </td>
-                                        <td><?php echo $bk['judul']; ?></td>
+                                        <td class="capitalize-input"><?php echo $bk['judul']; ?></td>
                                         <td><?php echo $bk['tahun_buku']; ?></td>
                                         <td><?php echo $bk['nomor_isbn']; ?></td>
-                                        <td><?php echo $bk['pengarang']; ?></td>
-                                        <td><?php echo $bk['penerbit']; ?></td>
+                                        <td capitalize-input><?php echo $bk['pengarang']; ?></td>
+                                        <td capitalize-input><?php echo $bk['penerbit']; ?></td>
                                         <td><?php echo $bk['nama_rak']; ?></td>
                                         <td><?php echo $bk['nama_kategori']; ?></td>
                                         <td><?php echo $bk['stok_buku']; ?></td>
                                         <td>
-                                            <img src="<?php echo base_url('uploads/qrcodes/' . $bk['qr_code']); ?>" width="40" alt="QR Code" class="img-thumbnail qr-code-thumbnail" data-toggle="modal" data-target="#imageModal" data-image="<?php echo base_url('uploads/qrcodes/' . $bk['qr_code']); ?>">
+                                            <img src="<?php echo base_url('uploads/qrcodes/qrbuku/' . $bk['qr_code']); ?>" width="40" alt="QR Code" class="img-thumbnail qr-code-thumbnail" data-toggle="modal" data-target="#imageModal" data-image="<?php echo base_url('uploads/qrcodes/qrbuku/' . $bk['qr_code']); ?>">
                                         </td>
                                         <td class="text-center">
                                             <a href="javascript:void(0)" onclick="editBuku(<?php echo $bk['id']; ?>)" title="Edit">
@@ -301,11 +306,11 @@
                                     <form id="formTambahRak" action="javascript:void(0)" method="post">
                                         <div class="form-group">
                                             <label>Rak</label>
-                                            <input type="text" class="form-control" name="nama_rak" required>
+                                            <input type="text" class="form-control capitalize-input" name="nama_rak" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Deskripsi</label>
-                                            <textarea class="form-control" name="deskripsi"></textarea>
+                                            <textarea class="form-control capitalize-input" name="deskripsi"></textarea>
                                         </div>
                                         <button type="button" onclick="tambahRak()" class="btn btn-primary">Simpan</button>
                                     </form>
@@ -337,11 +342,11 @@
                                     <form id="formTambahKategori" action="javascript:void(0)" method="post">
                                         <div class="form-group">
                                             <label>Kategori</label>
-                                            <input type="text" class="form-control" name="nama_kategori" required>
+                                            <input type="text" class="form-control capitalize-input" name="nama_kategori" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Deskripsi</label>
-                                            <textarea class="form-control" name="deskripsi"></textarea>
+                                            <textarea class="form-control capitalize-input" name="deskripsi"></textarea>
                                         </div>
                                         <button type="button" onclick="tambahKategori()" class="btn btn-success">Simpan</button>
                                     </form>
@@ -363,7 +368,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Judul</label>
-                                            <input type="text" class="form-control" name="judul" id="judul">
+                                            <input type="text" class="form-control capitalize-input" name="judul" id="judul">
                                         </div>
                                         <div class="form-group">
                                             <label>Tahun</label>
@@ -375,11 +380,11 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Pengarang</label>
-                                            <input type="text" class="form-control" name="pengarang" id="pengarang">
+                                            <input type="text" class="form-control capitalize-input" name="pengarang" id="pengarang">
                                         </div>
                                         <div class="form-group">
                                             <label>Penerbit</label>
-                                            <input type="text" class="form-control" name="penerbit" id="penerbit">
+                                            <input type="text" class="form-control capitalize-input" name="penerbit" id="penerbit">
                                         </div>
                                         <div class="form-group">
                                             <label>Rak</label>
@@ -419,7 +424,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Judul</label>
-                                            <input type="text" class="form-control" name="judul_edit" id="judul_edit" required>
+                                            <input type="text" class="form-control capitalize-input" name="judul_edit" id="judul_edit" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Tahun</label>
@@ -431,11 +436,11 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Pengarang</label>
-                                            <input type="text" class="form-control" name="pengarang_edit" id="pengarang_edit" required>
+                                            <input type="text" class="form-control capitalize-input" name="pengarang_edit" id="pengarang_edit" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Penerbit</label>
-                                            <input type="text" class="form-control" name="penerbit_edit" id="penerbit_edit" required>
+                                            <input type="text" class="form-control capitalize-input" name="penerbit_edit" id="penerbit_edit" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Rak</label>
@@ -502,6 +507,10 @@
     <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/jssweetalert2/sweetalert2.min.css'); ?>">
+	<script type="text/javascript" src="<?php echo base_url('assets/js/sweetalert2/sweetalert2.all.min.js'); ?>"></script>
+
+
     <script>
         $(document).ready(function() {
             $('.table').DataTable({
@@ -523,103 +532,113 @@
     </script>
     <script>
         function tambahRak() {
-            $.ajax({
-                url: "<?php echo site_url('admin/tambah_rak'); ?>",
-                type: "POST",
-                data: $('#formTambahRak').serialize(),
-                success: function(data) {
-                    alert('Rak berhasil ditambahkan');
-                    $('#modalTambahRak').modal('hide');
-                    location.reload();
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert('Gagal menambahkan rak');
-                }
-            });
-        }
+			$.ajax({
+				url: "<?php echo site_url('admin/tambah_rak'); ?>",
+				type: "POST",
+				data: $('#formTambahRak').serialize(),
+				success: function(data) {
+					Swal.fire({
+						icon: 'success',
+						title: 'Sukses',
+						text: 'Rak berhasil ditambahkan!',
+						showConfirmButton: false,
+						timer: 1500,
+						didClose: function() {
+							$('#modalTambahRak').modal('hide');
+							setTimeout(function() {
+								
+							}, 1000);
+							location.reload();
+						}
+					});
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					Swal.fire({
+						icon: 'error',
+						title: 'Warning!',
+						text: 'Gagal menambahkan rak: ' + textStatus
+					});
+				}
+			});
+		}
+
 
         function tambahKategori() {
-            $.ajax({
-                url: "<?php echo site_url('admin/tambah_kategori'); ?>",
-                type: "POST",
-                data: $('#formTambahKategori').serialize(),
-                success: function(data) {
-                    alert('Kategori berhasil ditambahkan');
-                    $('#modalTambahKategori').modal('hide');
-                    location.reload();
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert('Gagal menambahkan kategori');
-                }
-            });
-        }
+			$.ajax({
+				url: "<?php echo site_url('admin/tambah_kategori'); ?>",
+				type: "POST",
+				data: $('#formTambahKategori').serialize(),
+				success: function(data) {
+					Swal.fire({
+						icon: 'success',
+						title: 'Sukses',
+						text: 'Kategori berhasil ditambahkan!',
+						showConfirmButton: false,
+						timer: 1500,
+						didClose: function() {
+							$('#modalTambahKategori').modal('hide');
+							setTimeout(function() {
+								
+							}, 1000);
+							location.reload();
+						}
+					});
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					Swal.fire({
+						icon: 'error',
+						title: 'Warning!',
+						text: 'Gagal menambahkan kategori'
+					});
+				}
+			});
+		}
+
 
         function tambahBuku() {
-            var judul = $("#judul").val();
-            var tahunBuku = $("#tahun_buku").val();
-            var nomorIsbn = $("#nomor_isbn").val();
-            var pengarang = $("#pengarang").val();
-            var penerbit = $("#penerbit").val();
-            var stokBuku = $("#stok_buku").val();
-            var rak = $("#rak").val();
-            var kategori = $("#kategori").val();
+    		var formData = new FormData($('#formTambahBuku')[0]);
+    		$.ajax({
+        		url: "<?php echo site_url('admin/tambah_buku'); ?>",
+        		type: "POST",
+        		data: formData,
+        		contentType: false,
+        		processData: false,
+        		success: function(response) {
+            		response = JSON.parse(response);
+            		if (response.status) {
+                		Swal.fire({
+                    		icon: 'success',
+                    		title: 'Sukses',
+                    		text: 'Buku berhasil ditambahkan!',
+                    		showConfirmButton: false,
+                    		timer: 1500,
+                    		didClose: function() {
+                        		$('#modalTambahBuku').modal('hide');
+                        		setTimeout(function() {
+                           	 	
+                        	}, 1000);
+							location.reload();
+                    	}
+                	});
+            		} else {
+                		Swal.fire({
+                    		icon: 'error',
+                    		title: 'Warning!',
+                    		text: response.message
+                		});
+            		}
+        		},
+        		error: function(jqXHR, textStatus, errorThrown) {
+            		Swal.fire({
+                		icon: 'error',
+                		title: 'Warning!',
+                		text: 'Gagal menambahkan buku: ' + textStatus
+            		});
+        		}
+    		});
+		}
 
-            // Validasi sisi klien
-            if (!judul) {
-                alert("Judul buku harus diisi!");
-                return;
-            }
-            if (tahunBuku === "") {
-                alert("Tahun Buku harus diisi!");
-                return;
-            }
-            if (nomorIsbn === "") {
-                alert("ISBN harus diisi!");
-                return;
-            }
-            if (pengarang === "") {
-                alert("Pengarang harus diisi!");
-                return;
-            }
-            if (penerbit === "") {
-                alert("Penerbit harus diisi!");
-                return;
-            }
-            if (stokBuku === "") {
-                alert("Stok harus diisi!");
-                return;
-            }
-            if (rak === "") {
-                alert("Rak Telefon harus dipilih!");
-                return;
-            }
-            if (kategori === "") {
-                alert("Kategori harus dipilih!");
-                return;
-            }
 
-            var formData = new FormData($('#formTambahBuku')[0]);
-            $.ajax({
-                url: "<?php echo site_url('admin/tambah_buku'); ?>",
-                type: "POST",
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    response = JSON.parse(response);
-                    if (response.status) {
-                        alert('Buku berhasil ditambahkan');
-                        $('#modalTambahBuku').modal('hide');
-                        location.reload();
-                    } else {
-                        alert(response.message); // Tampilkan pesan error dari server
-                    }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert('Gagal menambahkan buku: ' + textStatus);
-                }
-            });
-        }
 
         $('#modalTambahRak').on('show.bs.modal', function(e) {
             $.ajax({
@@ -679,54 +698,120 @@
         });
 
         function deleteRak(id) {
-            if (confirm('Apakah Anda yakin ingin menghapus rak ini?')) {
-                $.ajax({
-                    url: "<?php echo site_url('admin/delete_rak/'); ?>" + id,
-                    type: "POST",
-                    success: function(data) {
-                        alert('Rak berhasil dihapus');
-                        $('#modalTambahRak').modal('hide');
-                        location.reload();
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        alert('Gagal menghapus rak');
-                    }
-                });
-            }
-        }
+			Swal.fire({
+				title: 'Konfirmasi',
+				text: 'Apakah Anda yakin ingin menghapus rak ini?',
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Ya',
+				cancelButtonText: 'Tidak'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					$.ajax({
+						url: "<?php echo site_url('admin/delete_rak/'); ?>" + id,
+						type: "POST",
+						success: function(data) {
+							Swal.fire({
+								icon: 'success',
+								title: 'Sukses',
+								text: 'Rak berhasil dihapus',
+								showConfirmButton: false,
+								timer: 1500,
+								didClose: () => {
+									$('#modalTambahRak').modal('hide');
+									location.reload();
+								}
+							});
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+							Swal.fire({
+								icon: 'error',
+								title: 'Warning!',
+								text: 'Gagal menghapus rak: ' + textStatus
+							});
+						}
+					});
+				}
+			});
+		}
+
 
         function deleteKategori(id) {
-            if (confirm('Apakah Anda yakin ingin menghapus kategori ini?')) {
-                $.ajax({
-                    url: "<?php echo site_url('admin/delete_kategori/'); ?>" + id,
-                    type: "POST",
-                    success: function(data) {
-                        alert('Kategori berhasil dihapus');
-                        $('#modalTambahKategori').modal('hide');
-                        location.reload();
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        alert('Gagal menghapus kategori');
-                    }
-                });
-            }
-        }
+			Swal.fire({
+				title: 'Konfirmasi',
+				text: 'Apakah Anda yakin ingin menghapus kategori ini?',
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Ya',
+				cancelButtonText: 'Tidak'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					$.ajax({
+						url: "<?php echo site_url('admin/delete_kategori/'); ?>" + id,
+						type: "POST",
+						success: function(data) {
+							Swal.fire({
+								icon: 'success',
+								title: 'Sukses',
+								text: 'Kategori berhasil dihapus',
+								showConfirmButton: false,
+								timer: 1500,
+								didClose: () => {
+									$('#modalTambahKategori').modal('hide');
+									location.reload();
+								}
+							});
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+							Swal.fire({
+								icon: 'error',
+								title: 'Warning!',
+								text: 'Gagal menghapus kategori: ' + textStatus
+							});
+						}
+					});
+				}
+			});
+		}
 
         function deleteBuku(id) {
-            if (confirm('Apakah Anda yakin ingin menghapus buku ini?')) {
-                $.ajax({
-                    url: "<?php echo site_url('admin/delete_buku/'); ?>" + id,
-                    type: "POST",
-                    success: function(data) {
-                        alert('Buku berhasil dihapus');
-                        location.reload();
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        alert('Gagal menghapus buku');
-                    }
-                });
-            }
-        }
+			Swal.fire({
+				title: 'Konfirmasi',
+				text: 'Apakah Anda yakin ingin menghapus buku ini?',
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonText: 'Ya',
+				cancelButtonText: 'Tidak'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					$.ajax({
+						url: "<?php echo site_url('admin/delete_buku/'); ?>" + id,
+						type: "POST",
+						success: function(data) {
+							Swal.fire({
+								icon: 'success',
+								title: 'Sukses',
+								text: 'Buku berhasil dihapus',
+								showConfirmButton: false,
+								timer: 1500,
+							});
+							location.reload();
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+							Swal.fire({
+								icon: 'error',
+								title: 'Warning!',
+								text: 'Gagal menghapus buku: ' + textStatus
+							});
+						}
+					});
+				}
+			});
+		}
 
         function editBuku(id) {
             $.ajax({
@@ -803,6 +888,7 @@
                 contentType: false,
                 processData: false,
                 success: function(data) {
+					// console.log(data);
                     alert('Buku berhasil diperbarui');
                     $('#modalEditBuku').modal('hide');
                     location.reload();

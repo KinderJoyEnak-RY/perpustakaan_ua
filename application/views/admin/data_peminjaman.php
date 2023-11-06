@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css">
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <style>
     .small-table {
@@ -204,12 +205,13 @@
                         <button class="btn btn-success mr-2" data-toggle="modal" data-target="#modalTambahKategori">
                             <i class="fas fa-tags"></i> Kategori
                         </button> -->
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#modalTambahPinjam">
-                            <i class="fas fa-plus"></i> Tambah Peminjaman
-                        </button> &nbsp;&nbsp;
 						<button class="btn btn-danger mr-2" data-toggle="modal" data-target="#modalTambahDenda">
                             <i class="fas fa-archive"></i> Master Denda
-                        </button>
+                        </button>&nbsp;&nbsp;
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#modalTambahPinjam">
+                            <i class="fas fa-plus"></i> Tambah Peminjaman
+                        </button> 
+						
                     </div>
                 </div>
             </div>
@@ -287,6 +289,24 @@
                                             <label>NIS PEMINJAM</label>
                                             <input type="text" class="form-control" name="nis" id="nis" required>
                                         </div>
+										<script>
+											$(document).ready(function() {
+    											$("#nis").autocomplete({
+        											source: function(request, response) {
+            											$.ajax({
+               											url: "<?php echo base_url('nis/getAutocomplete'); ?>",
+                										type: "GET",
+                										data: { term: request.term },
+                										dataType: "json",
+                										success: function(data) {
+                    									response(data);
+                										}
+            										});
+        										},
+        										minLength: 1
+    										});
+											});
+										</script>
                                         <div class="form-group">
                                             <label>BUKU</label>
 											<input type="hidden" class="form-control" name="id_buku" id="id_buku" required>
@@ -429,13 +449,12 @@
     </div>
     <!-- ./wrapper -->
 
-    <!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js"></script>
-    <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
     <script>
@@ -453,22 +472,34 @@
         });
     </script>
     <script>
+		
 		function tambahDenda() {
-            $.ajax({
-                url: "<?php echo site_url('admin/tambah_denda'); ?>",
-                type: "POST",
-                data: $('#formTambahDenda').serialize(),
-                success: function(data) {
-                    alert('Denda berhasil ditambahkan');
-                    $('#modalTambahDenda').modal('hide');
-                    location.reload();
-					console.log(data);
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert('Gagal menambahkan Denda');
-                }
-            });
-        }
+			$.ajax({
+				url: "<?php echo site_url('admin/tambah_denda'); ?>",
+				type: "POST",
+				data: $('#formTambahDenda').serialize(),
+				success: function(data) {
+					Swal.fire({
+						title: 'Sukses',
+						text: 'Denda berhasil ditambahkan!',
+						icon: 'success',
+						showConfirmButton: false,
+						timer: 1500
+					}).then(() => {
+						$('#modalTambahDenda').modal('hide');
+						location.reload();
+					});
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					Swal.fire({
+						title: 'Error',
+						text: 'Gagal menambahkan Denda',
+						icon: 'error'
+					});
+				}
+			});
+		}
+
 		$('#modalTambahDenda').on('show.bs.modal', function(e) {
             $.ajax({
                 url: "<?php echo site_url('admin/get_all_denda'); ?>",
@@ -485,21 +516,43 @@
             });
         });
 		function deleteDenda(id) {
-            if (confirm('Apakah Anda yakin ingin menghapus denda ini?')) {
-                $.ajax({
-                    url: "<?php echo site_url('admin/delete_denda/'); ?>" + id,
-                    type: "POST",
-                    success: function(data) {
-                        alert('Denda berhasil dihapus');
-                        $('#modalTambahDenda').modal('hide');
-                        location.reload();
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        alert('Gagal menghapus Denda');
-                    }
-                });
-            }
-        }
+			Swal.fire({
+				title: 'Konfirmasi',
+				text: 'Apakah Anda yakin ingin menghapus denda ini?',
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Ya, Hapus!'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					$.ajax({
+						url: "<?php echo site_url('admin/delete_denda/'); ?>" + id,
+						type: "POST",
+						success: function(data) {
+							Swal.fire({
+								title: 'Sukses',
+								text: 'Denda berhasil dihapus',
+								icon: 'success',
+							}).then((result) => {
+								if (result.isConfirmed) {
+									$('#modalTambahDenda').modal('hide');
+									location.reload();
+								}
+							});
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+							Swal.fire({
+								title: 'Gagal',
+								text: 'Gagal menghapus Denda',
+								icon: 'error',
+							});
+						}
+					});
+				}
+			});
+		}
+		
 		// ini buat nyeting tanggalnya yo el tak buat max 2 hari
     	var tglPinjamInput = document.getElementById("tgl_pinjam");
     	var tglPengembalianInput = document.getElementById("tgl_pengembalian");
@@ -511,44 +564,6 @@
     	tglPengembalianInput.value = formattedDate;
 
         function tambahPeminjaman() {
-
-			var nama = document.getElementById("nama").value;
-			var nis = document.getElementById("nis").value;
-			var kelas = document.getElementById("kelas").value;
-			var username = document.getElementById("username").value;
-			var password = document.getElementById("password").value;
-			var email = document.getElementById("email").value;
-			var telefon = document.getElementById("telefon").value;
-			var role = document.getElementById("role").value;
-
-
-    		if (nama === "") {
-        		popalert("Nama Lengkap harus diisi!");
-       		 	return;
-    		}
-			if (nis === "") {
-        		popalert("Nis harus diisi!");
-       		 	return;
-    		}
-			if (kelas === "") {
-        		popalert("Kelas harus diisi!");
-       		 	return;
-    		}if (username === "") {
-        		popalert("Uername harus diisi!");
-       		 	return;
-    		}if (password === "") {
-        		popalert("Password harus diisi!");
-       		 	return;
-    		}if (email === "") {
-        		popalert("Enail harus diisi!");
-       		 	return;
-    		}if (telefon === "") {
-        		popalert("Nomor Telefon harus diisi!");
-       		 	return;
-    		}if (role === "") {
-        		popalert("Role harus dipilih!");
-       		 	return;
-    		}
 
             var formData = new FormData($('#formTambahPinjam')[0]);
             $.ajax({
