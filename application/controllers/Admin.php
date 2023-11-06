@@ -7,6 +7,9 @@ class Admin extends CI_Controller
     {
         parent::__construct();
 
+
+        // $this->load->library('User_model');
+
         $this->load->library('QrCodeGenerator');
         $this->load->model('Buku_model');
 
@@ -18,17 +21,17 @@ class Admin extends CI_Controller
 
     public function dashboard()
     {
-		$this->load->model('Buku_model');
-		$this->load->model('Anggota_model');
+        $this->load->model('Buku_model');
+        $this->load->model('Anggota_model');
 
-		$data['stok'] = $this->Buku_model->totalBuku(); 
-		$data['users'] = $this->Anggota_model->totalAnggota();
+        $data['stok'] = $this->Buku_model->totalBuku();
+        $data['users'] = $this->Anggota_model->totalAnggota();
         $this->load->view('admin/dashboard', $data);
-
     }
 
-	public function getNisList() {
-		$this->load->model('Anggota_model');
+    public function getNisList()
+    {
+        $this->load->model('Anggota_model');
 
         $nis_data = $this->Anggota_model->getNisList();
         echo json_encode($nis_data);
@@ -231,9 +234,9 @@ class Admin extends CI_Controller
     }
 
 
-	public function tambah_anggota()
-	{
-		$this->load->library('form_validation');
+    public function tambah_anggota()
+    {
+        $this->load->library('form_validation');
 
         // Atur aturan validasi
         $this->form_validation->set_rules('nama', 'Nama', 'required');
@@ -268,6 +271,7 @@ class Admin extends CI_Controller
                     'kelas' => $this->input->post('kelas'),
                     'username' => $this->input->post('username'),
                     'password' => $this->input->post('password'),
+                    'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
                     'email' => $this->input->post('email'),
                     'telefon' => $this->input->post('telefon'),
                 );
@@ -281,7 +285,7 @@ class Admin extends CI_Controller
                     $this->input->post('nama'),
                     $this->input->post('nis'),
                     $this->input->post('kelas')
-				);
+                );
 
                 // Setelah data buku berhasil disimpan dan kita mendapatkan id_buku
                 $qrCodeFileName = uniqid() . '.png';
@@ -298,7 +302,7 @@ class Admin extends CI_Controller
                 echo json_encode(array("status" => TRUE));
             }
         }
-	}
+    }
 
     public function data_anggota()
     {
@@ -315,11 +319,11 @@ class Admin extends CI_Controller
     }
 
 
-	
+
 
     public function update_anggota()
-    {	
-		$id = $this->input->post('id');
+    {
+        $id = $this->input->post('id');
 
         $config['upload_path'] = './uploads/profil_anggota/';
         $config['allowed_types'] = 'gif|jpg|jpeg|png';
@@ -343,7 +347,8 @@ class Admin extends CI_Controller
         $data['telefon'] = $this->input->post('telefon_edit');
         $data['email'] = $this->input->post('email_edit');
         $data['username'] = $this->input->post('username_edit');
-        $data['password'] = $this->input->post('password_edit');
+        // 'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+        $data['password'] = password_hash($this->input->post('password_edit'), PASSWORD_DEFAULT);
         $data['role'] = $this->input->post('role_edit');
 
         $this->db->where('id', $id);
