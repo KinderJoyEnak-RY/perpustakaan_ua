@@ -186,7 +186,7 @@
                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3>Data Buku</h3> 
+                                    <h3>Stok Buku</h3> 
                                     <p>Total: <?php echo $stok; ?></p>
                                 </div>
                                 <div class="icon">

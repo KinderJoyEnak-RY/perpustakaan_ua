@@ -315,7 +315,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    <h5 class="mb-3">Data Denda</h5>
+                                    <h5 class="mb-3">Master Data Denda</h5>
                                     <table class="table table-hover table-bordered small-table">
                                         <thead>
                                             <tr>

@@ -199,10 +199,10 @@
                     </div>
                     <div class="btn-group mb-3" role="group" aria-label="Button group">
                         <button class="btn btn-warning mr-2" data-toggle="modal" data-target="#modalTambahRak">
-                            <i class="fas fa-archive"></i> Rak
+                            <i class="fas fa-archive"></i>Master Rak
                         </button>
                         <button class="btn btn-success mr-2" data-toggle="modal" data-target="#modalTambahKategori">
-                            <i class="fas fa-tags"></i> Kategori
+                            <i class="fas fa-tags"></i>Master Kategori
                         </button>
                         <button class="btn btn-primary" data-toggle="modal" data-target="#modalTambahBuku">
                             <i class="fas fa-plus"></i> Tambah Buku
@@ -283,7 +283,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    <h5 class="mb-3">Data Rak</h5>
+                                    <h5 class="mb-3">Master Data Rak</h5>
                                     <table class="table table-hover table-bordered small-table">
                                         <thead>
                                             <tr>
@@ -319,7 +319,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    <h5 class="mb-3">Data Kategori</h5>
+                                    <h5 class="mb-3">Master Data Kategori</h5>
                                     <table class="table table-hover table-bordered small-table">
                                         <thead>
                                             <tr>
