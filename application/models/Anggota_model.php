@@ -15,4 +15,9 @@ class Anggota_model extends CI_Model
         $this->db->where('id', $id);
         return $this->db->get('users')->row_array();
     }
+
+	public function totalAnggota()
+	{
+    	return $this->db->count_all('users');
+	}
 }

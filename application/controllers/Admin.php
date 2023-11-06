@@ -18,7 +18,13 @@ class Admin extends CI_Controller
 
     public function dashboard()
     {
-        $this->load->view('admin/dashboard');
+		$this->load->model('Buku_model');
+		$this->load->model('Anggota_model');
+
+		$data['stok'] = $this->Buku_model->totalBuku(); 
+		$data['users'] = $this->Anggota_model->totalAnggota();
+        $this->load->view('admin/dashboard', $data);
+
     }
 
     public function data_buku()
@@ -27,6 +33,7 @@ class Admin extends CI_Controller
         $data['buku'] = $this->Buku_model->getAllBuku();
         $this->load->view('admin/data_buku', $data);
     }
+
     public function tambah_buku()
     {
         // Load library form_validation

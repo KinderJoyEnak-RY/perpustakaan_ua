@@ -186,8 +186,8 @@
                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3>Data Buku</h3> <!-- Contoh jumlah. Anda bisa mengganti dengan data dari database -->
-                                    <p>Total:</p>
+                                    <h3>Data Buku</h3> 
+                                    <p>Total: <?php echo $stok; ?></p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-book"></i>
@@ -199,7 +199,7 @@
                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                             <div class="small-box bg-danger">
                                 <div class="inner">
-                                    <h3>Peminjaman</h3> <!-- Contoh jumlah -->
+                                    <h3>Peminjaman</h3>
                                     <p>Total:</p>
                                 </div>
                                 <div class="icon">
@@ -211,7 +211,7 @@
                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3>Pengembalian</h3> <!-- Contoh jumlah -->
+                                    <h3>Pengembalian</h3>
                                     <p>Total:</p>
                                 </div>
                                 <div class="icon">
@@ -224,8 +224,8 @@
                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                             <div class="small-box bg-primary">
                                 <div class="inner">
-                                    <h3>Data Anggota</h3> <!-- Contoh jumlah -->
-                                    <p>Total</p>
+                                    <h3>Data Anggota</h3>
+                                    <p>Total: <?php echo $users; ?></p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-users"></i>

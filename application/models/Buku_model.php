@@ -18,6 +18,19 @@ class Buku_model extends CI_Model
         return $this->db->get('buku')->row_array();
     }
 
+	public function totalBuku()
+	{
+    	$this->db->select('SUM(stok_buku) as stok');
+   		$query = $this->db->get('buku');
+    
+    	if ($query->num_rows() > 0) {
+       		return $query->row()->stok;
+    	} else {
+        	return 0;
+    	}
+	}
+
+
     public function getNamaRak($rak_id)
     {
         $this->db->where('id', $rak_id);
