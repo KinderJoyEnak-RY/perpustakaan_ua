@@ -538,22 +538,6 @@
             });
         }
 
-        function tambahDenda() {
-            $.ajax({
-                url: "<?php echo site_url('admin/tambah_denda'); ?>",
-                type: "POST",
-                data: $('#formTambahDenda').serialize(),
-                success: function(data) {
-                    alert('Denda berhasil ditambahkan');
-                    $('#modalTambahDenda').modal('hide');
-                    location.reload();
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert('Gagal menambahkan Denda');
-                }
-            });
-        }
-
         function tambahKategori() {
             $.ajax({
                 url: "<?php echo site_url('admin/tambah_kategori'); ?>",
@@ -650,7 +634,8 @@
                     $('#listRak').html(html);
                 }
             });
-        });
+        }); <<
+        << << < HEAD
         $('#modalTambahDenda').on('show.bs.modal', function(e) {
             $.ajax({
                 url: "<?php echo site_url('admin/get_all_denda'); ?>",
@@ -665,7 +650,9 @@
                     $('#listDenda').html(html);
                 }
             });
-        });
+        }); ===
+        === = >>>
+        >>> > origin / master
         $('#modalTambahKategori').on('show.bs.modal', function(e) {
             $.ajax({
                 url: "<?php echo site_url('admin/get_all_kategori'); ?>",
@@ -723,7 +710,8 @@
                     }
                 });
             }
-        }
+        } <<
+        << << < HEAD
 
         function deleteDenda(id) {
             if (confirm('Apakah Anda yakin ingin menghapus denda ini?')) {
@@ -741,6 +729,10 @@
                 });
             }
         }
+
+        ===
+        === = >>>
+        >>> > origin / master
 
         function deleteKategori(id) {
             if (confirm('Apakah Anda yakin ingin menghapus kategori ini?')) {
