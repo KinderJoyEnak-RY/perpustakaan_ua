@@ -634,25 +634,8 @@
                     $('#listRak').html(html);
                 }
             });
-        }); <<
-        << << < HEAD
-        $('#modalTambahDenda').on('show.bs.modal', function(e) {
-            $.ajax({
-                url: "<?php echo site_url('admin/get_all_denda'); ?>",
-                type: "GET",
-                dataType: "JSON",
-                success: function(data) {
-                    var html = '';
-                    for (var i = 0; i < data.length; i++) {
-                        var statusDenda = data[i].status == 1 ? "Aktif" : "Tidak Aktif";
-                        html += '<tr><td>' + data[i].harga_denda + '</td><td>' + statusDenda + '</td><td class="text-center"><a href="javascript:void(0)" onclick="deleteDenda(' + data[i].id + ')"><i class="fas fa-trash-alt text-danger"></i></a></td></tr>';
-                    }
-                    $('#listDenda').html(html);
-                }
-            });
-        }); ===
-        === = >>>
-        >>> > origin / master
+        });
+
         $('#modalTambahKategori').on('show.bs.modal', function(e) {
             $.ajax({
                 url: "<?php echo site_url('admin/get_all_kategori'); ?>",
@@ -710,29 +693,7 @@
                     }
                 });
             }
-        } <<
-        << << < HEAD
-
-        function deleteDenda(id) {
-            if (confirm('Apakah Anda yakin ingin menghapus denda ini?')) {
-                $.ajax({
-                    url: "<?php echo site_url('admin/delete_denda/'); ?>" + id,
-                    type: "POST",
-                    success: function(data) {
-                        alert('Denda berhasil dihapus');
-                        $('#modalTambahDenda').modal('hide');
-                        location.reload();
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        alert('Gagal menghapus Denda');
-                    }
-                });
-            }
         }
-
-        ===
-        === = >>>
-        >>> > origin / master
 
         function deleteKategori(id) {
             if (confirm('Apakah Anda yakin ingin menghapus kategori ini?')) {
