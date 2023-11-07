@@ -350,6 +350,7 @@
                                         <!-- Data Denda akan diisi di sini melalui JavaScript -->
                                     </tbody>
                                 </table>
+								<p>* Isikan 0 untuk denda yang tidak aktif, 1 untuk denda yang aktif</p>
                                 <!-- Form Tambah Denda -->
                                 <h5 class="mt-4 mb-3">Tambah Denda Baru</h5>
                                 <form id="formTambahDenda" action="javascript:void(0)" method="post">

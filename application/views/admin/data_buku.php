@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta name="description" content="Admin Dashboard Perpustakaan">
     <meta name="author" content="PerpusUA">
-    <title>SIMPUS UA : Dashboard</title>
+    <title>SIMPUS UA : Master Data Buku</title>
     <link rel="icon" type="image/png" href="<?php echo base_url('uploads/img/logo.png'); ?>" />
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
@@ -260,8 +260,8 @@
                                         <td class="capitalize-input"><?php echo $bk['judul']; ?></td>
                                         <td><?php echo $bk['tahun_buku']; ?></td>
                                         <td><?php echo $bk['nomor_isbn']; ?></td>
-                                        <td capitalize-input><?php echo $bk['pengarang']; ?></td>
-                                        <td capitalize-input><?php echo $bk['penerbit']; ?></td>
+                                        <td class="capitalize-input"><?php echo $bk['pengarang']; ?></td>
+                                        <td class="capitalize-input"><?php echo $bk['penerbit']; ?></td>
                                         <td><?php echo $bk['nama_rak']; ?></td>
                                         <td><?php echo $bk['nama_kategori']; ?></td>
                                         <td><?php echo $bk['stok_buku']; ?></td>

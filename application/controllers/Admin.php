@@ -241,11 +241,12 @@ class Admin extends CI_Controller
         // Atur aturan validasi
         $this->form_validation->set_rules('nama', 'Nama', 'required');
         $this->form_validation->set_rules('nis', 'Nis', 'required');
-        $this->form_validation->set_rules('kelas', 'Kelas', 'required');
+        // $this->form_validation->set_rules('kelas', 'Kelas', 'required');
         $this->form_validation->set_rules('username', 'Username', 'required');
         $this->form_validation->set_rules('password', 'Paswword', 'required');
         $this->form_validation->set_rules('email', 'Email', 'required');
         $this->form_validation->set_rules('telefon', 'telefon', 'required');
+		$this->form_validation->set_rules('role', 'Role', 'required|in_list[staff,anggota]');
 
         // Cek validasi
         if ($this->form_validation->run() == FALSE) {
@@ -270,7 +271,7 @@ class Admin extends CI_Controller
                     'nis' => $this->input->post('nis'),
                     'kelas' => $this->input->post('kelas'),
                     'username' => $this->input->post('username'),
-                    'password' => $this->input->post('password'),
+                    // 'password' => $this->input->post('password'),
                     'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
                     'email' => $this->input->post('email'),
                     'telefon' => $this->input->post('telefon'),
