@@ -561,85 +561,87 @@
     var harinini = new Date();
     var formattedDate = harinini.toISOString().slice(0, 10);
     tglPinjamInput.value = formattedDate;
-    harinini.setDate(harinini.getDate() + 1; formattedDate = harinini.toISOString().slice(0, 10); tglPengembalianInput.value = formattedDate;
+    harinini.setDate(harinini.getDate() + 1);
+    formattedDate = harinini.toISOString().slice(0, 10);
+    tglPengembalianInput.value = formattedDate;
 
-            function tambahPeminjaman() {
+    function tambahPeminjaman() {
 
-                var formData = new FormData($('#formTambahPinjam')[0]);
-                $.ajax({
-                    url: "<?php echo site_url('admin/tambah_peminjaman'); ?>",
-                    type: "POST",
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(data) {
-                        alert('Peminjaman berhasil ditambahkan');
-                        $('#modalTambahPinjam').modal('hide');
-                        location.reload();
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        alert('Gagal menambahkan Peminjaman');
-                    }
-                });
+        var formData = new FormData($('#formTambahPinjam')[0]);
+        $.ajax({
+            url: "<?php echo site_url('admin/tambah_peminjaman'); ?>",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                alert('Peminjaman berhasil ditambahkan');
+                $('#modalTambahPinjam').modal('hide');
+                location.reload();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Gagal menambahkan Peminjaman');
             }
+        });
+    }
 
 
-            function deletePeminjaman(id) {
-                if (confirm('Apakah Anda yakin ingin menghapus Anggota ini?')) {
-                    $.ajax({
-                        url: "<?php echo site_url('admin/delete_anggota/'); ?>" + id,
-                        type: "POST",
-                        success: function(data) {
-                            popalert('Anggota berhasil dihapus');
-                            location.reload();
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            popalert('Gagal menghapus Anggota');
-                        }
-                    });
+    function deletePeminjaman(id) {
+        if (confirm('Apakah Anda yakin ingin menghapus Anggota ini?')) {
+            $.ajax({
+                url: "<?php echo site_url('admin/delete_anggota/'); ?>" + id,
+                type: "POST",
+                success: function(data) {
+                    popalert('Anggota berhasil dihapus');
+                    location.reload();
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    popalert('Gagal menghapus Anggota');
                 }
-            }
+            });
+        }
+    }
 
-            function editAnggota(id) {
-                $.ajax({
-                    url: "<?php echo site_url('admin/get_anggota_by_id/'); ?>" + id,
-                    type: "GET",
-                    dataType: "JSON",
-                    success: function(data) {
-                        $('#id').val(data.id);
-                        $('#nama_edit').val(data.nama);
-                        $('#nis_edit').val(data.nis);
-                        $('#kelas_edit').val(data.kelas);
-                        $('#username_edit').val(data.username);
-                        $('#password_edit').val(data.password);
-                        $('#email_edit').val(data.email);
-                        $('#telefon_edit').val(data.telefon);
-                        $('#role_edit').val(data.role);
+    function editAnggota(id) {
+        $.ajax({
+            url: "<?php echo site_url('admin/get_anggota_by_id/'); ?>" + id,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data) {
+                $('#id').val(data.id);
+                $('#nama_edit').val(data.nama);
+                $('#nis_edit').val(data.nis);
+                $('#kelas_edit').val(data.kelas);
+                $('#username_edit').val(data.username);
+                $('#password_edit').val(data.password);
+                $('#email_edit').val(data.email);
+                $('#telefon_edit').val(data.telefon);
+                $('#role_edit').val(data.role);
 
-                        $('#modalEditAnggota').modal('show');
-                    }
-                });
+                $('#modalEditAnggota').modal('show');
             }
+        });
+    }
 
-            function updateAnggota() {
-                var formData = new FormData($('#formEditAnggota')[0]);
-                $.ajax({
-                    url: "<?php echo site_url('admin/update_anggota'); ?>",
-                    type: "POST",
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(data) {
-                        popalert('Data anggota berhasil diperbarui');
-                        // console.log(data);
-                        $('#modalEditAnggota').modal('hide');
-                        location.reload();
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        popalert('Gagal memperbarui Anggota');
-                    }
-                });
+    function updateAnggota() {
+        var formData = new FormData($('#formEditAnggota')[0]);
+        $.ajax({
+            url: "<?php echo site_url('admin/update_anggota'); ?>",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                popalert('Data anggota berhasil diperbarui');
+                // console.log(data);
+                $('#modalEditAnggota').modal('hide');
+                location.reload();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                popalert('Gagal memperbarui Anggota');
             }
+        });
+    }
 </script>
 
 </body>
