@@ -19,37 +19,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css">
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <!-- Responsive extension for DataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <style>
-    .small-table {
-        width: 100%;
-        margin: 0 auto;
-    }
-
-    .small-table th,
-    .small-table td {
-        font-size: 0.8rem;
-    }
-
-    .small-modal h5 {
-        font-size: 1rem;
-    }
-
-    .small-modal label {
-        font-size: 0.8rem;
-    }
-
-    .small-modal .form-control {
-        font-size: 0.8rem;
-    }
-
-    #modalImage {
-        max-width: 100%;
-        height: auto;
-        margin: 0 auto;
-        display: block;
-    }
 </style>
 
 </head>
@@ -150,12 +124,6 @@
                                     <p>Peminjaman</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Denda</p>
-                                </a>
-                            </li>
                         </ul>
                     </li>
                     <li class="nav-item has-treeview">
@@ -199,12 +167,6 @@
                     </div>
                 </div>
                 <div class="btn-group mb-3" role="group" aria-label="Button group">
-                    <!-- <button class="btn btn-warning mr-2" data-toggle="modal" data-target="#modalTambahRak">
-                            <i class="fas fa-archive"></i> Rak
-                        </button>
-                        <button class="btn btn-success mr-2" data-toggle="modal" data-target="#modalTambahKategori">
-                            <i class="fas fa-tags"></i> Kategori
-                        </button> -->
                     <button class="btn btn-danger mr-2" data-toggle="modal" data-target="#modalTambahDenda">
                         <i class="fas fa-archive"></i> Master Denda
                     </button>&nbsp;&nbsp;
@@ -220,223 +182,167 @@
         <!-- Main content -->
         <div class="content">
             <div class="container-fluid">
-                <!-- Cards -->
+                <div id="message" style="display: none;" class="alert" role="alert"></div>
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped">
+                    <table id="tabelPeminjaman" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th width="2%" class="text-center">No</th>
-                                <th width="10%" class="text-center">Id Peminjaman</th>
-                                <th width="10%" class="text-center">NIS Peminjam</th>
-                                <th width="10%" class="text-center">ID Buku</th>
-                                <th width="10%" class="text-center">Status Peminjaman</th>
-                                <th width="10%" class="text-center">Tanggal Peminjaman</th>
-                                <th width="10%" class="text-center">Lama Peminjaman</th>
-                                <th width="10%" class="text-center">Tanggal Kembali</th>
-                                <th width="10%" class="text-center">Tanggal Pengembalian</th>
-                                <th width="10%" class="text-center">Aksi</th>
+                                <th>ID Pinjam</th>
+                                <th>Nama Peminjam</th>
+                                <th>NIS</th>
+                                <th>Kelas</th>
+                                <th>Kontak</th>
+                                <th>Judul Buku</th>
+                                <th>ISBN</th>
+                                <th>Tanggal Pinjam</th>
+                                <th>Tanggal Harus Kembali</th>
+                                <th>Tanggal Pengembalian</th>
+                                <th>Status</th>
+                                <th>Denda</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $no = 1;
-                            foreach ($peminjaman as $pinjam) : ?>
-                                <!-- <pre> <?php print_r($user); ?> </pre> -->
-                                <?php
-                                $status = '';
-                                if ($pinjam['status'] == 1) {
-                                    $status = 'Dipinjam';
-                                } else {
-                                    $status = "Dikembalikan";
-                                }
-                                ?>
-                                <tr>
-                                    <td width="2%" class="text-center"><?php echo $no++; ?></td>
-                                    <td width="10%"><?php echo $pinjam['id_pinjam']; ?></td>
-                                    <td width="10%"><?php echo $pinjam['nis']; ?></td>
-                                    <td width="10%"><?php echo $pinjam['id_buku']; ?></td>
-                                    <td width="10%"><?php echo $status; ?></td>
-                                    <td width="10%"><?php echo $pinjam['tgl_pinjam']; ?></td>
-                                    <td width="10%"><?php echo $pinjam['lama_pinjam']; ?></td>
-                                    <td width="10%"><?php echo $pinjam['tgl_kembali']; ?></td>
-                                    <td width="10%"><?php echo $pinjam['tgl_pengembalian']; ?></td>
-                                    <td width="10%" class="text-center">
-                                        <a href="javascript:void(0)" onclick="editAnggota(<?php echo $pinjam['id']; ?>)" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        &nbsp;&nbsp;
-                                        <a href="javascript:void(0)" onclick="deletePeminjaman(<?php echo $pinjam['id']; ?>)" title="Delete">
-                                            <i class="fas fa-trash-alt text-danger"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
+                            <!-- Data dari database akan di-load disini -->
                         </tbody>
                     </table>
                 </div>
-
-                <!-- Modal Tambah Peminjaman -->
-                <div class="modal fade" id="modalTambahPinjam" tabindex="-1" role="dialog" aria-labelledby="modalLabelTambahPinjam" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <h5 class="mb-3" style="text-align: center;">Tambah Peminjaman</h5>
-                                <form id="formTambahPinjam" action="javascript:void(0)" method="post" enctype="multipart/form-data">
-                                    <div class="form-group">
-                                        <label>ID PEMINJAMAN</label>
-                                        <input type="text" class="form-control" name="id_pinjam" id="id_pinjam" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>NIS PEMINJAM</label>
-                                        <input type="text" class="form-control" name="nis" id="nis" required>
-                                    </div>
-                                    <script>
-                                        $(document).ready(function() {
-                                            $("#nis").autocomplete({
-                                                source: function(request, response) {
-                                                    $.ajax({
-                                                        url: "<?php echo base_url('nis/getAutocomplete'); ?>",
-                                                        type: "GET",
-                                                        data: {
-                                                            term: request.term
-                                                        },
-                                                        dataType: "json",
-                                                        success: function(data) {
-                                                            response(data);
-                                                        }
-                                                    });
-                                                },
-                                                minLength: 1
-                                            });
-                                        });
-                                    </script>
-                                    <div class="form-group">
-                                        <label>BUKU</label>
-                                        <input type="hidden" class="form-control" name="id_buku" id="id_buku" required>
-                                        <input type="text" class="form-control" name="judul" id="judul" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>TANGGAL PEMINJAMAN</label>
-                                        <input type="date" class="form-control" name="tgl_pinjam" id="tgl_pinjam" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>LAMA PEMINJAMAN</label>
-                                        <input type="number" class="form-control" name="lama_pinjam" id="lama_pinjam" value="2" readonly>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>TANGGAL PENGEMBALIAN</label>
-                                        <input type="date" class="form-control" name="tgl_pengembalian" id="tgl_pengembalian">
-                                    </div>
-                                    <button type="button" onclick="tambahPeminjaman()" class="btn btn-primary">Simpan</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--Denda -->
-                <div class="modal fade small-modal" id="modalTambahDenda" tabindex="-1" role="dialog" aria-labelledby="modalLabelTambahDenda" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <h5 class="mb-3">Master Data Denda</h5>
-                                <table class="table table-hover table-bordered small-table">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">Denda</th>
-                                            <th class="text-center">Status</th>
-                                            <th class="text-center">Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="listDenda">
-                                        <!-- Data Denda akan diisi di sini melalui JavaScript -->
-                                    </tbody>
-                                </table>
-								<p>* Isikan 0 untuk denda yang tidak aktif, 1 untuk denda yang aktif</p>
-                                <!-- Form Tambah Denda -->
-                                <h5 class="mt-4 mb-3">Tambah Denda Baru</h5>
-                                <form id="formTambahDenda" action="javascript:void(0)" method="post">
-                                    <div class="form-group">
-                                        <label>Denda</label>
-                                        <input type="text" class="form-control" name="harga_denda" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Status</label>
-                                        <input type="text" class="form-control" name="status" required>
-
-                                    </div>
-                                    <button type="button" onclick="tambahDenda()" class="btn btn-success">Simpan</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- Modal Edit Buku -->
-                <div class="modal fade" id="modalEditAnggota" tabindex="-1" role="dialog" aria-labelledby="modalLabelEditAnggota" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <h5 class="mb-3">Edit Anggota</h5>
-                                <form id="formEditAnggota" action="javascript:void(0)" method="post" enctype="multipart/form-data">
-                                    <input type="hidden" name="id" id="id">
-
-                                    <div class="form-group">
-                                        <label>Nama</label>
-                                        <input type="text" class="form-control" name="nama_edit" id="nama_edit" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>NIS</label>
-                                        <input type="text" class="form-control" name="nis_edit" id="nis_edit" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Kelas</label>
-                                        <input type="text" class="form-control" name="kelas_edit" id="kelas_edit" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Username</label>
-                                        <input type="text" class="form-control" name="username_edit" id="username_edit" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Password</label>
-                                        <input type="password" class="form-control" name="password_edit" id="password_edit" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Email</label>
-                                        <input type="text" class="form-control" name="email_edit" id="email_edit" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Telefon</label>
-                                        <input type="text" class="form-control" name="telefon_edit" id="telefon_edit" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Role</label>
-                                        <input type="text" class="form-control" name="role_edit" id="role_edit" readonly>
-                                    </div>
-                                    <button type="button" onclick="updateAnggota()" class="btn btn-primary">Update</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal Image Viewer -->
-                <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <img id="modalImage" src="" alt="Sampul Buku" class="img-fluid">
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
             </div>
         </div>
         <!-- /.content -->
+
+        <!-- Modal Tambah Peminjaman -->
+        <div class="modal fade" id="modalTambahPinjam" tabindex="-1" role="dialog" aria-labelledby="modalTambahPinjamLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTambahPinjamLabel">Tambah Peminjaman</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="<?php echo base_url('admin/tambah_peminjaman'); ?>" method="post">
+                        <div class="modal-body">
+                            <!-- Form fields -->
+                            <div class="form-group">
+                                <label for="user_id">Nama Peminjam:</label>
+                                <select class="form-control" id="user_id" name="user_id" required>
+                                    <!-- Opsi pengguna diambil dari database -->
+                                    <?php foreach ($users as $user) : ?>
+                                        <option value="<?php echo $user['id']; ?>"><?php echo $user['nama']; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <!-- Informasi tambahan pengguna -->
+                            <div id="info-peminjam" style="display: none;">
+                                <div class="form-group">
+                                    <label for="nis">NIS:</label>
+                                    <input type="text" class="form-control" id="nis" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="kelas">Kelas:</label>
+                                    <input type="text" class="form-control" id="kelas" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="telefon">Kontak:</label>
+                                    <input type="text" class="form-control" id="telefon" readonly>
+                                </div>
+                            </div>
+                            <!-- Informasi buku -->
+                            <div class="form-group">
+                                <label for="buku_id">Judul Buku:</label>
+                                <select class="form-control" id="buku_id" name="buku_id" required>
+                                    <!-- Opsi buku diambil dari database -->
+                                    <?php foreach ($buku as $book) : ?>
+                                        <option value="<?php echo $book['id']; ?>"><?php echo $book['judul']; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <!-- Informasi tambahan buku -->
+                            <div id="info-buku" style="display: none;">
+                                <div class="form-group">
+                                    <label for="nomor_isbn">ISBN:</label>
+                                    <input type="text" class="form-control" id="nomor_isbn" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="pengarang">Pengarang:</label>
+                                    <input type="text" class="form-control" id="pengarang" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="penerbit">Penerbit:</label>
+                                    <input type="text" class="form-control" id="penerbit" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="stok_buku">Stok Buku:</label>
+                                    <input type="text" class="form-control" id="stok_buku" readonly>
+                                </div>
+                            </div>
+                            <!-- Tanggal pinjam dan harus kembali -->
+                            <div class="form-group">
+                                <label for="tanggal_pinjam">Tanggal Pinjam:</label>
+                                <input type="date" class="form-control" id="tanggal_pinjam" name="tanggal_pinjam" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="tanggal_harus_kembali">Tanggal Harus Kembali:</label>
+                                <input type="date" class="form-control" id="tanggal_harus_kembali" name="tanggal_harus_kembali" required>
+                            </div>
+                            <!-- Jumlah buku -->
+                            <div class="form-group">
+                                <label for="jumlah_buku">Jumlah Pinjam Buku:</label>
+                                <input type="number" class="form-control" id="jumlah_buku" name="jumlah_buku" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Tambah</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Tambah Denda -->
+        <div class="modal fade" id="modalTambahDenda" tabindex="-1" role="dialog" aria-labelledby="modalTambahDendaLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTambahDendaLabel">Master Denda</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="<?php echo base_url('admin/tambah_denda'); ?>" method="post">
+                        <div class="modal-body">
+                            <!-- Form fields -->
+                            <div class="form-group">
+                                <label for="jumlah_denda">Jumlah Denda:</label>
+                                <input type="number" class="form-control" id="jumlah_denda" name="jumlah_denda" required>
+                            </div>
+
+                            <!-- Tabel Denda -->
+                            <table class="table" id="tabelDenda">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Jumlah Denda</th>
+                                        <th>Status Aktif</th>
+                                        <th>Tanggal Dibuat</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Isi tabel akan di-load menggunakan AJAX -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-danger">Update Denda</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </div>
     <!-- /.content-wrapper -->
 
@@ -460,190 +366,224 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<!-- Responsive extension for DataTables -->
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+
 <script>
     $(document).ready(function() {
-        $('.table').DataTable({
-            "pageLength": 10
-        });
-    });
-
-    $('#imageModal').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget);
-        var imageUrl = button.data('image');
-        var modal = $(this);
-        modal.find('#modalImage').attr('src', imageUrl);
-    });
-</script>
-<script>
-    function tambahDenda() {
-        $.ajax({
-            url: "<?php echo site_url('admin/tambah_denda'); ?>",
-            type: "POST",
-            data: $('#formTambahDenda').serialize(),
-            success: function(data) {
-                Swal.fire({
-                    title: 'Sukses',
-                    text: 'Denda berhasil ditambahkan!',
-                    icon: 'success',
-                    showConfirmButton: false,
-                    timer: 1500
-                }).then(() => {
-                    $('#modalTambahDenda').modal('hide');
-                    location.reload();
-                });
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Gagal menambahkan Denda',
-                    icon: 'error'
-                });
-            }
-        });
-    }
-
-    $('#modalTambahDenda').on('show.bs.modal', function(e) {
-        $.ajax({
-            url: "<?php echo site_url('admin/get_all_denda'); ?>",
-            type: "GET",
-            dataType: "JSON",
-            success: function(data) {
-                var html = '';
-                for (var i = 0; i < data.length; i++) {
-                    var statusDenda = data[i].status == 1 ? "Aktif" : "Tidak Aktif";
-                    html += '<tr><td>' + data[i].harga_denda + '</td><td>' + statusDenda + '</td><td class="text-center"><a href="javascript:void(0)" onclick="deleteDenda(' + data[i].id + ')"><i class="fas fa-trash-alt text-danger"></i></a></td></tr>';
-                }
-                $('#listDenda').html(html);
-            }
-        });
-    });
-
-    function deleteDenda(id) {
-        Swal.fire({
-            title: 'Konfirmasi',
-            text: 'Apakah Anda yakin ingin menghapus denda ini?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Hapus!'
-        }).then((result) => {
-            if (result.isConfirmed) {
+        // Ketika nama peminjam berubah
+        $('#user_id').on('change', function() {
+            var userId = $(this).val();
+            if (userId) {
+                // Lakukan AJAX call ke server untuk mendapatkan informasi pengguna
                 $.ajax({
-                    url: "<?php echo site_url('admin/delete_denda/'); ?>" + id,
-                    type: "POST",
+                    url: "<?php echo base_url('admin/get_user_info/'); ?>" + userId,
+                    type: 'GET',
+                    dataType: 'json',
                     success: function(data) {
-                        Swal.fire({
-                            title: 'Sukses',
-                            text: 'Denda berhasil dihapus',
-                            icon: 'success',
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                $('#modalTambahDenda').modal('hide');
-                                location.reload();
-                            }
-                        });
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        Swal.fire({
-                            title: 'Gagal',
-                            text: 'Gagal menghapus Denda',
-                            icon: 'error',
-                        });
+                        // Isi form dengan data yang didapat
+                        $('#nis').val(data.nis);
+                        $('#kelas').val(data.kelas);
+                        $('#telefon').val(data.telefon);
+                        $('#info-peminjam').show();
                     }
                 });
+            } else {
+                $('#info-peminjam').hide();
             }
         });
-    }
 
-    // ini buat nyeting tanggalnya yo el tak buat max 2 hari
-    var tglPinjamInput = document.getElementById("tgl_pinjam");
-    var tglPengembalianInput = document.getElementById("tgl_pengembalian");
-    var harinini = new Date();
-    var formattedDate = harinini.toISOString().slice(0, 10);
-    tglPinjamInput.value = formattedDate;
-    harinini.setDate(harinini.getDate() + 1);
-    formattedDate = harinini.toISOString().slice(0, 10);
-    tglPengembalianInput.value = formattedDate;
-
-    function tambahPeminjaman() {
-
-        var formData = new FormData($('#formTambahPinjam')[0]);
-        $.ajax({
-            url: "<?php echo site_url('admin/tambah_peminjaman'); ?>",
-            type: "POST",
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function(data) {
-                alert('Peminjaman berhasil ditambahkan');
-                $('#modalTambahPinjam').modal('hide');
-                location.reload();
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                alert('Gagal menambahkan Peminjaman');
+        // Ketika judul buku berubah
+        $('#buku_id').on('change', function() {
+            var bukuId = $(this).val();
+            if (bukuId) {
+                // Lakukan AJAX call ke server untuk mendapatkan informasi buku
+                $.ajax({
+                    url: "<?php echo base_url('admin/get_buku_info/'); ?>" + bukuId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        // Isi form dengan data yang didapat
+                        $('#nomor_isbn').val(data.nomor_isbn);
+                        $('#pengarang').val(data.pengarang);
+                        $('#penerbit').val(data.penerbit);
+                        $('#stok_buku').val(data.stok_buku);
+                        $('#info-buku').show();
+                    }
+                });
+            } else {
+                $('#info-buku').hide();
             }
         });
-    }
 
-
-    function deletePeminjaman(id) {
-        if (confirm('Apakah Anda yakin ingin menghapus Anggota ini?')) {
-            $.ajax({
-                url: "<?php echo site_url('admin/delete_anggota/'); ?>" + id,
-                type: "POST",
-                success: function(data) {
-                    popalert('Anggota berhasil dihapus');
-                    location.reload();
+        var table = $('#tabelPeminjaman').DataTable({
+            "processing": true,
+            "serverSide": false,
+            "data": <?php echo json_encode($peminjaman); ?>,
+            "columns": [{
+                    "data": "id"
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    popalert('Gagal menghapus Anggota');
+                {
+                    "data": "nama_peminjam"
+                },
+                {
+                    "data": "nis"
+                },
+                {
+                    "data": "kelas"
+                },
+                {
+                    "data": "telefon"
+                },
+                {
+                    "data": "judul_buku"
+                },
+                {
+                    "data": "nomor_isbn"
+                },
+                {
+                    "data": "tanggal_pinjam"
+                },
+                {
+                    "data": "tanggal_harus_kembali"
+                },
+                {
+                    "data": "tanggal_kembali",
+                    "defaultContent": "", // Ini akan menampilkan string kosong jika data tidak ada
+                    "render": function(data, type, row) {
+                        return data ? data : '-'; // Jika data ada, tampilkan, jika tidak, tampilkan '-'
+                    }
+                },
+                {
+                    "data": "status"
+                },
+                {
+                    "data": "denda",
+                    "render": function(data, type, row) {
+                        // Data denda diambil dari server dan ditampilkan
+                        return data ? 'Rp' + data : '-';
+                    }
+                },
+                {
+                    "data": null,
+                    "render": function(data, type, row) {
+                        // Cek jika status adalah 'dipinjam', tampilkan tombol 'Kembalikan'
+                        if (row.status === 'dipinjam') {
+                            return "<button class='btn btn-warning btn-kembali'>Kembalikan</button>";
+                        } else {
+                            // Jika statusnya 'dikembalikan', tidak perlu menampilkan tombol
+                            return "-";
+                        }
+                    }
+                }
+            ]
+        });
+
+        // Fungsi untuk memperbarui denda secara periodik
+        function refreshDenda() {
+            $.ajax({
+                url: "<?php echo base_url('admin/update_denda'); ?>",
+                type: 'POST',
+                dataType: 'json',
+                success: function(data) {
+                    // Loop melalui semua data dan update kolom denda
+                    data.forEach(function(item) {
+                        // Cari baris berdasarkan ID peminjaman
+                        var row = table.row(function(idx, data, node) {
+                            return data.id == item.id;
+                        });
+
+                        // Update kolom denda jika baris ditemukan
+                        if (row.length) {
+                            table.cell(row, 11).data(item.denda).draw();
+                        }
+                    });
                 }
             });
         }
-    }
 
-    function editAnggota(id) {
-        $.ajax({
-            url: "<?php echo site_url('admin/get_anggota_by_id/'); ?>" + id,
-            type: "GET",
-            dataType: "JSON",
-            success: function(data) {
-                $('#id').val(data.id);
-                $('#nama_edit').val(data.nama);
-                $('#nis_edit').val(data.nis);
-                $('#kelas_edit').val(data.kelas);
-                $('#username_edit').val(data.username);
-                $('#password_edit').val(data.password);
-                $('#email_edit').val(data.email);
-                $('#telefon_edit').val(data.telefon);
-                $('#role_edit').val(data.role);
+        // Set interval untuk refresh denda
+        setInterval(refreshDenda, 60000); // Update denda setiap menit
 
-                $('#modalEditAnggota').modal('show');
+        $('#tabelPeminjaman tbody').on('click', '.btn-kembali', function() {
+            var btn = $(this); // Simpan referensi button yang diklik
+            var data = table.row(btn.parents('tr')).data();
+            var id = data.id; // mengasumsikan kolom ID adalah data yang pertama
+
+            if (confirm('Apakah Anda yakin ingin mengembalikan buku ini?')) {
+                $.ajax({
+                    url: "<?php echo base_url('admin/kembalikan_buku/'); ?>" + id,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        id: id
+                    },
+                    beforeSend: function() {
+                        btn.prop('disabled', true); // Disable button saat AJAX call dimulai
+                    },
+                    success: function(response) {
+                        $('#message').removeClass('alert-success alert-danger');
+                        if (response.success) {
+                            $('#message').addClass('alert-success').text(response.message).show();
+                            var currentDate = new Date().toISOString().slice(0, 10); // Format tanggal ke YYYY-MM-DD
+
+                            // Update row data dengan tanggal pengembalian dan denda
+                            var rowData = table.row(btn.parents('tr')).data();
+                            rowData.tanggal_kembali = currentDate;
+                            rowData.status = 'dikembalikan';
+                            rowData.denda = response.denda; // Pastikan respon dari server sudah benar
+
+                            // Redraw row with updated data
+                            table.row(btn.parents('tr')).data(rowData).invalidate().draw();
+
+                            // Memperbarui cell yang mengandung denda secara langsung
+                            btn.closest('tr').find('td:eq(11)').text(response.denda);
+
+                            // Menghilangkan tombol 'Kembalikan' dalam kolom 'Aksi'
+                            btn.closest('tr').find('td').eq(12).html('-');
+
+                            btn.closest('tr').addClass('table-success'); // Menambahkan class untuk styling
+                        } else {
+                            $('#message').addClass('alert-danger').text(response.message).show();
+                            btn.prop('disabled', false); // Enable kembali button jika AJAX call gagal
+                        }
+                    }
+
+                });
+            } else {
+                // Jika user membatalkan konfirmasi, tidak lakukan apa-apa
+                return false;
             }
         });
-    }
 
-    function updateAnggota() {
-        var formData = new FormData($('#formEditAnggota')[0]);
-        $.ajax({
-            url: "<?php echo site_url('admin/update_anggota'); ?>",
-            type: "POST",
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function(data) {
-                popalert('Data anggota berhasil diperbarui');
-                // console.log(data);
-                $('#modalEditAnggota').modal('hide');
-                location.reload();
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                popalert('Gagal memperbarui Anggota');
-            }
+        // Tambahkan script untuk load data denda pada modal open
+        $('#modalTambahDenda').on('shown.bs.modal', function() {
+            $.ajax({
+                url: "<?php echo base_url('admin/get_denda_json'); ?>",
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    var tableBody = $('#tabelDenda tbody');
+                    tableBody.empty(); // Bersihkan isi tabel
+
+                    $.each(data, function(i, item) {
+                        var status = item.status_aktif === '1' ? 'Aktif' : 'Tidak Aktif';
+                        tableBody.append(
+                            '<tr>' +
+                            '<td>' + item.id + '</td>' +
+                            '<td>' + item.jumlah_denda + '</td>' +
+                            '<td>' + status + '</td>' +
+                            '<td>' + item.tanggal_dibuat + '</td>' +
+                            '</tr>'
+                        );
+                    });
+                }
+            });
         });
-    }
+    });
 </script>
+
 
 </body>
 

@@ -10,6 +10,22 @@ class User_model extends CI_Model
         $this->load->database();
     }
 
+    // Fungsi untuk mendapatkan semua pengguna
+    public function getAllUsers()
+    {
+        $query = $this->db->get('users');
+        return $query->result_array();
+    }
+
+    public function getUserById($id)
+    {
+        $this->db->select('nis, kelas, telefon');
+        $this->db->from('users');
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+        return $query->row_array(); // Mengembalikan satu baris sebagai array asosiatif
+    }
+
     // Fungsi tambah user baru
     public function register($data)
     {

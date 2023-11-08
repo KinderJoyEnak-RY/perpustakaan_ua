@@ -7,11 +7,10 @@ class Admin extends CI_Controller
     {
         parent::__construct();
 
-
         // $this->load->library('User_model');
-
         $this->load->library('QrCodeGenerator');
         $this->load->model('Buku_model');
+        $this->load->model('Denda_model');
 
         // Cek apakah pengguna sudah login dan memiliki role 'staff'
         if (!$this->session->userdata('logged_in') || $this->session->userdata('role') != 'staff') {
@@ -246,7 +245,7 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('password', 'Paswword', 'required');
         $this->form_validation->set_rules('email', 'Email', 'required');
         $this->form_validation->set_rules('telefon', 'telefon', 'required');
-		$this->form_validation->set_rules('role', 'Role', 'required|in_list[staff,anggota]');
+        $this->form_validation->set_rules('role', 'Role', 'required|in_list[staff,anggota]');
 
         // Cek validasi
         if ($this->form_validation->run() == FALSE) {
@@ -319,9 +318,6 @@ class Admin extends CI_Controller
         echo json_encode($data);
     }
 
-
-
-
     public function update_anggota()
     {
         $id = $this->input->post('id');
@@ -376,33 +372,136 @@ class Admin extends CI_Controller
     public function data_peminjaman()
     {
         $this->load->model('Peminjaman_model');
+        $this->load->model('User_model'); // Anggap Anda memiliki model untuk User
+        $this->load->model('Buku_model'); // Anggap Anda memiliki model untuk Buku
+
         $data['peminjaman'] = $this->Peminjaman_model->getAllPeminjaman();
+        $data['users'] = $this->User_model->getAllUsers(); // Metode untuk mengambil semua user
+        $data['buku'] = $this->Buku_model->getAllBuku(); // Metode untuk mengambil semua buku
+
         $this->load->view('admin/data_peminjaman', $data);
+    }
+
+    public function tambah_peminjaman()
+    {
+        $user_id = $this->input->post('user_id');
+        $buku_id = $this->input->post('buku_id');
+        $tanggal_pinjam = $this->input->post('tanggal_pinjam');
+        $tanggal_harus_kembali = $this->input->post('tanggal_harus_kembali');
+
+        $data = array(
+            'user_id' => $user_id,
+            'buku_id' => $buku_id,
+            'tanggal_pinjam' => $tanggal_pinjam,
+            'tanggal_harus_kembali' => $tanggal_harus_kembali,
+            'status' => 'dipinjam' // Status default saat peminjaman
+        );
+
+        $this->load->model('Peminjaman_model');
+        $insert = $this->Peminjaman_model->tambahPeminjaman($data);
+
+        if ($insert) {
+            $this->session->set_flashdata('success', 'Peminjaman berhasil ditambahkan.');
+        } else {
+            $this->session->set_flashdata('error', 'Terjadi kesalahan saat menambahkan peminjaman.');
+        }
+
+        redirect('admin/data_peminjaman');
+    }
+    public function get_user_info($id)
+    {
+        $this->load->model('User_model');
+        $user_info = $this->User_model->getUserById($id); // Anggap Anda memiliki method ini
+
+        echo json_encode($user_info);
+    }
+    public function get_buku_info($id)
+    {
+        $this->load->model('Buku_model');
+        $buku_info = $this->Buku_model->getBookById($id); // Anggap Anda memiliki method ini
+
+        echo json_encode($buku_info);
+    }
+
+    public function kembalikan_buku($id)
+    {
+        // Ambil data peminjaman berdasarkan id
+        $peminjaman = $this->db->get_where('peminjaman', ['id' => $id])->row();
+
+        // Ambil denda aktif
+        $denda_aktif = $this->Denda_model->getDendaAktif();
+        $tarif_denda = $denda_aktif['jumlah_denda'];
+
+        $tanggal_kembali = date('Y-m-d'); // tanggal saat ini
+        $tanggal_harus_kembali = new DateTime($peminjaman->tanggal_harus_kembali);
+        $tanggal_pengembalian = new DateTime($tanggal_kembali);
+
+        // Hitung selisih hari, jika terlambat, maka selisih_hari akan lebih dari 0
+        $selisih_hari = $tanggal_pengembalian > $tanggal_harus_kembali ? $tanggal_harus_kembali->diff($tanggal_pengembalian)->days : 0;
+
+        // Cek jika denda sudah ada, jika ya, gunakan denda yang sudah ada, jika tidak, hitung denda baru
+        $denda_sudah_ada = $peminjaman->denda;
+        $denda = $denda_sudah_ada > 0 ? $denda_sudah_ada : $selisih_hari * $tarif_denda;
+
+        // Update peminjaman dengan tanggal kembali dan denda
+        $data = array(
+            'tanggal_kembali' => $tanggal_kembali,
+            'status' => 'dikembalikan',
+            'denda' => $denda
+        );
+
+        $this->db->where('id', $id);
+        $update = $this->db->update('peminjaman', $data);
+
+        // Persiapkan response
+        $response = array();
+        if ($update) {
+            $response['success'] = true;
+            $response['message'] = 'Buku berhasil dikembalikan' . ($denda > 0 ? " dengan denda Rp$denda" : ".");
+        } else {
+            $response['success'] = false;
+            $response['message'] = 'Terjadi kesalahan saat mengembalikan buku.';
+        }
+
+        $response['selisih_hari'] = $selisih_hari;
+        echo json_encode($response); // Mengirimkan respon dalam format JSON
+    }
+
+    public function get_denda_json()
+    {
+        $this->load->model('Denda_model');
+        $data['denda'] = $this->Denda_model->getAllDenda(); // atau method lain yang sesuai
+        echo json_encode($data['denda']);
     }
 
     public function tambah_denda()
     {
+        $jumlah_denda = $this->input->post('jumlah_denda');
+
+        // Validasi input disini jika diperlukan
+
         $data = array(
-            'harga_denda' => $this->input->post('harga_denda'),
-            'status' => $this->input->post('status')
+            'jumlah_denda' => $jumlah_denda,
+            'status_aktif' => 1, // Denda ini akan menjadi denda aktif
+            'tanggal_dibuat' => date('Y-m-d') // atau tanggal lain sesuai dengan kebutuhan
         );
 
-        $this->db->insert('denda', $data);
-        echo json_encode(array("status" => TRUE));
-    }
-    public function get_all_denda()
-    {
-        $data = $this->db->get('denda')->result();
-        echo json_encode($data);
-    }
-    public function delete_denda($id)
-    {
-        $this->db->where('id', $id);
-        $this->db->delete('denda');
-        if ($this->db->affected_rows() > 0) {
-            echo json_encode(array("status" => TRUE));
+        $this->load->model('Denda_model');
+        $insert = $this->Denda_model->tambahDenda($data);
+
+        if ($insert) {
+            $this->session->set_flashdata('success', 'Denda berhasil ditambahkan.');
         } else {
-            echo json_encode(array("status" => FALSE, "message" => "Gagal menghapus Denda"));
+            $this->session->set_flashdata('error', 'Terjadi kesalahan saat menambahkan denda.');
         }
+
+        redirect('admin/data_peminjaman');
+    }
+
+    public function update_denda()
+    {
+        $this->load->model('Peminjaman_model');
+        $peminjaman = $this->Peminjaman_model->getAllPeminjaman();
+        echo json_encode($peminjaman);
     }
 }

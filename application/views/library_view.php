@@ -235,13 +235,13 @@
                     <?php foreach ($buku as $bk) : ?>
                         <div class="col-md-3 mb-4 d-flex align-items-stretch" style="display: inline-block;">
                             <div class="card">
-                                <img src="<?php echo base_url('uploads/' . $bk['sampul']); ?>" alt="Sampul" class="card-img-top card-img-cover">
+                                <img src="<?php echo base_url('uploads/sampul/' . $bk['sampul']); ?>" alt="Sampul" class="card-img-top card-img-cover">
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h5 class="card-title text-center">
                                         <b><?php echo $bk['judul']; ?></b>
                                     </h5>
                                     <!-- Tempat QR Code -->
-                                    <img src="<?php echo base_url('uploads/qrcodes/' . $bk['qr_code']); ?>" alt="QR Code" class="qr-code-img">
+                                    <img src="<?php echo base_url('uploads/qrcodes/qrbuku/' . $bk['qr_code']); ?>" alt="QR Code" class="qr-code-img">
                                 </div>
                             </div>
                         </div>

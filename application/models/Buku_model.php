@@ -17,19 +17,25 @@ class Buku_model extends CI_Model
         $this->db->where('id', $id);
         return $this->db->get('buku')->row_array();
     }
+    public function getBookById($id)
+    {
+        $this->db->select('nomor_isbn, pengarang, penerbit, stok_buku');
+        $this->db->from('buku');
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+        return $query->row_array(); // Mengembalikan satu baris sebagai array asosiatif
+    }
+    public function totalBuku()
+    {
+        $this->db->select('SUM(stok_buku) as stok');
+        $query = $this->db->get('buku');
 
-	public function totalBuku()
-	{
-    	$this->db->select('SUM(stok_buku) as stok');
-   		$query = $this->db->get('buku');
-    
-    	if ($query->num_rows() > 0) {
-       		return $query->row()->stok;
-    	} else {
-        	return 0;
-    	}
-	}
-
+        if ($query->num_rows() > 0) {
+            return $query->row()->stok;
+        } else {
+            return 0;
+        }
+    }
 
     public function getNamaRak($rak_id)
     {
