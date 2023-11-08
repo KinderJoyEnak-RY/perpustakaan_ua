@@ -115,12 +115,6 @@
                                         <p>Peminjaman</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="<?php echo base_url('admin/data_denda'); ?>" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Denda</p>
-                                    </a>
-                                </li>
                             </ul>
                         </li>
                         <li class="nav-item has-treeview">
@@ -186,7 +180,7 @@
                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3>Stok Buku</h3> 
+                                    <h3>Stok Buku</h3>
                                     <p>Total: <?php echo $stok; ?></p>
                                 </div>
                                 <div class="icon">
@@ -200,7 +194,7 @@
                             <div class="small-box bg-danger">
                                 <div class="inner">
                                     <h3>Peminjaman</h3>
-                                    <p>Total:</p>
+                                    <p>Total: <?php echo $total_peminjaman; ?></p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-hand-holding"></i>
@@ -208,14 +202,15 @@
                                 <a href="<?php echo base_url('admin/data_peminjaman'); ?>" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
+                        <!-- Pengembalian Card -->
                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                             <div class="small-box bg-success">
                                 <div class="inner">
                                     <h3>Pengembalian</h3>
-                                    <p>Total:</p>
+                                    <p>Total: <?php echo $total_pengembalian; ?></p>
                                 </div>
                                 <div class="icon">
-                                    <i class="fas fa-hand-holding"></i>
+                                    <i class="fas fa-undo-alt"></i>
                                 </div>
                                 <a href="#" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
                             </div>

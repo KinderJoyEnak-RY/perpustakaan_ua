@@ -189,6 +189,7 @@
                         <table id="tabelPeminjaman" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
+                                    <th>No</th>
                                     <th>ID Pinjam</th>
                                     <th>Nama Peminjam</th>
                                     <th>NIS</th>
@@ -452,6 +453,14 @@
                 "serverSide": false,
                 "data": <?php echo json_encode($peminjaman); ?>,
                 "columns": [{
+                        "data": null, // Kolom tambahan untuk nomor urutan
+                        "searchable": false,
+                        "orderable": false,
+                        "render": function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1; // Menambahkan nomor urutan
+                        }
+                    },
+                    {
                         "data": "id"
                     },
                     {

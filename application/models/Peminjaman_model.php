@@ -46,7 +46,21 @@ class Peminjaman_model extends CI_Model
 
     public function tambahPeminjaman($data)
     {
-        return $this->db->insert($this->table, $data);
+        $this->db->trans_start();
+        $this->db->insert($this->table, $data);
+        $insert_id = $this->db->insert_id();
+
+        if ($insert_id) {
+            // Pastikan bahwa 'jumlah_buku' ada di dalam array $data yang dikirim ke fungsi ini
+            if (isset($data['jumlah_buku']) && $data['jumlah_buku'] > 0) {
+                $this->load->model('Buku_model');
+                // Panggil fungsi kurangiStok dari Buku_model
+                $this->Buku_model->kurangiStok($data['buku_id'], $data['jumlah_buku']);
+            }
+        }
+
+        $this->db->trans_complete();
+        return $this->db->trans_status();
     }
 
     public function hapusPeminjaman($id)
@@ -59,5 +73,19 @@ class Peminjaman_model extends CI_Model
     {
         $this->db->where('id', $id);
         return $this->db->update($this->table, $data);
+    }
+
+    public function hitungTotalPeminjaman()
+    {
+        $this->db->where('status', 'dipinjam');
+        $this->db->from($this->table);
+        return $this->db->count_all_results();
+    }
+
+    public function hitungTotalPengembalian()
+    {
+        $this->db->where('status', 'dikembalikan');
+        $this->db->from($this->table);
+        return $this->db->count_all_results();
     }
 }

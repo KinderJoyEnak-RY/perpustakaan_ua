@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css">
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 <style>
@@ -45,9 +45,10 @@
         font-size: 0.8rem;
     }
 
-	.capitalize-input {
+    .capitalize-input {
         text-transform: capitalize;
     }
+
     #modalImage {
         max-width: 100%;
         height: auto;
@@ -152,12 +153,6 @@
                                     <a href="<?php echo base_url('admin/data_peminjaman'); ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Peminjaman</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Denda</p>
                                     </a>
                                 </li>
                             </ul>
@@ -507,8 +502,8 @@
     <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/jssweetalert2/sweetalert2.min.css'); ?>">
-	<script type="text/javascript" src="<?php echo base_url('assets/js/sweetalert2/sweetalert2.all.min.js'); ?>"></script>
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/jssweetalert2/sweetalert2.min.css'); ?>">
+    <script type="text/javascript" src="<?php echo base_url('assets/js/sweetalert2/sweetalert2.all.min.js'); ?>"></script>
 
 
     <script>
@@ -532,111 +527,111 @@
     </script>
     <script>
         function tambahRak() {
-			$.ajax({
-				url: "<?php echo site_url('admin/tambah_rak'); ?>",
-				type: "POST",
-				data: $('#formTambahRak').serialize(),
-				success: function(data) {
-					Swal.fire({
-						icon: 'success',
-						title: 'Sukses',
-						text: 'Rak berhasil ditambahkan!',
-						showConfirmButton: false,
-						timer: 1500,
-						didClose: function() {
-							$('#modalTambahRak').modal('hide');
-							setTimeout(function() {
-								
-							}, 1000);
-							location.reload();
-						}
-					});
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-					Swal.fire({
-						icon: 'error',
-						title: 'Warning!',
-						text: 'Gagal menambahkan rak: ' + textStatus
-					});
-				}
-			});
-		}
+            $.ajax({
+                url: "<?php echo site_url('admin/tambah_rak'); ?>",
+                type: "POST",
+                data: $('#formTambahRak').serialize(),
+                success: function(data) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sukses',
+                        text: 'Rak berhasil ditambahkan!',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        didClose: function() {
+                            $('#modalTambahRak').modal('hide');
+                            setTimeout(function() {
+
+                            }, 1000);
+                            location.reload();
+                        }
+                    });
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Warning!',
+                        text: 'Gagal menambahkan rak: ' + textStatus
+                    });
+                }
+            });
+        }
 
 
         function tambahKategori() {
-			$.ajax({
-				url: "<?php echo site_url('admin/tambah_kategori'); ?>",
-				type: "POST",
-				data: $('#formTambahKategori').serialize(),
-				success: function(data) {
-					Swal.fire({
-						icon: 'success',
-						title: 'Sukses',
-						text: 'Kategori berhasil ditambahkan!',
-						showConfirmButton: false,
-						timer: 1500,
-						didClose: function() {
-							$('#modalTambahKategori').modal('hide');
-							setTimeout(function() {
-								
-							}, 1000);
-							location.reload();
-						}
-					});
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-					Swal.fire({
-						icon: 'error',
-						title: 'Warning!',
-						text: 'Gagal menambahkan kategori'
-					});
-				}
-			});
-		}
+            $.ajax({
+                url: "<?php echo site_url('admin/tambah_kategori'); ?>",
+                type: "POST",
+                data: $('#formTambahKategori').serialize(),
+                success: function(data) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sukses',
+                        text: 'Kategori berhasil ditambahkan!',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        didClose: function() {
+                            $('#modalTambahKategori').modal('hide');
+                            setTimeout(function() {
+
+                            }, 1000);
+                            location.reload();
+                        }
+                    });
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Warning!',
+                        text: 'Gagal menambahkan kategori'
+                    });
+                }
+            });
+        }
 
 
         function tambahBuku() {
-    		var formData = new FormData($('#formTambahBuku')[0]);
-    		$.ajax({
-        		url: "<?php echo site_url('admin/tambah_buku'); ?>",
-        		type: "POST",
-        		data: formData,
-        		contentType: false,
-        		processData: false,
-        		success: function(response) {
-            		response = JSON.parse(response);
-            		if (response.status) {
-                		Swal.fire({
-                    		icon: 'success',
-                    		title: 'Sukses',
-                    		text: 'Buku berhasil ditambahkan!',
-                    		showConfirmButton: false,
-                    		timer: 1500,
-                    		didClose: function() {
-                        		$('#modalTambahBuku').modal('hide');
-                        		setTimeout(function() {
-                           	 	
-                        	}, 1000);
-							location.reload();
-                    	}
-                	});
-            		} else {
-                		Swal.fire({
-                    		icon: 'error',
-                    		title: 'Warning!',
-                    		text: response.message
-                		});
-            		}
-        		},
-        		error: function(jqXHR, textStatus, errorThrown) {
-            		Swal.fire({
-                		icon: 'error',
-                		title: 'Warning!',
-                		text: 'Gagal menambahkan buku: ' + textStatus
-            		});
-        		}
-    		});
-		}
+            var formData = new FormData($('#formTambahBuku')[0]);
+            $.ajax({
+                url: "<?php echo site_url('admin/tambah_buku'); ?>",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    response = JSON.parse(response);
+                    if (response.status) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Sukses',
+                            text: 'Buku berhasil ditambahkan!',
+                            showConfirmButton: false,
+                            timer: 1500,
+                            didClose: function() {
+                                $('#modalTambahBuku').modal('hide');
+                                setTimeout(function() {
+
+                                }, 1000);
+                                location.reload();
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Warning!',
+                            text: response.message
+                        });
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Warning!',
+                        text: 'Gagal menambahkan buku: ' + textStatus
+                    });
+                }
+            });
+        }
 
 
 
@@ -698,120 +693,120 @@
         });
 
         function deleteRak(id) {
-			Swal.fire({
-				title: 'Konfirmasi',
-				text: 'Apakah Anda yakin ingin menghapus rak ini?',
-				icon: 'warning',
-				showCancelButton: true,
-				confirmButtonColor: '#3085d6',
-				cancelButtonColor: '#d33',
-				confirmButtonText: 'Ya',
-				cancelButtonText: 'Tidak'
-			}).then((result) => {
-				if (result.isConfirmed) {
-					$.ajax({
-						url: "<?php echo site_url('admin/delete_rak/'); ?>" + id,
-						type: "POST",
-						success: function(data) {
-							Swal.fire({
-								icon: 'success',
-								title: 'Sukses',
-								text: 'Rak berhasil dihapus',
-								showConfirmButton: false,
-								timer: 1500,
-								didClose: () => {
-									$('#modalTambahRak').modal('hide');
-									location.reload();
-								}
-							});
-						},
-						error: function(jqXHR, textStatus, errorThrown) {
-							Swal.fire({
-								icon: 'error',
-								title: 'Warning!',
-								text: 'Gagal menghapus rak: ' + textStatus
-							});
-						}
-					});
-				}
-			});
-		}
+            Swal.fire({
+                title: 'Konfirmasi',
+                text: 'Apakah Anda yakin ingin menghapus rak ini?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Tidak'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "<?php echo site_url('admin/delete_rak/'); ?>" + id,
+                        type: "POST",
+                        success: function(data) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Sukses',
+                                text: 'Rak berhasil dihapus',
+                                showConfirmButton: false,
+                                timer: 1500,
+                                didClose: () => {
+                                    $('#modalTambahRak').modal('hide');
+                                    location.reload();
+                                }
+                            });
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Warning!',
+                                text: 'Gagal menghapus rak: ' + textStatus
+                            });
+                        }
+                    });
+                }
+            });
+        }
 
 
         function deleteKategori(id) {
-			Swal.fire({
-				title: 'Konfirmasi',
-				text: 'Apakah Anda yakin ingin menghapus kategori ini?',
-				icon: 'warning',
-				showCancelButton: true,
-				confirmButtonColor: '#3085d6',
-				cancelButtonColor: '#d33',
-				confirmButtonText: 'Ya',
-				cancelButtonText: 'Tidak'
-			}).then((result) => {
-				if (result.isConfirmed) {
-					$.ajax({
-						url: "<?php echo site_url('admin/delete_kategori/'); ?>" + id,
-						type: "POST",
-						success: function(data) {
-							Swal.fire({
-								icon: 'success',
-								title: 'Sukses',
-								text: 'Kategori berhasil dihapus',
-								showConfirmButton: false,
-								timer: 1500,
-								didClose: () => {
-									$('#modalTambahKategori').modal('hide');
-									location.reload();
-								}
-							});
-						},
-						error: function(jqXHR, textStatus, errorThrown) {
-							Swal.fire({
-								icon: 'error',
-								title: 'Warning!',
-								text: 'Gagal menghapus kategori: ' + textStatus
-							});
-						}
-					});
-				}
-			});
-		}
+            Swal.fire({
+                title: 'Konfirmasi',
+                text: 'Apakah Anda yakin ingin menghapus kategori ini?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Tidak'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "<?php echo site_url('admin/delete_kategori/'); ?>" + id,
+                        type: "POST",
+                        success: function(data) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Sukses',
+                                text: 'Kategori berhasil dihapus',
+                                showConfirmButton: false,
+                                timer: 1500,
+                                didClose: () => {
+                                    $('#modalTambahKategori').modal('hide');
+                                    location.reload();
+                                }
+                            });
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Warning!',
+                                text: 'Gagal menghapus kategori: ' + textStatus
+                            });
+                        }
+                    });
+                }
+            });
+        }
 
         function deleteBuku(id) {
-			Swal.fire({
-				title: 'Konfirmasi',
-				text: 'Apakah Anda yakin ingin menghapus buku ini?',
-				icon: 'warning',
-				showCancelButton: true,
-				confirmButtonText: 'Ya',
-				cancelButtonText: 'Tidak'
-			}).then((result) => {
-				if (result.isConfirmed) {
-					$.ajax({
-						url: "<?php echo site_url('admin/delete_buku/'); ?>" + id,
-						type: "POST",
-						success: function(data) {
-							Swal.fire({
-								icon: 'success',
-								title: 'Sukses',
-								text: 'Buku berhasil dihapus',
-								showConfirmButton: false,
-								timer: 1500,
-							});
-							location.reload();
-						},
-						error: function(jqXHR, textStatus, errorThrown) {
-							Swal.fire({
-								icon: 'error',
-								title: 'Warning!',
-								text: 'Gagal menghapus buku: ' + textStatus
-							});
-						}
-					});
-				}
-			});
-		}
+            Swal.fire({
+                title: 'Konfirmasi',
+                text: 'Apakah Anda yakin ingin menghapus buku ini?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Tidak'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "<?php echo site_url('admin/delete_buku/'); ?>" + id,
+                        type: "POST",
+                        success: function(data) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Sukses',
+                                text: 'Buku berhasil dihapus',
+                                showConfirmButton: false,
+                                timer: 1500,
+                            });
+                            location.reload();
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Warning!',
+                                text: 'Gagal menghapus buku: ' + textStatus
+                            });
+                        }
+                    });
+                }
+            });
+        }
 
         function editBuku(id) {
             $.ajax({
@@ -888,7 +883,7 @@
                 contentType: false,
                 processData: false,
                 success: function(data) {
-					// console.log(data);
+                    // console.log(data);
                     alert('Buku berhasil diperbarui');
                     $('#modalEditBuku').modal('hide');
                     location.reload();

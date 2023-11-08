@@ -18,13 +18,19 @@ class Admin extends CI_Controller
         }
     }
 
+    // Mengupdate metode dashboard di dalam class Admin
+
     public function dashboard()
     {
         $this->load->model('Buku_model');
         $this->load->model('Anggota_model');
+        $this->load->model('Peminjaman_model'); // Pastikan model ini sudah diload
 
         $data['stok'] = $this->Buku_model->totalBuku();
         $data['users'] = $this->Anggota_model->totalAnggota();
+        $data['total_peminjaman'] = $this->Peminjaman_model->hitungTotalPeminjaman(); // Total peminjaman
+        $data['total_pengembalian'] = $this->Peminjaman_model->hitungTotalPengembalian(); // Total pengembalian
+
         $this->load->view('admin/dashboard', $data);
     }
 
@@ -374,6 +380,18 @@ class Admin extends CI_Controller
         $data['users'] = $this->User_model->getAllUsers(); // Metode untuk mengambil semua user
         $data['buku'] = $this->Buku_model->getAllBuku(); // Metode untuk mengambil semua buku
 
+        // Format ID peminjaman
+        foreach ($data['peminjaman'] as $key => $pinjam) {
+            // Jika $pinjam adalah objek
+            if (is_object($pinjam)) {
+                $data['peminjaman'][$key]->id = 'PID' . str_pad($pinjam->id, 3, '0', STR_PAD_LEFT);
+            }
+            // Jika $pinjam adalah array
+            else if (is_array($pinjam)) {
+                $data['peminjaman'][$key]['id'] = 'PID' . str_pad($pinjam['id'], 3, '0', STR_PAD_LEFT);
+            }
+        }
+
         $this->load->view('admin/data_peminjaman', $data);
     }
 
@@ -383,6 +401,7 @@ class Admin extends CI_Controller
         $buku_id = $this->input->post('buku_id');
         $tanggal_pinjam = new DateTime($this->input->post('tanggal_pinjam'));
         $tanggal_harus_kembali = new DateTime($this->input->post('tanggal_harus_kembali'));
+        $jumlah_buku = $this->input->post('jumlah_buku');
 
         // Konversi objek DateTime menjadi string.
         $formatted_tanggal_pinjam = $tanggal_pinjam->format('Y-m-d');
@@ -402,7 +421,8 @@ class Admin extends CI_Controller
             'buku_id' => $buku_id,
             'tanggal_pinjam' => $formatted_tanggal_pinjam, // Gunakan string tanggal yang sudah diformat
             'tanggal_harus_kembali' => $formatted_tanggal_harus_kembali, // Gunakan string tanggal yang sudah diformat
-            'status' => 'dipinjam' // Status default saat peminjaman
+            'status' => 'dipinjam', // Status default saat peminjaman
+            'jumlah_buku' => $jumlah_buku
         );
 
         $this->load->model('Peminjaman_model');
@@ -478,6 +498,14 @@ class Admin extends CI_Controller
 
         $this->db->where('id', $id);
         $update = $this->db->update('peminjaman', $data);
+
+        // Jika update berhasil dan buku dikembalikan, tambahkan stoknya kembali
+        if ($update) {
+            // Load Buku_model jika belum diload
+            $this->load->model('Buku_model');
+            // Tambahkan stok buku
+            $this->Buku_model->tambahStok($peminjaman->buku_id, $peminjaman->jumlah_buku);
+        }
 
         // Persiapkan response
         $response = array();

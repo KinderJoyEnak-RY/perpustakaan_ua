@@ -125,7 +125,7 @@ $tgl2 = $hari2 . ' ' . $bl2 . ' ' . $tahun2;
 								<tr>
 									<td>Kelas</td>
 									<td>:</td>
-									<td><?= $user->kelas;?></td>
+									<td><?= $user->kelas; ?></td>
 								</tr>
 								<tr>
 									<td>Alamat</td>

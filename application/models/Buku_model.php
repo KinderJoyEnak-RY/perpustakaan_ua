@@ -50,4 +50,18 @@ class Buku_model extends CI_Model
         $kategori = $this->db->get('kategori')->row();
         return $kategori ? $kategori->nama_kategori : null; // Pastikan untuk menangani kasus jika kategori tidak ditemukan
     }
+
+    public function kurangiStok($buku_id, $jumlah)
+    {
+        $this->db->set('stok_buku', 'stok_buku-' . $jumlah, FALSE);
+        $this->db->where('id', $buku_id);
+        $this->db->update('buku');
+    }
+
+    public function tambahStok($buku_id, $jumlah)
+    {
+        $this->db->set('stok_buku', 'stok_buku+' . $jumlah, FALSE);
+        $this->db->where('id', $buku_id);
+        $this->db->update('buku');
+    }
 }
