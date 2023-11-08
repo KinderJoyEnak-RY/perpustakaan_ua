@@ -251,9 +251,6 @@
                                         <img src="<?php echo base_url('uploads/qrcodes/qranggota/' . $user['qr_code']); ?>" width="40" alt="QR Code" class="img-thumbnail qr-code-thumbnail" data-toggle="modal" data-target="#imageModal" data-image="<?php echo base_url('uploads/qrcodes/qranggota/' . $user['qr_code']); ?>">
                                     </td>
                                     <td width="10%" class="text-center">
-                                        <!-- <button class="btn btn-primary" onclick="openWindow('<?= base_url('admin/detail_anggota/' . $user['id']); ?>')">
-                                            <i class="fa fa-print"></i> Cetak Kartu
-                                            </button> -->
                                         <a href="javascript:void(0)" onclick="lihatAnggota(<?php echo $user['id']; ?>)" title="Detail">
                                             <i class="fas fa-eye"></i>
                                         </a>

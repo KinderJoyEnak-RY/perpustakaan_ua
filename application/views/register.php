@@ -94,7 +94,6 @@
         <div class="register-logo">
             <a href="#"><b>Register</b></a>
         </div>
-
         <div class="card">
             <div class="card-body register-card-body">
                 <h5 class="login-box-msg">Pendaftaran Akun</h5>
@@ -109,7 +108,14 @@
                         <?= $this->session->flashdata('success'); ?>
                     </div>
                 <?php endif; ?>
-                <form action="<?php echo base_url('auth/register'); ?>" method="post">
+                <form action="<?php echo base_url('auth/register'); ?>" method="post" enctype="multipart/form-data">
+                    <!-- Foto Profile -->
+                    <div class="input-group mb-3">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" name="profil" id="profil">
+                            <label class="custom-file-label" for="profil">Pilih foto profil</label>
+                        </div>
+                    </div>
                     <!-- Nama Lengkap -->
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" name="nama" placeholder="Nama Lengkap">
@@ -129,14 +135,22 @@
                         </div>
                     </div>
                     <!-- Kelas -->
+                    <!-- Kelas -->
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="kelas" placeholder="Kelas">
+                        <select class="form-control" name="kelas">
+                            <option value="">Pilih Kelas</option>
+                            <option value="VII">VII</option>
+                            <option value="VIII">VIII</option>
+                            <option value="IX">IX</option>
+                            <option value="GURU">GURU</option>
+                        </select>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-chalkboard-teacher"></span>
                             </div>
                         </div>
                     </div>
+
                     <!-- Telepon -->
                     <div class="input-group mb-3">
                         <input type="number" class="form-control" name="telefon" placeholder="Telepon">
@@ -216,6 +230,18 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Ketika file input berubah
+            $('#profil').on('change', function() {
+                // Mendapatkan nama file
+                var fileName = $(this).val().split('\\').pop();
+                // Mengganti teks pada label
+                $(this).next('.custom-file-label').addClass("selected").html(fileName);
+            });
+        });
+    </script>
 </body>
 
 </html>
