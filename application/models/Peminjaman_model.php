@@ -49,6 +49,12 @@ class Peminjaman_model extends CI_Model
         return $this->db->insert($this->table, $data);
     }
 
+    public function hapusPeminjaman($id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->delete($this->table);
+    }
+
     public function kembalikanBuku($id, $data)
     {
         $this->db->where('id', $id);

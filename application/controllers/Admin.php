@@ -232,7 +232,6 @@ class Admin extends CI_Controller
         }
     }
 
-
     public function tambah_anggota()
     {
         $this->load->library('form_validation');
@@ -240,7 +239,6 @@ class Admin extends CI_Controller
         // Atur aturan validasi
         $this->form_validation->set_rules('nama', 'Nama', 'required');
         $this->form_validation->set_rules('nis', 'Nis', 'required');
-        // $this->form_validation->set_rules('kelas', 'Kelas', 'required');
         $this->form_validation->set_rules('username', 'Username', 'required');
         $this->form_validation->set_rules('password', 'Paswword', 'required');
         $this->form_validation->set_rules('email', 'Email', 'required');
@@ -270,7 +268,6 @@ class Admin extends CI_Controller
                     'nis' => $this->input->post('nis'),
                     'kelas' => $this->input->post('kelas'),
                     'username' => $this->input->post('username'),
-                    // 'password' => $this->input->post('password'),
                     'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
                     'email' => $this->input->post('email'),
                     'telefon' => $this->input->post('telefon'),
@@ -298,7 +295,6 @@ class Admin extends CI_Controller
                 $this->db->where('id', $id_user);
                 $this->db->update('users', array('qr_code' => $qrCodeFileName));
 
-                // $this->session->set_flashdata('success', 'Anggota berhasil ditambahkan');
                 echo json_encode(array("status" => TRUE));
             }
         }
@@ -344,7 +340,6 @@ class Admin extends CI_Controller
         $data['telefon'] = $this->input->post('telefon_edit');
         $data['email'] = $this->input->post('email_edit');
         $data['username'] = $this->input->post('username_edit');
-        // 'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
         $data['password'] = password_hash($this->input->post('password_edit'), PASSWORD_DEFAULT);
         $data['role'] = $this->input->post('role_edit');
 
@@ -372,8 +367,8 @@ class Admin extends CI_Controller
     public function data_peminjaman()
     {
         $this->load->model('Peminjaman_model');
-        $this->load->model('User_model'); // Anggap Anda memiliki model untuk User
-        $this->load->model('Buku_model'); // Anggap Anda memiliki model untuk Buku
+        $this->load->model('User_model');
+        $this->load->model('Buku_model');
 
         $data['peminjaman'] = $this->Peminjaman_model->getAllPeminjaman();
         $data['users'] = $this->User_model->getAllUsers(); // Metode untuk mengambil semua user
@@ -386,14 +381,27 @@ class Admin extends CI_Controller
     {
         $user_id = $this->input->post('user_id');
         $buku_id = $this->input->post('buku_id');
-        $tanggal_pinjam = $this->input->post('tanggal_pinjam');
-        $tanggal_harus_kembali = $this->input->post('tanggal_harus_kembali');
+        $tanggal_pinjam = new DateTime($this->input->post('tanggal_pinjam'));
+        $tanggal_harus_kembali = new DateTime($this->input->post('tanggal_harus_kembali'));
+
+        // Konversi objek DateTime menjadi string.
+        $formatted_tanggal_pinjam = $tanggal_pinjam->format('Y-m-d');
+        $formatted_tanggal_harus_kembali = $tanggal_harus_kembali->format('Y-m-d');
+
+        $interval = $tanggal_pinjam->diff($tanggal_harus_kembali);
+        $hari = $interval->days;
+
+        if ($hari > 2) {
+            // Set flashdata untuk menampilkan error
+            $this->session->set_flashdata('error', 'Peminjaman hanya bisa maksimal 2 hari.');
+            redirect('admin/data_peminjaman');
+        }
 
         $data = array(
             'user_id' => $user_id,
             'buku_id' => $buku_id,
-            'tanggal_pinjam' => $tanggal_pinjam,
-            'tanggal_harus_kembali' => $tanggal_harus_kembali,
+            'tanggal_pinjam' => $formatted_tanggal_pinjam, // Gunakan string tanggal yang sudah diformat
+            'tanggal_harus_kembali' => $formatted_tanggal_harus_kembali, // Gunakan string tanggal yang sudah diformat
             'status' => 'dipinjam' // Status default saat peminjaman
         );
 
@@ -408,17 +416,35 @@ class Admin extends CI_Controller
 
         redirect('admin/data_peminjaman');
     }
+    public function hapus_peminjaman($id)
+    {
+        $this->load->model('Peminjaman_model');
+        $delete = $this->Peminjaman_model->hapusPeminjaman($id);
+
+        // Persiapkan response
+        $response = array();
+        if ($delete) {
+            $response['success'] = true;
+            $response['message'] = 'Data peminjaman berhasil dihapus.';
+        } else {
+            $response['success'] = false;
+            $response['message'] = 'Terjadi kesalahan saat menghapus data peminjaman.';
+        }
+
+        echo json_encode($response); // Mengirimkan respon dalam format JSON
+    }
+
     public function get_user_info($id)
     {
         $this->load->model('User_model');
-        $user_info = $this->User_model->getUserById($id); // Anggap Anda memiliki method ini
+        $user_info = $this->User_model->getUserById($id);
 
         echo json_encode($user_info);
     }
     public function get_buku_info($id)
     {
         $this->load->model('Buku_model');
-        $buku_info = $this->Buku_model->getBookById($id); // Anggap Anda memiliki method ini
+        $buku_info = $this->Buku_model->getBookById($id);
 
         echo json_encode($buku_info);
     }
@@ -470,7 +496,7 @@ class Admin extends CI_Controller
     public function get_denda_json()
     {
         $this->load->model('Denda_model');
-        $data['denda'] = $this->Denda_model->getAllDenda(); // atau method lain yang sesuai
+        $data['denda'] = $this->Denda_model->getAllDenda();
         echo json_encode($data['denda']);
     }
 
@@ -479,7 +505,6 @@ class Admin extends CI_Controller
         $jumlah_denda = $this->input->post('jumlah_denda');
 
         // Validasi input disini jika diperlukan
-
         $data = array(
             'jumlah_denda' => $jumlah_denda,
             'status_aktif' => 1, // Denda ini akan menjadi denda aktif
