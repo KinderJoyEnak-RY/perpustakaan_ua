@@ -46,10 +46,19 @@ class Auth extends CI_Controller
 				'role' => $user->role,
 				'logged_in' => TRUE
 			);
+
 			$this->session->set_userdata($session_data);
 
-			// Redirect ke halaman dashboard
-			redirect('admin/dashboard');
+			// Redirect ke halaman dashboard sesuai role
+			if ($user->role == 'staff') {
+				redirect('admin/dashboard');
+			} else if ($user->role == 'anggota') {
+				redirect('anggota/dashboard');
+			} else {
+				// Jika role tidak dikenal, handle error
+				$this->session->set_flashdata('error', 'Invalid user role');
+				redirect('auth/login_view');
+			}
 		} else {
 			// Redirect kembali ke halaman login dengan pesan error
 			$this->session->set_flashdata('error', 'Invalid username or password');
