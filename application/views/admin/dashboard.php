@@ -170,7 +170,7 @@
                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                             <div class="small-box bg-danger">
                                 <div class="inner">
-                                    <h3>Peminjaman</h3>
+                                    <h3>Dipinjam</h3>
                                     <p>Total: <?php echo $total_peminjaman; ?></p>
                                 </div>
                                 <div class="icon">
@@ -183,13 +183,13 @@
                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3>Pengembalian</h3>
+                                    <h3>Dikembalikan</h3>
                                     <p>Total: <?php echo $total_pengembalian; ?></p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-undo-alt"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="<?php echo base_url('admin/data_peminjaman'); ?>" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- Data User Card -->

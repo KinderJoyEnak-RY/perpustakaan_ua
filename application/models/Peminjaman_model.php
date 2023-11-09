@@ -88,4 +88,31 @@ class Peminjaman_model extends CI_Model
         $this->db->from($this->table);
         return $this->db->count_all_results();
     }
+
+    public function getPeminjamanByUserId($user_id)
+    {
+        $this->db->select('peminjaman.*, buku.judul AS judul_buku, buku.pengarang, buku.penerbit');
+        $this->db->from($this->table);
+        $this->db->join('buku', 'peminjaman.buku_id = buku.id');
+        $this->db->where('peminjaman.user_id', $user_id);
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
+
+    public function hitungTotalPeminjamanByUserId($user_id)
+    {
+        $this->db->where('user_id', $user_id);
+        $this->db->where('status', 'dipinjam');
+        $this->db->from($this->table);
+        return $this->db->count_all_results();
+    }
+
+    public function hitungTotalPengembalianByUserId($user_id)
+    {
+        $this->db->where('user_id', $user_id);
+        $this->db->where('status', 'dikembalikan');
+        $this->db->from($this->table);
+        return $this->db->count_all_results();
+    }
 }

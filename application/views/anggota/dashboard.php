@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/dark-mode.css">
 </head>
 
-<body class="hold-transition sidebar-mini dark-mode">
+<body class="hold-transition sidebar-mini">
     <div class="wrapper">
 
         <!-- Navbar -->
@@ -93,7 +93,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="<?php echo base_url('anggota/data_peminjaman'); ?>" class="nav-link">
+                                <a href="<?php echo base_url('anggota/transaksi'); ?>" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Peminjaman</p>
                                 </a>
@@ -141,12 +141,12 @@
                             <div class="small-box bg-info">
                                 <div class="inner">
                                     <h3>Stok Buku</h3>
-                                    <p>Total: <?php echo $stok; ?></p>
+                                    <p>Total: <?php echo $stok; ?></p> <!-- Pastikan variabel $stok diisi di controller -->
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-book"></i>
                                 </div>
-                                <a href="<?php echo base_url('anggota/data_buku'); ?>" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="<?php echo base_url('anggota/katalog_buku'); ?>" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- Peminjaman Card -->
@@ -154,7 +154,7 @@
                             <div class="small-box bg-danger">
                                 <div class="inner">
                                     <h3>Peminjaman</h3>
-                                    <p>Total: <?php echo $total_peminjaman; ?></p>
+                                    <p>Total: <?php echo $total_peminjaman; ?></p> <!-- Pastikan variabel $total_peminjaman diisi di controller -->
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-hand-holding"></i>
@@ -167,25 +167,12 @@
                             <div class="small-box bg-success">
                                 <div class="inner">
                                     <h3>Pengembalian</h3>
-                                    <p>Total: <?php echo $total_pengembalian; ?></p>
+                                    <p>Total: <?php echo $total_pengembalian; ?></p> <!-- Pastikan variabel $total_pengembalian diisi di controller -->
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-undo-alt"></i>
                                 </div>
                                 <a href="#" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <!-- Data User Card -->
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                            <div class="small-box bg-primary">
-                                <div class="inner">
-                                    <h3>Data Anggota</h3>
-                                    <p>Total: <?php echo $users; ?></p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                                <a href="<?php echo base_url('anggota/data_anggota'); ?>" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>

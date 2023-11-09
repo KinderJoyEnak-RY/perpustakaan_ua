@@ -80,7 +80,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?php echo base_url('anggota/katalog_buku'); ?>" class="nav-link active">
+                        <a href="<?php echo base_url('anggota/katalog_buku'); ?>" class="nav-link">
                             <i class="nav-icon fas fa-book"></i>
                             <p>Katalog Buku</p>
                         </a>
@@ -95,7 +95,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="<?php echo base_url('anggota/transaksi'); ?>" class="nav-link">
+                                <a href="<?php echo base_url('anggota/transaksi'); ?>" class="nav-link active">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Peminjaman</p>
                                 </a>
@@ -114,7 +114,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Katalog Buku</h1>
+                            <h1 class="m-0">Transaksi</h1>
                         </div>
                     </div>
                 </div>
@@ -133,64 +133,23 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Sampul</th>
-                                                <th>Judul</th>
-                                                <th>Pengarang</th>
-                                                <th>Penerbit</th>
-                                                <th>Kategori</th>
-                                                <th>Rak</th>
-                                                <th>QR Code</th>
+                                                <th>Judul Buku</th>
+                                                <th>Tanggal Pinjam</th>
+                                                <th>Tanggal Harus Kembali</th>
+                                                <th>Status</th>
+                                                <th>Denda</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <!-- Looping Data Buku dari Database -->
-                                            <?php foreach ($buku as $index => $b) : ?>
+                                            <?php foreach ($transaksi as $index => $transaksi) : ?>
                                                 <tr>
                                                     <td><?php echo $index + 1; ?></td>
-                                                    <td>
-                                                        <img src="<?php echo base_url('uploads/sampul/' . $b['sampul']); ?>" alt="Sampul" class="img-thumbnail" style="width: 50px; height: 50px;" data-toggle="modal" data-target="#modalSampul<?php echo $index; ?>">
-                                                    </td>
-                                                    <td><?php echo $b['judul']; ?></td>
-                                                    <td><?php echo $b['pengarang']; ?></td>
-                                                    <td><?php echo $b['penerbit']; ?></td>
-                                                    <td><?php echo $b['nama_kategori']; ?></td>
-                                                    <td><?php echo $b['nama_rak']; ?></td>
-                                                    <td>
-                                                        <img src="<?php echo base_url('uploads/qrcodes/qrbuku/' . $b['qr_code']); ?>" alt="QR Code" class="img-thumbnail" style="width: 50px; height: 50px;" data-toggle="modal" data-target="#modalQRCode<?php echo $index; ?>">
-                                                    </td>
+                                                    <td><?php echo $transaksi['judul_buku']; ?></td>
+                                                    <td><?php echo $transaksi['tanggal_pinjam']; ?></td>
+                                                    <td><?php echo $transaksi['tanggal_harus_kembali']; ?></td>
+                                                    <td><?php echo $transaksi['status']; ?></td>
+                                                    <td><?php echo $transaksi['denda']; ?></td>
                                                 </tr>
-                                                <!-- Modal Sampul -->
-                                                <div class="modal fade" id="modalSampul<?php echo $index; ?>" tabindex="-1" role="dialog" aria-labelledby="modalSampulLabel" aria-hidden="true">
-                                                    <div class="modal-dialog" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="modalSampulLabel">Sampul Buku</h5>
-                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <img src="<?php echo base_url('uploads/sampul/' . $b['sampul']); ?>" alt="Sampul" class="img-fluid">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- Modal QR Code -->
-                                                <div class="modal fade" id="modalQRCode<?php echo $index; ?>" tabindex="-1" role="dialog" aria-labelledby="modalQRCodeLabel" aria-hidden="true">
-                                                    <div class="modal-dialog" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="modalQRCodeLabel">QR Code</h5>
-                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <img src="<?php echo base_url('uploads/qrcodes/qrbuku/' . $b['qr_code']); ?>" alt="QR Code" class="img-fluid">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             <?php endforeach; ?>
                                         </tbody>
                                     </table>
