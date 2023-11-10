@@ -19,7 +19,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css">
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 <style>
@@ -445,12 +444,12 @@
                                     <img id="modalImage" src="" alt="Sampul Buku" class="img-fluid">
                                 </div>
                                 <div class="modal-footer">
+                                    <a href="#" id="downloadImage" download class="btn btn-success">Download</a>
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-
 
                 </div>
             </div>
@@ -479,8 +478,7 @@
     <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/jssweetalert2/sweetalert2.min.css'); ?>">
-    <script type="text/javascript" src="<?php echo base_url('assets/js/sweetalert2/sweetalert2.all.min.js'); ?>"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
     <script>
@@ -488,14 +486,22 @@
             $('.table').DataTable({
                 "pageLength": 10
             });
+
+            $('.qr-code-thumbnail').click(function() {
+                var imageUrl = $(this).data('image');
+                var imageExtension = imageUrl.split('.').pop().split(/\#|\?/)[0];
+                var imageName = "download." + imageExtension;
+
+                if (imageExtension !== 'jpg' && imageExtension !== 'png') {
+                    imageName = "download.png";
+                }
+
+                $('#modalImage').attr('src', imageUrl);
+                $('#downloadImage').attr('href', imageUrl).attr('download', imageName);
+                $('#imageModal').modal('show');
+            });
         });
 
-        $('#imageModal').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget);
-            var imageUrl = button.data('image');
-            var modal = $(this);
-            modal.find('#modalImage').attr('src', imageUrl);
-        });
         $('.qr-code-thumbnail').on('click', function() {
             var imageUrl = $(this).data('image');
             $('#imageModal').find('#modalImage').attr('src', imageUrl);
