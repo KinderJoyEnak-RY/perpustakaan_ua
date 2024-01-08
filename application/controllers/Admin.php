@@ -330,7 +330,7 @@ class Admin extends CI_Controller
 	public function update_buku()
     {
 		
-        $id = $this->input->post('id_buku'); // Ambil ID buku dari form
+        $id = $this->input->post('id_buku '); // Ambil ID buku dari form
 
         $config['upload_path'] = './uploads/sampul/';
         $config['allowed_types'] = 'gif|jpg|jpeg|png';
