@@ -311,13 +311,13 @@ class Admin extends CI_Controller
         $data['password'] = password_hash($this->input->post('password_edit'), PASSWORD_DEFAULT);
         $data['role'] = $this->input->post('role_edit');
 
-		var_dump($id, $data);
+		// var_dump($id, $data);
 
 
         $this->db->where('id', $id);
         $this->db->update('users', $data);
 
-		var_dump($this->db->last_query());
+		// var_dump($this->db->last_query());
 
 
         if ($this->db->affected_rows() > 0) {
@@ -362,12 +362,12 @@ class Admin extends CI_Controller
 		// print_r($data);
 		// exit();
 
-		var_dump($id, $data);
+		// var_dump($id, $data);
 
         $this->db->where('id', $id);
         $this->db->update('buku', $data);
 
-		var_dump($this->db->last_query());
+		// var_dump($this->db->last_query());
 
 
         if ($this->db->affected_rows() > 0) {
