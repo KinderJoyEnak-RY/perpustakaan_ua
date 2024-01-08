@@ -136,45 +136,7 @@ class Admin extends CI_Controller
         $data = $this->Buku_model->getBukuById($id);
         echo json_encode($data);
     }
-    public function update_buku()
-    {
-        $id = $this->input->post('id'); // Ambil ID buku dari form
-
-        $config['upload_path'] = './uploads/sampul/';
-        $config['allowed_types'] = 'gif|jpg|jpeg|png';
-        $config['max_size'] = 2048; // 2MB
-
-        $this->load->library('upload', $config);
-
-        // Cek apakah ada file yang di-upload
-        if (!empty($_FILES['sampul_edit']['name'])) {
-            if (!$this->upload->do_upload('sampul_edit')) {
-                echo json_encode(array("status" => FALSE, "message" => $this->upload->display_errors()));
-                return;
-            } else {
-                $upload_data = $this->upload->data();
-                $data['sampul'] = $upload_data['file_name'];
-            }
-        }
-
-        $data['judul'] = $this->input->post('judul_edit');
-        $data['tahun_buku'] = $this->input->post('tahun_buku_edit');
-        $data['nomor_isbn'] = $this->input->post('nomor_isbn_edit');
-        $data['pengarang'] = $this->input->post('pengarang_edit');
-        $data['penerbit'] = $this->input->post('penerbit_edit');
-        $data['rak_id'] = $this->input->post('rak_edit');
-        $data['kategori_id'] = $this->input->post('kategori_edit');
-        $data['stok_buku'] = $this->input->post('stok_buku_edit');
-
-        $this->db->where('id', $id);
-        $this->db->update('buku', $data);
-
-        if ($this->db->affected_rows() > 0) {
-            echo json_encode(array("status" => TRUE));
-        } else {
-            echo json_encode(array("status" => FALSE, "message" => "Gagal mengupdate buku"));
-        }
-    }
+    
     public function delete_buku($id)
     {
         $this->db->where('id', $id);
@@ -349,13 +311,69 @@ class Admin extends CI_Controller
         $data['password'] = password_hash($this->input->post('password_edit'), PASSWORD_DEFAULT);
         $data['role'] = $this->input->post('role_edit');
 
+		var_dump($id, $data);
+
+
         $this->db->where('id', $id);
         $this->db->update('users', $data);
+
+		var_dump($this->db->last_query());
+
 
         if ($this->db->affected_rows() > 0) {
             echo json_encode(array("status" => TRUE));
         } else {
             echo json_encode(array("status" => FALSE, "message" => "Gagal Update Anggota"));
+        }
+    }
+
+	public function update_buku()
+    {
+		
+        $id = $this->input->post('id_buku'); // Ambil ID buku dari form
+
+        $config['upload_path'] = './uploads/sampul/';
+        $config['allowed_types'] = 'gif|jpg|jpeg|png';
+        $config['max_size'] = 2048; // 2MB
+
+        $this->load->library('upload', $config);
+
+        // Cek apakah ada file yang di-upload
+        if (!empty($_FILES['sampul_edit']['name'])) {
+            if (!$this->upload->do_upload('sampul_edit')) {
+                echo json_encode(array("status" => FALSE, "message" => $this->upload->display_errors()));
+                return;
+            } else {
+                $upload_data = $this->upload->data();
+                $data['sampul'] = $upload_data['file_name'];
+            }
+        }
+
+        $data['judul'] = $this->input->post('judul_edit');
+        $data['tahun_buku'] = $this->input->post('tahun_buku_edit');
+        $data['nomor_isbn'] = $this->input->post('nomor_isbn_edit');
+        $data['pengarang'] = $this->input->post('pengarang_edit');
+        $data['penerbit'] = $this->input->post('penerbit_edit');
+        $data['rak_id'] = $this->input->post('rak_edit');
+        $data['kategori_id'] = $this->input->post('kategori_edit');
+        $data['stok_buku'] = $this->input->post('stok_buku_edit');
+
+		// print_r($id);
+		// print_r($data);
+		// exit();
+
+		var_dump($id, $data);
+
+        $this->db->where('id', $id);
+        $this->db->update('buku', $data);
+
+		var_dump($this->db->last_query());
+
+
+        if ($this->db->affected_rows() > 0) {
+            echo json_encode(array("status" => TRUE));
+        } else {
+            echo json_encode(array("status" => FALSE, "message" => "Gagal mengupdate buku"));
         }
     }
 

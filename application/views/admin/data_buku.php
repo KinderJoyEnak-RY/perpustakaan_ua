@@ -388,7 +388,6 @@
                                     <h5 class="mb-3">Edit Buku</h5>
                                     <form id="formEditBuku" action="javascript:void(0)" method="post" enctype="multipart/form-data">
                                         <input type="hidden" name="id_buku" id="id_buku">
-
                                         <div class="form-group">
                                             <label>Sampul</label>
                                             <input type="file" class="form-control" name="sampul_edit" id="sampul_edit">
@@ -858,24 +857,36 @@
         }
 
         function updateBuku() {
-            var formData = new FormData($('#formEditBuku')[0]);
-            $.ajax({
-                url: "<?php echo site_url('admin/update_buku'); ?>",
-                type: "POST",
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(data) {
-                    // console.log(data);
-                    alert('Buku berhasil diperbarui');
-                    $('#modalEditBuku').modal('hide');
-                    location.reload();
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert('Gagal memperbarui buku');
-                }
-            });
-        }
+			var formData = new FormData($('#formEditBuku')[0]);
+			// console.log("Data yang dikirim:", formData);
+			$.ajax({
+				url: "<?php echo site_url('admin/update_buku'); ?>",
+				type: "POST",
+				data: formData,
+				contentType: false,
+				processData: false,
+				success: function(data) {
+					console.log(data);
+					Swal.fire({
+						icon: 'success',
+						title: 'Sukses',
+						text: 'Data Buku berhasil diperbarui!',
+						showConfirmButton: true,
+						timer: 1500,
+					}).then(function() {
+						$('#modalEditBuku').modal('hide');
+						location.reload();
+					});
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					Swal.fire({
+						icon: 'error',
+						title: 'Warning!',
+						text: 'Gagal memperbarui Buku',
+					});
+				}
+			});
+		}
     </script>
 
 </body>

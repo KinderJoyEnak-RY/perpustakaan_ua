@@ -218,7 +218,7 @@
                                     <td>
                                         <img src="<?php echo base_url('uploads/profil_anggota/' . $user['profil']); ?>" width="40" alt="Profil" class="img-thumbnail" data-toggle="modal" data-target="#imageModal" data-image="<?php echo base_url('uploads/profil_anggota/' . $user['profil']); ?>">
                                     </td>
-                                    <td width="10%"><?php echo $user['nama']; ?></td>
+                                    <td width="10%"><?php echo ucwords($user['nama']); ?></td>
                                     <td width="10%"><?php echo $user['kelas']; ?></td>
                                     <td width="10%"><?php echo $user['nis']; ?></td>
                                     <td width="10%"><?php echo $user['telefon']; ?></td>
@@ -373,7 +373,6 @@
                                 <h5 class="mb-3" style="text-align: center;">Detail Anggota</h5>
                                 <form id="formEditAnggota" action="javascript:void(0)" method="post" enctype="multipart/form-data">
                                     <input type="hidden" name="id" id="id">
-
                                     <div class="form-group">
                                         <label>Nama</label>
                                         <input type="text" class="form-control" name="nama_lihat" id="nama_lihat" readonly>
@@ -591,6 +590,7 @@
 
     function updateAnggota() {
         var formData = new FormData($('#formEditAnggota')[0]);
+		// console.log("Data yang dikirim:", formData);
         $.ajax({
             url: "<?php echo site_url('admin/update_anggota'); ?>",
             type: "POST",
@@ -598,11 +598,12 @@
             contentType: false,
             processData: false,
             success: function(data) {
+				console.log(data);
                 Swal.fire({
                     icon: 'success',
                     title: 'Sukses',
                     text: 'Data anggota berhasil diperbarui!',
-                    showConfirmButton: false,
+                    showConfirmButton: true,
                     timer: 1500,
                 }).then(function() {
                     $('#modalEditAnggota').modal('hide');
