@@ -857,36 +857,36 @@
         }
 
         function updateBuku() {
-			var formData = new FormData($('#formEditBuku')[0]);
-			// console.log("Data yang dikirim:", formData);
-			$.ajax({
-				url: "<?php echo site_url('admin/update_buku'); ?>",
-				type: "POST",
-				data: formData,
-				contentType: false,
-				processData: false,
-				success: function(data) {
-					console.log(data);
-					Swal.fire({
-						icon: 'success',
-						title: 'Sukses',
-						text: 'Data Buku berhasil diperbarui!',
-						showConfirmButton: true,
-						timer: 1500,
-					}).then(function() {
-						$('#modalEditBuku').modal('hide');
-						location.reload();
-					});
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-					Swal.fire({
-						icon: 'error',
-						title: 'Warning!',
-						text: 'Gagal memperbarui Buku',
-					});
-				}
-			});
-		}
+            var formData = new FormData($('#formEditBuku')[0]);
+            // console.log("Data yang dikirim:", formData);
+            $.ajax({
+                url: "<?php echo site_url('admin/update_buku'); ?>",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    console.log(data);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sukses',
+                        text: 'Data Buku berhasil diperbarui!',
+                        showConfirmButton: true,
+                        timer: 1500,
+                    }).then(function() {
+                        $('#modalEditBuku').modal('hide');
+                        location.reload();
+                    });
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Warning!',
+                        text: 'Gagal memperbarui Buku',
+                    });
+                }
+            });
+        }
     </script>
 
 </body>

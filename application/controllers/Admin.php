@@ -136,7 +136,7 @@ class Admin extends CI_Controller
         $data = $this->Buku_model->getBukuById($id);
         echo json_encode($data);
     }
-    
+
     public function delete_buku($id)
     {
         $this->db->where('id', $id);
@@ -311,13 +311,13 @@ class Admin extends CI_Controller
         $data['password'] = password_hash($this->input->post('password_edit'), PASSWORD_DEFAULT);
         $data['role'] = $this->input->post('role_edit');
 
-		// var_dump($id, $data);
+        // var_dump($id, $data);
 
 
         $this->db->where('id', $id);
         $this->db->update('users', $data);
 
-		// var_dump($this->db->last_query());
+        // var_dump($this->db->last_query());
 
 
         if ($this->db->affected_rows() > 0) {
@@ -327,10 +327,10 @@ class Admin extends CI_Controller
         }
     }
 
-	public function update_buku()
+    public function update_buku()
     {
-		
-        $id = $this->input->post('id_buku '); // Ambil ID buku dari form
+
+        $id = $this->input->post('id_buku'); // Ambil ID buku dari form
 
         $config['upload_path'] = './uploads/sampul/';
         $config['allowed_types'] = 'gif|jpg|jpeg|png';
@@ -358,16 +358,16 @@ class Admin extends CI_Controller
         $data['kategori_id'] = $this->input->post('kategori_edit');
         $data['stok_buku'] = $this->input->post('stok_buku_edit');
 
-		// print_r($id);
-		// print_r($data);
-		// exit();
+        // print_r($id);
+        // print_r($data);
+        // exit();
 
-		// var_dump($id, $data);
+        // var_dump($id, $data);
 
         $this->db->where('id', $id);
         $this->db->update('buku', $data);
 
-		// var_dump($this->db->last_query());
+        // var_dump($this->db->last_query());
 
 
         if ($this->db->affected_rows() > 0) {
