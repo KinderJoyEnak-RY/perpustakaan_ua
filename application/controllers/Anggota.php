@@ -46,6 +46,8 @@ class Anggota extends CI_Controller
     {
         $data['buku'] = $this->Buku_model->getAllBuku(); // Memanggil model untuk mendapatkan semua data buku
         $this->load->view('anggota/katalog_buku', $data); // Menampilkan view katalog buku dengan data buku
+
+		// var_dump($data);
     }
 
     public function transaksi()

@@ -23,6 +23,12 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
 </head>
 
+<style>
+	.capitalize-input {
+        text-transform: capitalize;
+    }
+</style>
+
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
 
@@ -131,7 +137,7 @@
                                 <div class="card-body">
                                     <table id="example1" class="table table-bordered table-striped">
                                         <thead>
-                                            <tr>
+                                            <tr style="text-align: center;">
                                                 <th>No</th>
                                                 <th>Judul Buku</th>
                                                 <th>Tanggal Pinjam</th>
@@ -144,11 +150,11 @@
                                             <?php foreach ($transaksi as $index => $transaksi) : ?>
                                                 <tr>
                                                     <td><?php echo $index + 1; ?></td>
-                                                    <td><?php echo $transaksi['judul_buku']; ?></td>
-                                                    <td><?php echo $transaksi['tanggal_pinjam']; ?></td>
+                                                    <td class="capitalize-input"><?php echo $transaksi['judul_buku']; ?></td>
+                                                    <td ><?php echo $transaksi['tanggal_pinjam']; ?></td>
                                                     <td><?php echo $transaksi['tanggal_harus_kembali']; ?></td>
-                                                    <td><?php echo $transaksi['status']; ?></td>
-                                                    <td><?php echo $transaksi['denda']; ?></td>
+                                                    <td class="capitalize-input"><?php echo $transaksi['status']; ?></td>
+                                                    <td ><?php echo $transaksi['denda']; ?></td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>
