@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <!-- AdminLTE CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css">
+    <!-- SweetAlert2 CDN -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -38,7 +40,7 @@
                 </li>
                 <!-- Logout Button -->
                 <li class="nav-item">
-                    <a href="<?php echo base_url('auth/logout'); ?>" class="nav-link">
+                    <a href="javascript:void(0)" onclick="confirmLogout()" class="nav-link">
                         <i class="fas fa-sign-out-alt"></i>
                     </a>
                 </li>
@@ -97,7 +99,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="<?php echo base_url('admin/data_anggota'); ?>" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="far fa-users nav-icon"></i>
                                         <p>Data Anggota</p>
                                     </a>
                                 </li>
@@ -121,7 +123,7 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="<?php echo base_url('auth/logout'); ?>" class="nav-link">
+                            <a href="javascript:void(0)" onclick="confirmLogout()" class="nav-link">
                                 <i class="nav-icon fas fa-sign-out-alt"></i>
                                 <p>Logout</p>
                             </a>
@@ -135,77 +137,82 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
             <div class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1 class="m-0">Dashboard</h1>
                         </div>
+                        <!-- Breadcrumb -->
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Dashboard</a </li>
+                                <li class="breadcrumb-item active">Dashboard Staff</li>
+                            </ol>
+                        </div>
+                        <!-- /.col -->
                     </div>
+                    <!-- /.row -->
                 </div>
+                <!-- /.container-fluid -->
             </div>
             <!-- /.content-header -->
 
             <!-- Main content -->
             <div class="content">
                 <div class="container-fluid">
-                    <!-- Cards -->
+                    <!-- Info Boxes -->
                     <div class="row">
-                        <!-- Data Buku Card -->
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                            <div class="small-box bg-info">
-                                <div class="inner">
-                                    <h3>Stok Buku</h3>
-                                    <p>Total: <?php echo $stok; ?></p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-book"></i>
+                        <!-- Stok Buku Info Box -->
+                        <div class="col-lg-3 col-6">
+                            <div class="info-box bg-info">
+                                <span class="info-box-icon"><i class="fas fa-book"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Stok Buku</span>
+                                    <span class="info-box-number"><?php echo $stok; ?></span>
                                 </div>
                                 <a href="<?php echo base_url('admin/data_buku'); ?>" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
-                        <!-- Peminjaman Card -->
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                            <div class="small-box bg-danger">
-                                <div class="inner">
-                                    <h3>Dipinjam</h3>
-                                    <p>Total: <?php echo $total_peminjaman; ?></p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-hand-holding"></i>
-                                </div>
-                                <a href="<?php echo base_url('admin/data_peminjaman'); ?>" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <!-- Pengembalian Card -->
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                            <div class="small-box bg-success">
-                                <div class="inner">
-                                    <h3>Dikembalikan</h3>
-                                    <p>Total: <?php echo $total_pengembalian; ?></p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-undo-alt"></i>
+
+                        <!-- Peminjaman Info Box -->
+                        <div class="col-lg-3 col-6">
+                            <div class="info-box bg-danger">
+                                <span class="info-box-icon"><i class="fas fa-hand-holding"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Dipinjam</span>
+                                    <span class="info-box-number"><?php echo $total_peminjaman; ?></span>
                                 </div>
                                 <a href="<?php echo base_url('admin/data_peminjaman'); ?>" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
-                        <!-- Data User Card -->
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                            <div class="small-box bg-primary">
-                                <div class="inner">
-                                    <h3>Data Anggota</h3>
-                                    <p>Total: <?php echo $users; ?></p>
+
+                        <!-- Pengembalian Info Box -->
+                        <div class="col-lg-3 col-6">
+                            <div class="info-box bg-success">
+                                <span class="info-box-icon"><i class="fas fa-undo-alt"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Dikembalikan</span>
+                                    <span class="info-box-number"><?php echo $total_pengembalian; ?></span>
                                 </div>
-                                <div class="icon">
-                                    <i class="fas fa-users"></i>
+                                <a href="<?php echo base_url('admin/data_peminjaman'); ?>" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+
+                        <!-- Data Anggota Info Box -->
+                        <div class="col-lg-3 col-6">
+                            <div class="info-box bg-primary">
+                                <span class="info-box-icon"><i class="fas fa-users"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Data Anggota</span>
+                                    <span class="info-box-number"><?php echo $users; ?></span>
                                 </div>
                                 <a href="<?php echo base_url('admin/data_anggota'); ?>" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
             <!-- /.content -->
         </div>
@@ -229,6 +236,24 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js"></script>
+
+    <script>
+        function confirmLogout() {
+            Swal.fire({
+                title: 'Apakah Anda yakin ingin logout?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, logout!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '<?php echo base_url('auth/logout'); ?>'; // URL untuk proses logout
+                }
+            })
+        }
+    </script>
+
 </body>
 
 </html>
