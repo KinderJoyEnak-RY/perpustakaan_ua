@@ -20,6 +20,7 @@
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <style>
     .small-table {
@@ -71,28 +72,15 @@
         </ul>
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
-            <!-- User Dropdown Menu -->
-            <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="far fa-user"></i> <?php echo $this->session->userdata('nama'); ?>
+            <!-- User Name Display -->
+            <li class="nav-item d-flex align-items-center mr-3">
+                <span class="brand-text font-weight-light"><?php echo $this->session->userdata('nama'); ?></span>
+            </li>
+            <!-- Logout Button -->
+            <li class="nav-item">
+                <a href="javascript:void(0)" onclick="confirmLogout()" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i>
                 </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <a href="#" class="dropdown-item">
-                        <!-- Message Start -->
-                        <div class="media">
-                            <img src="https://adminlte.io/themes/v3/dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-                            <div class="media-body">
-                                <h3 class="dropdown-item-title">
-                                    <?php echo $this->session->userdata('nama'); ?>
-                                </h3>
-                                <p class="text-sm"><?php echo $this->session->userdata('role'); ?></p>
-                            </div>
-                        </div>
-                        <!-- Message End -->
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="<?php echo base_url('auth/logout'); ?>" class="dropdown-item dropdown-footer">Logout</a>
-                </div>
             </li>
         </ul>
     </nav>
@@ -102,8 +90,24 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="#" class="brand-link">
-            <span class="brand-text font-weight-light">Admin Dashboard</span>
+            <!-- Ganti src ke lokasi logo Anda -->
+            <img src="<?= base_url('uploads/img/logo.png'); ?>" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+            <span class="brand-text font-weight-light">SIM PERPUS UA</span>
         </a>
+        <!-- User Panel -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <!-- Tampilkan gambar profil pengguna -->
+                <img src="<?= base_url('uploads/img/profile.jpeg'); ?>" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <!-- Tampilkan nama pengguna dengan warna teks putih -->
+                <span class="brand-text font-weight-light" style="color: white;"><?php echo $this->session->userdata('nama'); ?></span>
+                <br>
+                <!-- Tampilkan peran pengguna dengan warna teks putih -->
+                <span class="brand-text font-weight-light" style="color: white;"><?php echo $this->session->userdata('role'); ?></span>
+            </div>
+        </div>
 
         <!-- Sidebar -->
         <div class="sidebar">
@@ -117,7 +121,7 @@
                         </a>
                     </li>
                     <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
+                        <a href="#" class="nav-link active">
                             <i class="nav-icon fas fa-book"></i>
                             <p>
                                 Master Data
@@ -156,12 +160,19 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="nav-item">
+                        <a href="javascript:void(0)" onclick="confirmLogout()" class="nav-link">
+                            <i class="nav-icon fas fa-sign-out-alt"></i>
+                            <p>Logout</p>
+                        </a>
+                    </li>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
         </div>
         <!-- /.sidebar -->
     </aside>
+
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -170,8 +181,16 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Data Anggota</h1>
+                        <h1 class="m-0">Master Data</h1>
                     </div>
+                    <!-- Breadcrumb -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Master Data</a </li>
+                            <li class="breadcrumb-item active">Data Anggota</li>
+                        </ol>
+                    </div>
+                    <!-- /.col -->
                 </div>
                 <div class="btn-group mb-3" role="group" aria-label="Button group">
                     <!-- <button class="btn btn-warning mr-2" data-toggle="modal" data-target="#modalTambahRak">
@@ -402,7 +421,7 @@
                                         <input type="text" class="form-control" name="role_lihat" id="role_lihat" readonly>
                                     </div>
                                     <div class="form-group">
-										<center><img src="<?php echo base_url('uploads/qrcodes/qranggota/'. $user['qr_code']); ?>" ></center>
+                                        <center><img src="<?php echo base_url('uploads/qrcodes/qranggota/' . $user['qr_code']); ?>"></center>
                                     </div>
                                 </form>
                             </div>
@@ -453,6 +472,22 @@
 <!-- DataTables JS -->
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    function confirmLogout() {
+        Swal.fire({
+            title: 'Apakah Anda yakin ingin logout?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, logout!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '<?php echo base_url('auth/logout'); ?>'; // URL untuk proses logout
+            }
+        })
+    }
+</script>
 <script>
     $(document).ready(function() {
         $('.table').DataTable({
@@ -588,7 +623,7 @@
 
     function updateAnggota() {
         var formData = new FormData($('#formEditAnggota')[0]);
-		// console.log("Data yang dikirim:", formData);
+        // console.log("Data yang dikirim:", formData);
         $.ajax({
             url: "<?php echo site_url('admin/update_anggota'); ?>",
             type: "POST",
@@ -596,7 +631,7 @@
             contentType: false,
             processData: false,
             success: function(data) {
-				console.log(data);
+                console.log(data);
                 Swal.fire({
                     icon: 'success',
                     title: 'Sukses',
