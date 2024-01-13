@@ -398,18 +398,6 @@ class Admin extends CI_Controller
         $data['users'] = $this->User_model->getAllUsers(); // Metode untuk mengambil semua user
         $data['buku'] = $this->Buku_model->getAllBuku(); // Metode untuk mengambil semua buku
 
-        // Format ID peminjaman
-        foreach ($data['peminjaman'] as $key => $pinjam) {
-            // Jika $pinjam adalah objek
-            if (is_object($pinjam)) {
-                $data['peminjaman'][$key]->id = 'PID' . str_pad($pinjam->id, 3, '0', STR_PAD_LEFT);
-            }
-            // Jika $pinjam adalah array
-            else if (is_array($pinjam)) {
-                $data['peminjaman'][$key]['id'] = 'PID' . str_pad($pinjam['id'], 3, '0', STR_PAD_LEFT);
-            }
-        }
-
         $this->load->view('admin/data_peminjaman', $data);
     }
 
@@ -489,8 +477,16 @@ class Admin extends CI_Controller
 
     public function kembalikan_buku($id)
     {
+        error_log("ID Peminjaman: " . $id); // Log untuk debugging
+
         // Ambil data peminjaman berdasarkan id
         $peminjaman = $this->db->get_where('peminjaman', ['id' => $id])->row();
+
+        // Periksa apakah data peminjaman ditemukan
+        if (!$peminjaman) {
+            echo json_encode(['success' => false, 'message' => 'Data peminjaman tidak ditemukan.']);
+            return;
+        }
 
         // Ambil denda aktif
         $denda_aktif = $this->Denda_model->getDendaAktif();

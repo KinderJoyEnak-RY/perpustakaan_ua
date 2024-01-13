@@ -477,7 +477,7 @@
                     {
                         "data": "denda",
                         "render": function(data, type, row) {
-                            // Data denda diambil dari server dan ditampilkan
+                            // Pastikan format penulisan denda sesuai
                             return data ? 'Rp' + data : '-';
                         }
                     },
@@ -527,9 +527,10 @@
             setInterval(refreshDenda, 60000); // Update denda setiap menit
 
             $('#tabelPeminjaman tbody').on('click', '.btn-kembali', function() {
-                var btn = $(this); // Simpan referensi button yang diklik
+                var btn = $(this);
                 var data = table.row(btn.parents('tr')).data();
-                var id = data.id; // mengasumsikan kolom ID adalah data yang pertama
+                var id = data.id;
+                console.log("Mengirim ID Peminjaman untuk pengembalian: ", id); // Log untuk debugging
 
                 if (confirm('Apakah Anda yakin ingin mengembalikan buku ini?')) {
                     $.ajax({
@@ -543,6 +544,7 @@
                             btn.prop('disabled', true); // Disable button saat AJAX call dimulai
                         },
                         success: function(response) {
+                            console.log(response); // Debug response
                             $('#message').removeClass('alert-success alert-danger');
                             if (response.success) {
                                 $('#message').addClass('alert-success').text(response.message).show();
