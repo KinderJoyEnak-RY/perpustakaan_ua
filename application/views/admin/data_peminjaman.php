@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <!-- Responsive extension for DataTables -->
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <body>
@@ -477,7 +479,7 @@
                     {
                         "data": "denda",
                         "render": function(data, type, row) {
-                            // Pastikan format penulisan denda sesuai
+                            // Data denda diambil dari server dan ditampilkan
                             return data ? 'Rp' + data : '-';
                         }
                     },
@@ -527,83 +529,112 @@
             setInterval(refreshDenda, 60000); // Update denda setiap menit
 
             $('#tabelPeminjaman tbody').on('click', '.btn-kembali', function() {
-                var btn = $(this);
-                var data = table.row(btn.parents('tr')).data();
-                var id = data.id;
-                console.log("Mengirim ID Peminjaman untuk pengembalian: ", id); // Log untuk debugging
+				var btn = $(this); // Simpan referensi button yang diklik
+				var data = table.row(btn.parents('tr')).data();
+				var id = data.id; // mengasumsikan kolom ID adalah data yang pertama
 
-                if (confirm('Apakah Anda yakin ingin mengembalikan buku ini?')) {
-                    $.ajax({
-                        url: "<?php echo base_url('admin/kembalikan_buku/'); ?>" + id,
-                        type: 'POST',
-                        dataType: 'json',
-                        data: {
-                            id: id
-                        },
-                        beforeSend: function() {
-                            btn.prop('disabled', true); // Disable button saat AJAX call dimulai
-                        },
-                        success: function(response) {
-                            console.log(response); // Debug response
-                            $('#message').removeClass('alert-success alert-danger');
-                            if (response.success) {
-                                $('#message').addClass('alert-success').text(response.message).show();
-                                var currentDate = new Date().toISOString().slice(0, 10); // Format tanggal ke YYYY-MM-DD
+				Swal.fire({
+					title: 'Apakah Anda yakin ingin mengembalikan buku ini?',
+					text: 'Pengembalian buku tidak dapat dibatalkan!',
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonText: 'Ya, kembalikan!',
+					cancelButtonText: 'Batal'
+				}).then(function(result) {
+					if (result.isConfirmed) {
+						$.ajax({
+							url: "<?php echo base_url('admin/kembalikan_buku/'); ?>" + id,
+							type: 'POST',
+							dataType: 'json',
+							data: {
+								id: id
+							},
+							beforeSend: function() {
+								btn.prop('disabled', true); // Disable button saat AJAX call dimulai
+							},
+							success: function(response) {
+								$('#message').removeClass('alert-success alert-danger');
+								if (response.success) {
+									Swal.fire({
+										title: 'Berhasil!',
+										text: response.message,
+										icon: 'success',
+										confirmButtonText: 'OK'
+									});
 
-                                // Update row data dengan tanggal pengembalian dan denda
-                                var rowData = table.row(btn.parents('tr')).data();
-                                rowData.tanggal_kembali = currentDate;
-                                rowData.status = 'dikembalikan';
-                                rowData.denda = response.denda; // Pastikan respon dari server sudah benar
+									var currentDate = new Date().toISOString().slice(0, 10);
+									var rowData = table.row(btn.parents('tr')).data();
+									rowData.tanggal_kembali = currentDate;
+									rowData.status = 'dikembalikan';
+									rowData.denda = response.denda;
 
-                                // Redraw row with updated data
-                                table.row(btn.parents('tr')).data(rowData).invalidate().draw();
+									table.row(btn.parents('tr')).data(rowData).invalidate().draw();
 
-                                // Memperbarui cell yang mengandung denda secara langsung
-                                btn.closest('tr').find('td:eq(11)').text(response.denda);
+									btn.closest('tr').find('td:eq(11)').text(response.denda);
+									btn.closest('tr').find('td').eq(12).html('-');
+									btn.closest('tr').addClass('table-success');
+								} else {
+									Swal.fire({
+										title: 'Error!',
+										text: response.message,
+										icon: 'error',
+										confirmButtonText: 'OK'
+									});
+									btn.prop('disabled', false);
+								}
+							}
+						});
+					}
+				});
+			});
 
-                                // Menghilangkan tombol 'Kembalikan' dalam kolom 'Aksi'
-                                btn.closest('tr').find('td').eq(12).html('-');
 
-                                btn.closest('tr').addClass('table-success'); // Menambahkan class untuk styling
-                            } else {
-                                $('#message').addClass('alert-danger').text(response.message).show();
-                                btn.prop('disabled', false); // Enable kembali button jika AJAX call gagal
-                            }
-                        }
 
-                    });
-                } else {
-                    // Jika user membatalkan konfirmasi, tidak lakukan apa-apa
-                    return false;
-                }
-            });
+			$('#tabelPeminjaman tbody').on('click', '.btn-hapus', function() {
+				var btn = $(this); // simpan referensi button yang diklik
+				var dataId = btn.data('id'); // mengambil data-id dari tombol yang diklik
 
-            $('#tabelPeminjaman tbody').on('click', '.btn-hapus', function() {
-                var btn = $(this); // simpan referensi button yang diklik
-                var dataId = btn.data('id'); // mengambil data-id dari tombol yang diklik
-                if (confirm('Apakah Anda yakin ingin menghapus data peminjaman ini?')) {
-                    // Lakukan AJAX call untuk menghapus data
-                    $.ajax({
-                        url: "<?php echo base_url('admin/hapus_peminjaman/'); ?>" + dataId,
-                        type: 'POST',
-                        dataType: 'json', // pastikan bahwa response yang diterima adalah json
-                        success: function(response) {
-                            // response dari server setelah menghapus
-                            alert(response.message); // asumsikan response.message adalah pesan dari server
-                            if (response.success) { // periksa jika penghapusan sukses
-                                // Reload DataTables atau remove row
-                                table.row(btn.parents('tr')).remove().draw();
-                                // atau reload seluruh halaman jika diperlukan
-                                // location.reload();
-                            }
-                        },
-                        error: function() {
-                            alert('Terjadi kesalahan saat menghapus.');
-                        }
-                    });
-                }
-            });
+				Swal.fire({
+					title: 'Apakah Anda yakin ingin menghapus data peminjaman ini?',
+					text: 'Data yang dihapus tidak dapat dikembalikan!',
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonText: 'Ya, hapus!',
+					cancelButtonText: 'Batal'
+				}).then(function(result) {
+					if (result.isConfirmed) {
+						// Lakukan AJAX call untuk menghapus data
+						$.ajax({
+							url: "<?php echo base_url('admin/hapus_peminjaman/'); ?>" + dataId,
+							type: 'POST',
+							dataType: 'json',
+							success: function(response) {
+								// Response dari server setelah menghapus
+								Swal.fire({
+									title: response.success ? 'Berhasil!' : 'Error!',
+									text: response.message,
+									icon: response.success ? 'success' : 'error',
+									confirmButtonText: 'OK'
+								});
+
+								if (response.success) {
+									table.row(btn.parents('tr')).remove().draw();
+									location.reload();
+								}
+							},
+							error: function() {
+								Swal.fire({
+									title: 'Error!',
+									text: 'Terjadi kesalahan saat menghapus.',
+									icon: 'error',
+									confirmButtonText: 'OK'
+								});
+							}
+						});
+					}
+				});
+			});
+
 
             // Tambahkan script untuk load data denda pada modal open
             $('#modalTambahDenda').on('shown.bs.modal', function() {
