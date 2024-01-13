@@ -443,7 +443,12 @@
                         "data": "id"
                     },
                     {
-                        "data": "nama_peminjam"
+                        "data": "nama_peminjam",
+						"render": function(data, type, row) {
+						return data ? data.replace(/\b\w/g, function (l) {
+							return l.toUpperCase();
+						}) : '';
+            			}, 
                     },
                     {
                         "data": "nis"
@@ -455,7 +460,12 @@
                         "data": "telefon"
                     },
                     {
-                        "data": "judul_buku"
+                        "data": "judul_buku",
+						"render": function(data, type, row) {
+						return data ? data.replace(/\b\w/g, function (l) {
+							return l.toUpperCase();
+						}) : '';
+            			}, 
                     },
                     {
                         "data": "nomor_isbn"
@@ -474,7 +484,12 @@
                         }
                     },
                     {
-                        "data": "status"
+                        "data": "status",
+						"render": function(data, type, row) {
+						return data ? data.replace(/\b\w/g, function (l) {
+							return l.toUpperCase();
+						}) : '';
+            			}, 
                     },
                     {
                         "data": "denda",
@@ -614,7 +629,7 @@
 									title: response.success ? 'Berhasil!' : 'Error!',
 									text: response.message,
 									icon: response.success ? 'success' : 'error',
-									confirmButtonText: 'OK'
+									// confirmButtonText: 'OK'
 								});
 
 								if (response.success) {

@@ -199,7 +199,7 @@
                                 <th width="2%" class="text-center">No</th>
                                 <th width="2%" class="text-center">Profil</th>
                                 <th width="10%" class="text-center">Nama</th>
-                                <th width="10%" class="text-center">Kelas</th>
+                                <th width="10%" class="text-center">Kelas/Jabatan</th>
                                 <th width="10%" class="text-center">NIS</th>
                                 <th width="10%" class="text-center">Telefon</th>
                                 <th width="10%" class="text-center">Email</th>
@@ -262,16 +262,16 @@
                                         <input type="text" class="form-control capitalize-input" name="nama" id="nama">
                                     </div>
                                     <div class="form-group">
-                                        <label>NIS</label>
+                                        <label>NIS/NIP</label>
                                         <input type="number" class="form-control" name="nis" id="nis">
                                     </div>
                                     <div class="form-group">
                                         <label>Kelas</label>
                                         <select class="form-control" name="kelas" id="kelas">
-                                            <option>---</option>
-                                            <option value="X">X</option>
-                                            <option value="XI">XI</option>
-                                            <option value="XII">XII</option>
+                                            <option>-Pilih-</option>
+                                            <option value="X">VII</option>
+                                            <option value="XI">VIII</option>
+                                            <option value="XII">IX</option>
                                             <option value="XII">Guru</option>
                                         </select>
                                     </div>
@@ -322,17 +322,17 @@
                                         <input type="text" class="form-control capitalize-input" name="nama_edit" id="nama_edit" required>
                                     </div>
                                     <div class="form-group">
-                                        <label>NIS</label>
+                                        <label>NIS/NIP</label>
                                         <input type="text" class="form-control" name="nis_edit" id="nis_edit" required>
                                     </div>
                                     <div class="form-group">
-                                        <label>Kelas</label>
+                                        <label>Kelas/Jabatan</label>
                                         <select class="form-control" name="kelas_edit" id="kelas_edit">
                                             <!-- Kalo kelasnya mau ditambah lewat sini yo el -->
-                                            <option>---</option>
-                                            <option value="X">X</option>
-                                            <option value="XI">XI</option>
-                                            <option value="XII">XII</option>
+                                            <option>-Pilih-</option>
+                                            <option value="X">VII</option>
+                                            <option value="XI">VIII</option>
+                                            <option value="XII">IX</option>
                                             <option value="XII">Guru</option>
                                         </select>
                                     </div>
@@ -378,11 +378,11 @@
                                         <input type="text" class="form-control" name="nama_lihat" id="nama_lihat" readonly>
                                     </div>
                                     <div class="form-group">
-                                        <label>NIS</label>
+                                        <label>NIS/NIP</label>
                                         <input type="text" class="form-control" name="nis_lihat" id="nis_lihat" readonly>
                                     </div>
                                     <div class="form-group">
-                                        <label>Kelas</label>
+                                        <label>Kelas/Jabatan</label>
                                         <input type="text" class="form-control" name="kelas_lihat" id="kelas_lihat" readonly>
                                     </div>
                                     <div class="form-group">
@@ -402,10 +402,8 @@
                                         <input type="text" class="form-control" name="role_lihat" id="role_lihat" readonly>
                                     </div>
                                     <div class="form-group">
-                                        <label>Barcode Anggota</label>
-                                        <center><img style="width:200px;" src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl= Data Anggota Perpus <?= 'Nama : ' . $user['nama'] . ' NIS : ' . $user['nis'] . ' Kelas : ' . $user['kelas']; ?> &choe=UTF-8" title="QR" /></center>
+										<center><img src="<?php echo base_url('uploads/qrcodes/qranggota/'. $user['qr_code']); ?>" ></center>
                                     </div>
-                                    <!-- <button type="button" onclick="updateAnggota()" class="btn btn-primary">Update</button> -->
                                 </form>
                             </div>
                         </div>

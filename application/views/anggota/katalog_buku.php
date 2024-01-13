@@ -22,6 +22,11 @@
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
 </head>
+<style>
+	.capitalize-input {
+        text-transform: capitalize;
+    }
+</style>
 
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
@@ -131,7 +136,7 @@
                                 <div class="card-body">
                                     <table id="example1" class="table table-bordered table-striped">
                                         <thead>
-                                            <tr>
+                                            <tr style="text-align: center;">
                                                 <th>No</th>
                                                 <th>Sampul</th>
                                                 <th>Judul</th>
@@ -139,6 +144,7 @@
                                                 <th>Penerbit</th>
                                                 <th>Kategori</th>
                                                 <th>Rak</th>
+												<th>Stok</th>
                                                 <th>QR Code</th>
                                             </tr>
                                         </thead>
@@ -150,13 +156,16 @@
                                                     <td>
                                                         <img src="<?php echo base_url('uploads/sampul/' . $b['sampul']); ?>" alt="Sampul" class="img-thumbnail" style="width: 50px; height: 50px;" data-toggle="modal" data-target="#modalSampul<?php echo $index; ?>">
                                                     </td>
-                                                    <td><?php echo $b['judul']; ?></td>
-                                                    <td><?php echo $b['pengarang']; ?></td>
-                                                    <td><?php echo $b['penerbit']; ?></td>
-                                                    <td><?php echo $b['nama_kategori']; ?></td>
+                                                    <td class="capitalize-input"><?php echo $b['judul']; ?></td>
+                                                    <td class="capitalize-input"><?php echo $b['pengarang']; ?></td>
+                                                    <td class="capitalize-input"><?php echo $b['penerbit']; ?></td>
+                                                    <td class="capitalize-input"><?php echo $b['nama_kategori']; ?></td>
                                                     <td><?php echo $b['nama_rak']; ?></td>
+													<td><?php echo $b['stok_buku']; ?></td>
                                                     <td>
+														<center>
                                                         <img src="<?php echo base_url('uploads/qrcodes/qrbuku/' . $b['qr_code']); ?>" alt="QR Code" class="img-thumbnail" style="width: 50px; height: 50px;" data-toggle="modal" data-target="#modalQRCode<?php echo $index; ?>">
+														</center>
                                                     </td>
                                                 </tr>
                                                 <!-- Modal Sampul -->
@@ -186,7 +195,9 @@
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
+																<center>
                                                                 <img src="<?php echo base_url('uploads/qrcodes/qrbuku/' . $b['qr_code']); ?>" alt="QR Code" class="img-fluid">
+																</center>
                                                             </div>
                                                         </div>
                                                     </div>

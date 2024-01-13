@@ -127,7 +127,7 @@
                     </div>
                     <!-- NIS -->
                     <div class="input-group mb-3">
-                        <input type="number" class="form-control" name="nis" placeholder="NIS">
+                        <input type="number" class="form-control" name="nis" placeholder="NIS/NIP">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-id-card"></span>
@@ -138,7 +138,7 @@
                     <!-- Kelas -->
                     <div class="input-group mb-3">
                         <select class="form-control" name="kelas">
-                            <option value="">Pilih Kelas</option>
+                            <option value="">Pilih Kelas/Jabatan</option>
                             <option value="VII">VII</option>
                             <option value="VIII">VIII</option>
                             <option value="IX">IX</option>
@@ -200,7 +200,7 @@
                     <div class="input-group mb-3">
                         <select class="form-control" name="role">
                             <option value="anggota">Anggota</option>
-                            <!-- <option value="staff">Staff</option> -->
+                            <option value="staff">Staff</option>
                         </select>
                         <div class="input-group-append">
                             <div class="input-group-text">
