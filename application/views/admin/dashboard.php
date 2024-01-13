@@ -32,28 +32,15 @@
             </ul>
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-                <!-- User Dropdown Menu -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <?php echo $this->session->userdata('nama'); ?> <i class="far fa-user"></i>
+                <!-- User Name Display -->
+                <li class="nav-item d-flex align-items-center mr-3">
+                    <span class="brand-text font-weight-light"><?php echo $this->session->userdata('nama'); ?></span>
+                </li>
+                <!-- Logout Button -->
+                <li class="nav-item">
+                    <a href="<?php echo base_url('auth/logout'); ?>" class="nav-link">
+                        <i class="fas fa-sign-out-alt"></i>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <a href="#" class="dropdown-item">
-                            <!-- Message Start -->
-                            <div class="media">
-                                <img src="https://adminlte.io/themes/v3/dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-                                <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                        <?php echo $this->session->userdata('nama'); ?>
-                                    </h3>
-                                    <p class="text-sm"><?php echo $this->session->userdata('role'); ?></p>
-                                </div>
-                            </div>
-                            <!-- Message End -->
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="<?php echo base_url('auth/logout'); ?>" class="dropdown-item dropdown-footer">Logout</a>
-                    </div>
                 </li>
             </ul>
         </nav>
@@ -63,8 +50,24 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="#" class="brand-link">
-                <span class="brand-text font-weight-light">Admin Dashboard</span>
+                <!-- Ganti src ke lokasi logo Anda -->
+                <img src="<?= base_url('uploads/img/logo.png'); ?>" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light">SIM PERPUS UA</span>
             </a>
+            <!-- User Panel -->
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="image">
+                    <!-- Tampilkan gambar profil pengguna -->
+                    <img src="<?= base_url('uploads/img/profile.jpeg'); ?>" class="img-circle elevation-2" alt="User Image">
+                </div>
+                <div class="info">
+                    <!-- Tampilkan nama pengguna dengan warna teks putih -->
+                    <span class="brand-text font-weight-light" style="color: white;"><?php echo $this->session->userdata('nama'); ?></span>
+                    <br>
+                    <!-- Tampilkan peran pengguna dengan warna teks putih -->
+                    <span class="brand-text font-weight-light" style="color: white;"><?php echo $this->session->userdata('role'); ?></span>
+                </div>
+            </div>
 
             <!-- Sidebar -->
             <div class="sidebar">
@@ -117,6 +120,12 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <a href="<?php echo base_url('auth/logout'); ?>" class="nav-link">
+                                <i class="nav-icon fas fa-sign-out-alt"></i>
+                                <p>Logout</p>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -132,16 +141,6 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1 class="m-0">Dashboard</h1>
-                        </div>
-                    </div>
-                    <!-- Alert Sapaan -->
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="alert alert-warning alert-dismissible">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                <h5><i class="icon fas fa-exclamation-triangle"></i> Welcome!</h5>
-                                Hallo <?php echo $this->session->userdata('nama'); ?>, Anda dapat mengelola data Perpustakaan Disini. selalu <a href="<?php echo site_url('auth/logout'); ?>" class="alert-link">Logout</a> untuk keamanan data Perpustakaan!
-                            </div>
                         </div>
                     </div>
                 </div>
