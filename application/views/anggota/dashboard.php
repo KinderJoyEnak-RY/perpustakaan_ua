@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css">
     <!-- AdminLTE for dark mode -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/dark-mode.css">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -35,27 +37,13 @@
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
                 <!-- User Dropdown Menu -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <?php echo $this->session->userdata('nama'); ?> <i class="far fa-user"></i>
+                <li class="nav-item d-flex align-items-center mr-3">
+                    <span class="brand-text font-weight-light"><?php echo $this->session->userdata('nama'); ?></span>
+                </li>
+				<li class="nav-item">
+                    <a href="javascript:void(0)" onclick="confirmLogout()" class="nav-link">
+                        <i class="fas fa-sign-out-alt"></i>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <a href="#" class="dropdown-item">
-                            <!-- Message Start -->
-                            <div class="media">
-                                <img src="https://adminlte.io/themes/v3/dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-                                <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                        <?php echo $this->session->userdata('nama'); ?>
-                                    </h3>
-                                    <p class="text-sm"><?php echo $this->session->userdata('role'); ?></p>
-                                </div>
-                            </div>
-                            <!-- Message End -->
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="<?php echo base_url('auth/logout'); ?>" class="dropdown-item dropdown-footer">Logout</a>
-                    </div>
                 </li>
             </ul>
         </nav>
@@ -65,8 +53,24 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="#" class="brand-link">
-                <span class="brand-text font-weight-light">Anggota Dashboard</span>
+                <!-- Ganti src ke lokasi logo Anda -->
+                <img src="<?= base_url('uploads/img/logo.png'); ?>" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light">SIM PERPUS UA</span>
             </a>
+
+			<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="image">
+                    <!-- Tampilkan gambar profil pengguna -->
+                    <img src="<?= base_url('uploads/img/profile.jpeg'); ?>" class="img-circle elevation-2" alt="User Image">
+                </div>
+                <div class="info">
+                    <!-- Tampilkan nama pengguna dengan warna teks putih -->
+                    <span class="brand-text font-weight-light" style="color: white;"><?php echo $this->session->userdata('nama'); ?></span>
+                    <br>
+                    <!-- Tampilkan peran pengguna dengan warna teks putih -->
+                    <span class="brand-text font-weight-light" style="color: white;"><?php echo $this->session->userdata('role'); ?></span>
+                </div>
+            </div>
 
             <!-- Sidebar Menu -->
             <nav class="mt-2">
@@ -115,9 +119,15 @@
                         <div class="col-sm-6">
                             <h1 class="m-0">Dashboard</h1>
                         </div>
+						<div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Dashboard Anggota</li>
+                            </ol>
+                        </div>
                     </div>
                     <!-- Alert Sapaan -->
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-md-12">
                             <div class="alert alert-warning alert-dismissible">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -125,7 +135,7 @@
                                 Hallo <?php echo $this->session->userdata('nama'); ?>, disini anda dapat melihat katalog buku dan transaksi peminjaman anda. selalu <a href="<?php echo site_url('auth/logout'); ?>" class="alert-link">Logout</a> untuk keamanan data Perpustakaan!
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <!-- /.content-header -->
@@ -137,42 +147,48 @@
                     <div class="row">
                         <applet></applet>
                         <!-- Data Buku Card -->
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                        <!-- <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                             <div class="small-box bg-info">
                                 <div class="inner">
                                     <h3>Stok Buku</h3>
-                                    <p>Total: <?php echo $stok; ?></p> <!-- Pastikan variabel $stok diisi di controller -->
+                                    <p>Total: <?php echo $stok; ?></p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-book"></i>
                                 </div>
                                 <a href="<?php echo base_url('anggota/katalog_buku'); ?>" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
+                        </div> -->
+						<div class="col-lg-3 col-6">
+                            <div class="info-box bg-info">
+                                <span class="info-box-icon"><i class="fas fa-book"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Stok Buku</span>
+                                    <span class="info-box-number"><?php echo $stok; ?></span>
+                                </div>
+                                <a href="<?php echo base_url('anggota/katalog_buku'); ?>" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
                         </div>
                         <!-- Peminjaman Card -->
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                            <div class="small-box bg-danger">
-                                <div class="inner">
-                                    <h3>Peminjaman</h3>
-                                    <p>Total: <?php echo $total_peminjaman; ?></p> <!-- Pastikan variabel $total_peminjaman diisi di controller -->
+						<div class="col-lg-3 col-6">
+                            <div class="info-box bg-danger">
+                                <span class="info-box-icon"><i class="fas fa-hand-holding"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Dipinjam</span>
+                                    <span class="info-box-number"><?php echo $total_peminjaman; ?></span>
                                 </div>
-                                <div class="icon">
-                                    <i class="fas fa-hand-holding"></i>
-                                </div>
-                                <a href="<?php echo base_url('anggota/data_peminjaman'); ?>" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="<?php echo base_url('anggota/transaksi'); ?>" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- Pengembalian Card -->
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                            <div class="small-box bg-success">
-                                <div class="inner">
-                                    <h3>Pengembalian</h3>
-                                    <p>Total: <?php echo $total_pengembalian; ?></p> <!-- Pastikan variabel $total_pengembalian diisi di controller -->
+						<div class="col-lg-3 col-6">
+                            <div class="info-box bg-success">
+                                <span class="info-box-icon"><i class="fas fa-undo-alt"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Dikembalikan</span>
+                                    <span class="info-box-number"><?php echo $total_pengembalian; ?></span>
                                 </div>
-                                <div class="icon">
-                                    <i class="fas fa-undo-alt"></i>
-                                </div>
-                                <a href="#" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="<?php echo base_url('anggota/transaksi'); ?>" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -203,3 +219,20 @@
 </body>
 
 </html>
+
+<script>
+	function confirmLogout() {
+		Swal.fire({
+			title: 'Apakah Anda yakin ingin logout?',
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Ya, logout!'
+		}).then((result) => {
+			if (result.isConfirmed) {
+				window.location.href = '<?php echo base_url('auth/logout'); ?>'; // URL untuk proses logout
+			}
+		})
+	}
+</script>

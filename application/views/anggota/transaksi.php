@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/dark-mode.css">
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <style>
@@ -43,28 +45,17 @@
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
                 <!-- User Dropdown Menu -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <?php echo $this->session->userdata('nama'); ?> <i class="far fa-user"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <a href="#" class="dropdown-item">
-                            <!-- Message Start -->
-                            <div class="media">
-                                <img src="https://adminlte.io/themes/v3/dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-                                <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                        <?php echo $this->session->userdata('nama'); ?>
-                                    </h3>
-                                    <p class="text-sm"><?php echo $this->session->userdata('role'); ?></p>
-                                </div>
-                            </div>
-                            <!-- Message End -->
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="<?php echo base_url('auth/logout'); ?>" class="dropdown-item dropdown-footer">Logout</a>
-                    </div>
+				<ul class="navbar-nav ml-auto">
+                <!-- User Dropdown Menu -->
+                <li class="nav-item d-flex align-items-center mr-3">
+                    <span class="brand-text font-weight-light"><?php echo $this->session->userdata('nama'); ?></span>
                 </li>
+				<li class="nav-item">
+                    <a href="javascript:void(0)" onclick="confirmLogout()" class="nav-link">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </a>
+                </li>
+            </ul>
             </ul>
         </nav>
         <!-- /.navbar -->
@@ -73,8 +64,24 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="#" class="brand-link">
-                <span class="brand-text font-weight-light">Anggota Dashboard</span>
+                <!-- Ganti src ke lokasi logo Anda -->
+                <img src="<?= base_url('uploads/img/logo.png'); ?>" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light">SIM PERPUS UA</span>
             </a>
+
+			<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="image">
+                    <!-- Tampilkan gambar profil pengguna -->
+                    <img src="<?= base_url('uploads/img/profile.jpeg'); ?>" class="img-circle elevation-2" alt="User Image">
+                </div>
+                <div class="info">
+                    <!-- Tampilkan nama pengguna dengan warna teks putih -->
+                    <span class="brand-text font-weight-light" style="color: white;"><?php echo $this->session->userdata('nama'); ?></span>
+                    <br>
+                    <!-- Tampilkan peran pengguna dengan warna teks putih -->
+                    <span class="brand-text font-weight-light" style="color: white;"><?php echo $this->session->userdata('role'); ?></span>
+                </div>
+            </div>
 
             <!-- Sidebar Menu -->
             <nav class="mt-2">
@@ -213,6 +220,22 @@
                 $(targetModal).modal('show');
             });
         });
+
+		function confirmLogout() {
+			Swal.fire({
+				title: 'Apakah Anda yakin ingin logout?',
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Ya, logout!'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					window.location.href = '<?php echo base_url('auth/logout'); ?>'; // URL untuk proses logout
+				}
+			})
+		}
+
     </script>
 </body>
 
