@@ -80,7 +80,7 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 		'hostname' => 'localhost',
 		'username' => 'root',
 		'password' => '',
-		'database' => 'perpusua',
+		'database' => 'perpustakaan_ua',
 		'dbdriver' => 'mysqli',
 		'dbprefix' => '',
 		'pconnect' => FALSE,

@@ -99,7 +99,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="<?php echo base_url('admin/data_anggota'); ?>" class="nav-link">
-                                        <i class="far fa-users nav-icon"></i>
+                                        <i class="far fa-circle nav-icon"></i>
                                         <p>Data Anggota</p>
                                     </a>
                                 </li>
