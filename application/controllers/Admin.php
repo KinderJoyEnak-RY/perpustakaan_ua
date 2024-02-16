@@ -11,6 +11,8 @@ class Admin extends CI_Controller
         $this->load->library('QrCodeGenerator');
         $this->load->model('Buku_model');
         $this->load->model('Denda_model');
+        $this->load->model('User_model');
+        $this->load->model('Anggota_model');
 
         // Cek apakah pengguna sudah login dan memiliki role 'staff'
         if (!$this->session->userdata('logged_in') || $this->session->userdata('role') != 'staff') {
@@ -570,5 +572,34 @@ class Admin extends CI_Controller
         $this->load->model('Peminjaman_model');
         $peminjaman = $this->Peminjaman_model->getAllPeminjaman();
         echo json_encode($peminjaman);
+    }
+
+
+    public function cetak_kartu_anggota($id_anggota)
+    {
+        // Memuat library mPDF melalui Composer autoload
+        $mpdf = new \Mpdf\Mpdf();
+
+        // Mendapatkan data anggota
+        $data['anggota'] = $this->Anggota_model->getAnggotaById($id_anggota);
+
+        if (empty($data['anggota'])) {
+            show_404(); // Jika data anggota tidak ditemukan
+        }
+
+        // Sebelum pembuatan PDF
+        error_log('Memulai pembuatan PDF');
+
+        // Membuat kartu anggota dalam format PDF
+        $html = $this->load->view('templates/kartu_anggota', $data, TRUE);
+
+        // Menulis HTML ke PDF
+        $mpdf->WriteHTML($html);
+
+        // Output PDF ke browser
+        $mpdf->Output('kartu_anggota_' . $id_anggota . '.pdf', 'I');
+
+        // Setelah pembuatan PDF
+        error_log('PDF berhasil dibuat dan dioutput');
     }
 }

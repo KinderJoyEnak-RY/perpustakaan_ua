@@ -193,14 +193,13 @@
                     <!-- /.col -->
                 </div>
                 <div class="btn-group mb-3" role="group" aria-label="Button group">
-                    <!-- <button class="btn btn-warning mr-2" data-toggle="modal" data-target="#modalTambahRak">
-                            <i class="fas fa-archive"></i> Rak
-                        </button>
-                        <button class="btn btn-success mr-2" data-toggle="modal" data-target="#modalTambahKategori">
-                            <i class="fas fa-tags"></i> Kategori
-                        </button> -->
                     <button class="btn btn-primary" data-toggle="modal" data-target="#modalTambahAnggota">
                         <i class="fas fa-plus"></i> Tambah Anggota
+                    </button>
+                </div>
+                <div class="btn-group mb-3" role="group" aria-label="Button group">
+                    <button class="btn btn-info" data-toggle="modal" data-target="#modalCetakKartuAnggota">
+                        <i class="fas fa-print"></i> Cetak Kartu Anggota
                     </button>
                 </div>
             </div>
@@ -263,6 +262,28 @@
                             <?php endforeach; ?>
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Modal Cetak Kartu Anggota -->
+                <div class="modal fade" id="modalCetakKartuAnggota" tabindex="-1" role="dialog" aria-labelledby="modalLabelCetakKartuAnggota" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <h5 class="mb-3" style="text-align: center;">Cetak Kartu Anggota</h5>
+                                <form id="formCetakKartuAnggota" action="javascript:void(0)" method="post">
+                                    <div class="form-group">
+                                        <label>Pilih Anggota</label>
+                                        <select class="form-control" name="id_anggota" id="id_anggota">
+                                            <?php foreach ($users as $user) : ?>
+                                                <option value="<?= $user['id'] ?>"><?= $user['nama'] ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <button type="button" onclick="cetakKartuAnggota()" class="btn btn-info">Cetak Kartu</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Modal Tambah Anggota -->
@@ -651,6 +672,22 @@
                 });
             }
         });
+    }
+</script>
+
+<script>
+    function cetakKartuAnggota() {
+        var idAnggota = $('#id_anggota').val();
+        if (idAnggota) {
+            var url = "<?php echo site_url('admin/cetak_kartu_anggota/'); ?>" + idAnggota;
+            window.open(url, '_blank');
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'ID Anggota harus diisi!'
+            });
+        }
     }
 </script>
 
