@@ -103,7 +103,9 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 		'hostname' => 'localhost',
 		'username' => 'root',
 		'password' => '',
-		'database' => 'perpustakaan_ua',
+		//db nya salah satu di komen aja kalo ngga jalan
+		// 'database' => 'perpustakaan_ua',
+		'database' => 'perpus_ua',
 		'dbdriver' => 'mysqli',
 		'dbprefix' => '',
 		'pconnect' => FALSE,
